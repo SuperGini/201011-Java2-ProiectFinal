@@ -1,21 +1,26 @@
 package server.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public  abstract class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
     private String name;
 
     private String password;
 
+    private Category category;
+
+    @ElementCollection
+    @CollectionTable(name =  "user_phoneNumber")
     private Set<String> phoneNumber;
+
 
     public int getId() {
         return id;
@@ -47,5 +52,13 @@ public  abstract class User {
 
     public void setPhoneNumber(Set<String> phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
