@@ -23,7 +23,7 @@ public class BackGroundImageDaoImpl implements BackGroundImageDao {
 
         try {
 
-            backgroundImage.setPicture(Files.readAllBytes(path));
+            backgroundImage.setPicture(Files.readAllBytes(path)); //might cause OutOfMemoryError -> for big pictures
 
             entityManager.getTransaction().begin();
             entityManager.persist(backgroundImage);

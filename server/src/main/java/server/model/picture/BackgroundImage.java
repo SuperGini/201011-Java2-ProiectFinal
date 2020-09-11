@@ -15,6 +15,10 @@ public class BackgroundImage {
     @Column(nullable = false)
     private byte [] picture;
 
+
+    public BackgroundImage() {
+    }
+
     public int getId() {
         return id;
     }
