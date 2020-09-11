@@ -1,5 +1,7 @@
 package server;
 
+import server.dao.UserDao;
+import server.dao.impl.UserDaoImpl;
 import server.model.user.Category;
 import server.model.user.User;
 import server.model.user.UserId;
@@ -14,19 +16,21 @@ public class MainServer {
         EntityManager em = emf.createEntityManager();
 
 
+        UserDao c = new UserDaoImpl(em);
+
         UserId x = new UserId();
 
-        x.setUserName("gigel");
+        x.setUserName("bica");
         x.setEmailAdress("asdasd@xx.com");
 
         User y = new User(x);
         y.setCategory(Category.BODY);
         y.setPhoneNumbers("123");
 
-        em.getTransaction().begin();
+   //    c.create(y);
 
-        em.persist(y);
+        System.out.println(c.findByName("gigel"));
 
-        em.getTransaction().commit();
+    //    System.out.println(c);
     }
 }

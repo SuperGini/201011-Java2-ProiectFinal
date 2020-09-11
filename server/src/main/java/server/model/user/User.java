@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE s.userId.userName = :userName")
+@NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.userId.userName = :userName")
 public class User {
 
     @EmbeddedId
@@ -18,6 +18,9 @@ public class User {
 
     public User(UserId userId) {
         this.userId = userId;
+    }
+
+    public User(){
     }
 
 
@@ -43,5 +46,12 @@ public class User {
 
     public void setPhoneNumbers(String phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId.getUserName() +
+                '}';
     }
 }
