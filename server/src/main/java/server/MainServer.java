@@ -1,5 +1,6 @@
 package server;
 
+import client.controller.BackgroundImageController;
 import server.service.BackgroundImageServiceImpl;
 
 import java.rmi.RemoteException;
@@ -17,6 +18,8 @@ public class MainServer {
             e.printStackTrace();
         }
 
+
+        System.out.println(BackgroundImageController.getInstance().getPicture().toString());
 
     }
 }

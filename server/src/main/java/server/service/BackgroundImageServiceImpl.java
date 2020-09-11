@@ -16,7 +16,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class BackgroundImageServiceImpl extends UnicastRemoteObject implements BackgroundImageService {
 
@@ -61,16 +60,17 @@ public class BackgroundImageServiceImpl extends UnicastRemoteObject implements B
 
 
     @Override
-    public List<BackgroundImageDto> getPicture(){
+    public BackgroundImageDto getPicture() throws RemoteException{
         Random random = new Random();
 
       return    findAllBackgroundPictures().stream()
                 .map( picture-> findAllBackgroundPictures().get(random.nextInt(findAllBackgroundPictures().size())))
                 .map(BackgroundImageConvertor::convert)
-                .collect(Collectors.toList());
+                .findFirst()
+              .get();
 
-      //todo: de transformat listra dintr-o imagine intr-o lista completa pe care sa fac random cu un thread
-        //atentie ca selecteaza toate pozele din baza de date -> era bine sa faca random doar pe o poza din baza de date
+      //todo: de transformat dintr-o imagine intr-o lista completa pe care sa fac random cu un thread
+
 
     }
 
