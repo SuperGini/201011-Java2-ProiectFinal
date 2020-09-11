@@ -2,8 +2,10 @@ package server.model.user;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE s.userId.userName = :userName")
 public class User {
 
     @EmbeddedId
