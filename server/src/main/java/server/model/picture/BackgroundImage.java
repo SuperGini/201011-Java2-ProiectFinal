@@ -3,6 +3,7 @@ package server.model.picture;
 import javax.persistence.*;
 
 @Entity
+@NamedQuery(name = "BackgroundImage.findAll", query = "Select i FROM BackgroundImage i")
 public class BackgroundImage {
 
     @Id
