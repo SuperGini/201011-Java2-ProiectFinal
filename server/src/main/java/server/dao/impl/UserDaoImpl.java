@@ -1,16 +1,17 @@
 package server.dao.impl;
 
+import server.dao.UserDao;
 import server.model.user.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
-public class UderDaoImpl implements server.dao.UderDao {
+public class UserDaoImpl implements UserDao {
 
     private EntityManager entityManager;
 
-    public UderDaoImpl(EntityManager entityManager) {
+    public UserDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
