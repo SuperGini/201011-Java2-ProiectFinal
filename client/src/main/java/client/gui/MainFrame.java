@@ -1,6 +1,9 @@
 package client.gui;
 
+import client.controller.PictureController;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class MainFrame extends JFrame {
 
@@ -14,6 +17,7 @@ public class MainFrame extends JFrame {
     public MainFrame(){
 
         initFrame();
+        initBackgroundLabel();
 
 
 
@@ -31,7 +35,23 @@ public class MainFrame extends JFrame {
         setUndecorated(true);
         mainPanel = new JPanel();
         mainPanel.setSize(width,height);
+        mainPanel.setLayout(null);
         this.add(mainPanel);
+    }
+
+    private void initBackgroundLabel(){
+        backgroundLabel = new JLabel();
+        backgroundLabel.setSize(width, height);
+
+        byte [] image = PictureController.getInstance().getPicture().getPicture();
+
+        Image rescaleImage = new ImageIcon(image).getImage()
+                            .getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(rescaleImage);
+
+        backgroundLabel.setIcon(imageIcon);
+        mainPanel.add(backgroundLabel);
+        
     }
 
 
