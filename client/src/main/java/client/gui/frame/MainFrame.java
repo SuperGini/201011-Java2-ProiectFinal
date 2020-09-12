@@ -2,6 +2,7 @@ package client.gui.frame;
 
 import client.controller.PictureController;
 import client.gui.label.LoginPage;
+import client.gui.label.RegisterPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class MainFrame extends JFrame {
     private JPanel mainPanel;
     private JLabel backgroundLabel;
     private LoginPage loginPage;
+    private RegisterPage registerPage;
 
 
 
@@ -27,6 +29,7 @@ public class MainFrame extends JFrame {
         initBackgroundLabel();
         mouseListener();
         initLoginPage();
+        initRegisterPage();
 
 
 
@@ -64,9 +67,13 @@ public class MainFrame extends JFrame {
     }
 
     private void initLoginPage(){
-        loginPage = new LoginPage(0,0,1200,800);
-      //  loginPage.setText("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        loginPage = new LoginPage(-300,0,1200,800);
         backgroundLabel.add(loginPage);
+    }
+
+    private void initRegisterPage(){
+        registerPage = new RegisterPage(300,0,1200,800);
+        backgroundLabel.add(registerPage);
     }
 
 
