@@ -1,11 +1,11 @@
 package server.service;
 
-import lib.dto.BackgroundImageDto;
-import lib.service.BackgroundImageService;
-import server.convert.BackgroundImageConvertor;
-import server.dao.BackGroundImageDao;
-import server.dao.impl.BackGroundImageDaoImpl;
-import server.model.picture.BackgroundImage;
+import lib.dto.PictureDto;
+import lib.service.PictureService;
+import server.convert.PictureConvertor;
+import server.dao.PictureDao;
+import server.dao.impl.PictureDaoImpl;
+import server.model.picture.Picture;
 
 import javax.persistence.Persistence;
 import java.io.IOException;
@@ -17,21 +17,22 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Random;
 
-public class BackgroundImageServiceImpl extends UnicastRemoteObject implements BackgroundImageService {
+public class PictureServiceImpl extends UnicastRemoteObject implements PictureService {
 
-    private final BackGroundImageDao backGroundImageDao;
+    private final PictureDao pictureDao;
     private Path path = Paths.get("./server/src/main/resources/images");
 
 
-    public BackgroundImageServiceImpl() throws RemoteException {
+    public PictureServiceImpl() throws RemoteException {
 
         var entityManageFactory = Persistence.createEntityManagerFactory("serviceAuto");
         var entityManager = entityManageFactory.createEntityManager();
 
-        this.backGroundImageDao = new BackGroundImageDaoImpl(entityManager);
+        this.pictureDao = new PictureDaoImpl(entityManager);
     }
 
     //method 2
+
     public void sendPicturesToDatabase(){
 
         try {
@@ -49,23 +50,23 @@ public class BackgroundImageServiceImpl extends UnicastRemoteObject implements B
 
     //method 1
     private void sendPicture(Path path){
-        BackgroundImage image = new BackgroundImage();
-        backGroundImageDao.sendPicturesToDatabase(image, path);
+        Picture image = new Picture();
+        pictureDao.sendPicturesToDatabase(image, path);
     }
 
 
-    private List<BackgroundImage> findAllBackgroundPictures(){
-      return  backGroundImageDao.findAllBackgroundPictures();
+    private List<Picture> findAllBackgroundPictures(){
+      return  pictureDao.findAllBackgroundPictures();
     }
 
 
     @Override
-    public BackgroundImageDto getPicture() throws RemoteException{
+    public PictureDto getPicture() throws RemoteException{
         Random random = new Random();
 
       return    findAllBackgroundPictures().stream()
                 .map( picture-> findAllBackgroundPictures().get(random.nextInt(findAllBackgroundPictures().size())))
-                .map(BackgroundImageConvertor::convert)
+                .map(PictureConvertor::convert)
                 .findFirst()
               .get();
 

@@ -3,8 +3,8 @@ package server.model.picture;
 import javax.persistence.*;
 
 @Entity
-@NamedQuery(name = "BackgroundImage.findAll", query = "Select i FROM BackgroundImage i")
-public class BackgroundImage {
+@NamedQuery(name = "Picture.findAll", query = "Select p FROM Picture p")
+public class Picture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -16,7 +16,7 @@ public class BackgroundImage {
     private byte [] picture;
 
 
-    public BackgroundImage() {
+    public Picture() {
     }
 
     public int getId() {

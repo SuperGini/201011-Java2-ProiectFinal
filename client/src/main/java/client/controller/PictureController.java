@@ -1,21 +1,21 @@
 package client.controller;
 
-import lib.dto.BackgroundImageDto;
-import lib.service.BackgroundImageService;
+import lib.dto.PictureDto;
+import lib.service.PictureService;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class BackgroundImageController implements BackgroundImageService {
+public class PictureController implements PictureService {
 
-    private BackgroundImageService backgroundImageService;
+    private PictureService pictureService;
 
-    private BackgroundImageController() {
+    private PictureController() {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost",4545);
-           backgroundImageService =  (BackgroundImageService) registry.lookup("imageService");
+           pictureService =  (PictureService) registry.lookup("imageService");
 
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
@@ -24,9 +24,9 @@ public class BackgroundImageController implements BackgroundImageService {
     }
 
     @Override
-    public BackgroundImageDto getPicture() {
+    public PictureDto getPicture() {
         try {
-            return backgroundImageService.getPicture();
+            return pictureService.getPicture();
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -35,10 +35,10 @@ public class BackgroundImageController implements BackgroundImageService {
 
 
     private static final class SingletonHolder{
-        public static final BackgroundImageController INSTANCE = new BackgroundImageController();
+        public static final PictureController INSTANCE = new PictureController();
     }
 
-    public static BackgroundImageController getInstance(){
+    public static PictureController getInstance(){
         return SingletonHolder.INSTANCE;
     }
 

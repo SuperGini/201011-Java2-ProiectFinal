@@ -2,13 +2,13 @@ package lib.dto;
 
 import java.io.Serializable;
 
-public class BackgroundImageDto implements Serializable {
+public class PictureDto implements Serializable {
 
     private int id;
 
     private byte [] picture;
 
-    public BackgroundImageDto(int id, byte[] picture) {
+    public PictureDto(int id, byte[] picture) {
         this.id = id;
         this.picture = picture;
     }

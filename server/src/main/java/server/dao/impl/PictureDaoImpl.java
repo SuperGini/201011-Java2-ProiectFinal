@@ -1,7 +1,7 @@
 package server.dao.impl;
 
-import server.dao.BackGroundImageDao;
-import server.model.picture.BackgroundImage;
+import server.dao.PictureDao;
+import server.model.picture.Picture;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -10,16 +10,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class BackGroundImageDaoImpl implements BackGroundImageDao {
+public class PictureDaoImpl implements PictureDao {
 
     private EntityManager entityManager;
 
-    public BackGroundImageDaoImpl(EntityManager entityManager) {
+    public PictureDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
-    public void sendPicturesToDatabase(BackgroundImage backgroundImage, Path path){
+    public void sendPicturesToDatabase(Picture backgroundImage, Path path){
 
         try {
 
@@ -36,8 +36,8 @@ public class BackGroundImageDaoImpl implements BackGroundImageDao {
     }
 
     @Override
-    public List<BackgroundImage> findAllBackgroundPictures(){
-        TypedQuery<BackgroundImage> query = entityManager.createNamedQuery("BackgroundImage.findAll", BackgroundImage.class);
+    public List<Picture> findAllBackgroundPictures(){
+        TypedQuery<Picture> query = entityManager.createNamedQuery("Picture.findAll", Picture.class);
 
         return query.getResultList();
 
