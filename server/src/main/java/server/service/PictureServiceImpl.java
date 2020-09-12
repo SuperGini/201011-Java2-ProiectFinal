@@ -71,6 +71,8 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
               .get();
 
       //todo: de transformat dintr-o imagine intr-o lista completa pe care sa fac random cu un thread
+        //todo: atentie de bagat pozele intr-o colectie ce este pastrata pe server doarece de fiecare cand se conecteaza
+        //todo: un client metoda face un select de poze din baza de date.
 
 
     }
