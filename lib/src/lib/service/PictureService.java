@@ -1,6 +1,6 @@
 package lib.service;
 
-import lib.dto.PictureDto;
+import lib.dto.picture.PictureDto;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

@@ -1,4 +1,4 @@
-package lib.dto;
+package lib.dto.picture;
 
 import java.io.Serializable;
 

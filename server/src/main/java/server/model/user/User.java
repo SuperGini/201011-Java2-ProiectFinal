@@ -1,8 +1,10 @@
 package server.model.user;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
+import lib.dto.user.Category;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.userId.userName = :userName")
@@ -11,9 +13,12 @@ public class User {
     @EmbeddedId
     private UserId userId;
 
+    @Enumerated(EnumType.STRING)
     private Category category;
 
-    private String phoneNumbers;
+    @ElementCollection
+    @CollectionTable(name = "user_phoneNumber")
+    private Set<String> phoneNumber = new HashSet<>();
 
 
     public User(UserId userId) {
@@ -40,12 +45,12 @@ public class User {
         this.category = category;
     }
 
-    public String getPhoneNumbers() {
-        return phoneNumbers;
+    public Set<String> getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhoneNumbers(String phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
+    public void setPhoneNumber(Set<String> phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override

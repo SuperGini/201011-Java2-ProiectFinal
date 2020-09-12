@@ -1,4 +1,4 @@
-package server.model.user;
+package lib.dto.user;
 
 public enum Category {
 

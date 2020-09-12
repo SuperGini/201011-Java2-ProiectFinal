@@ -1,6 +1,6 @@
 package client.controller;
 
-import lib.dto.PictureDto;
+import lib.dto.picture.PictureDto;
 import lib.service.PictureService;
 
 import java.rmi.NotBoundException;

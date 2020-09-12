@@ -1,5 +1,5 @@
 package server.convert;
-import lib.dto.PictureDto;
+import lib.dto.picture.PictureDto;
 import server.model.picture.Picture;
 
 public class PictureConvertor {
