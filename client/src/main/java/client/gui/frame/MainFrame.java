@@ -1,6 +1,7 @@
 package client.gui.frame;
 
 import client.controller.PictureController;
+import client.gui.label.LoginPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +12,11 @@ public class MainFrame extends JFrame {
 
     private final int width = 1200;
     private final int height = 800;
+    private int posX = 0, posY =0;
     private JPanel mainPanel;
     private JLabel backgroundLabel;
-    private int posX = 0, posY =0;
+    private LoginPage loginPage;
+
 
 
 
@@ -23,6 +26,7 @@ public class MainFrame extends JFrame {
         initFrame();
         initBackgroundLabel();
         mouseListener();
+        initLoginPage();
 
 
 
@@ -57,6 +61,12 @@ public class MainFrame extends JFrame {
         backgroundLabel.setIcon(imageIcon);
         mainPanel.add(backgroundLabel);
 
+    }
+
+    private void initLoginPage(){
+        loginPage = new LoginPage(0,0,1200,800);
+      //  loginPage.setText("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        backgroundLabel.add(loginPage);
     }
 
 
