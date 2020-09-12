@@ -1,5 +1,6 @@
 package client.gui.label;
 
+import AppPackage.AnimationClass;
 import client.gui.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -24,6 +25,8 @@ public class RegisterPage extends JLabel {
     private JRadioButton radioButton;
     private JLabel radioButtonLabel;
     private ButtonGroup buttonGroup;
+
+
 
 
     private final String [] category = {"mechanical", "body & paint", "warehouse"};

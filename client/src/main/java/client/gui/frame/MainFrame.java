@@ -1,5 +1,6 @@
 package client.gui.frame;
 
+import AppPackage.AnimationClass;
 import client.controller.PictureController;
 import client.gui.label.LoginPage;
 import client.gui.label.RegisterPage;
@@ -20,6 +21,7 @@ public class MainFrame extends JFrame {
     private RegisterPage registerPage;
 
 
+    private static AnimationClass slideEfect = new AnimationClass();
 
 
 
