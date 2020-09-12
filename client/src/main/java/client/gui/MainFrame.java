@@ -4,6 +4,8 @@ import client.controller.PictureController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
 
@@ -11,6 +13,8 @@ public class MainFrame extends JFrame {
     private final int height = 800;
     private JPanel mainPanel;
     private JLabel backgroundLabel;
+    private int posX = 0, posY =0;
+
 
 
 
@@ -18,6 +22,7 @@ public class MainFrame extends JFrame {
 
         initFrame();
         initBackgroundLabel();
+        mouseListener();
 
 
 
@@ -51,7 +56,7 @@ public class MainFrame extends JFrame {
 
         backgroundLabel.setIcon(imageIcon);
         mainPanel.add(backgroundLabel);
-        
+
     }
 
 
@@ -59,4 +64,26 @@ public class MainFrame extends JFrame {
 
 
 
+
+
+
+
+
+
+    private void mouseListener() {
+        this.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                posX = e.getX();
+                posY = e.getY();
+            }
+        });
+
+        this.addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+
+                setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
+            }
+        });
+    }
+    
 }
