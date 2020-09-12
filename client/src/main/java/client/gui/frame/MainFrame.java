@@ -1,4 +1,4 @@
-package client.gui;
+package client.gui.frame;
 
 import client.controller.PictureController;
 
@@ -85,5 +85,5 @@ public class MainFrame extends JFrame {
             }
         });
     }
-    
+
 }
