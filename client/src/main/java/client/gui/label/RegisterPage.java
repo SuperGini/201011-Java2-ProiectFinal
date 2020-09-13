@@ -1,6 +1,5 @@
 package client.gui.label;
 
-import AppPackage.AnimationClass;
 import client.gui.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -13,10 +12,6 @@ public class RegisterPage extends JLabel {
     private JButton loginButton;
     private JButton registerButton;
     private JLabel allFieldsLabel;
-    private JLabel passwordLabel;
-    private JLabel confirmPasswordLabel;
-    private JLabel emailLabel;
-    private JLabel phoneNumberLabel;
     private JTextField usernameField;
     private JTextField emailFiled;
     private JPasswordField passwordField;
@@ -133,10 +128,85 @@ public class RegisterPage extends JLabel {
 
 
         }
-
     }
 
+    public TransparentPanel getTransparentPanel() {
+        return transparentPanel;
+    }
 
+    public void setTransparentPanel(TransparentPanel transparentPanel) {
+        this.transparentPanel = transparentPanel;
+    }
 
+    public JButton getLoginButton() {
+        return loginButton;
+    }
 
+    public void setLoginButton(JButton loginButton) {
+        this.loginButton = loginButton;
+    }
+
+    public JButton getRegisterButton() {
+        return registerButton;
+    }
+
+    public void setRegisterButton(JButton registerButton) {
+        this.registerButton = registerButton;
+    }
+
+    public JTextField getUsernameField() {
+        return usernameField;
+    }
+
+    public void setUsernameField(JTextField usernameField) {
+        this.usernameField = usernameField;
+    }
+
+    public JTextField getEmailFiled() {
+        return emailFiled;
+    }
+
+    public void setEmailFiled(JTextField emailFiled) {
+        this.emailFiled = emailFiled;
+    }
+
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public void setPasswordField(JPasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
+
+    public JPasswordField getConfirmPasswordField() {
+        return confirmPasswordField;
+    }
+
+    public void setConfirmPasswordField(JPasswordField confirmPasswordField) {
+        this.confirmPasswordField = confirmPasswordField;
+    }
+
+    public JTextField getPhoneNumberField() {
+        return phoneNumberField;
+    }
+
+    public void setPhoneNumberField(JTextField phoneNumberField) {
+        this.phoneNumberField = phoneNumberField;
+    }
+
+    public JRadioButton getRadioButton() {
+        return radioButton;
+    }
+
+    public void setRadioButton(JRadioButton radioButton) {
+        this.radioButton = radioButton;
+    }
+
+    public List<JRadioButton> getRadioButtons() {
+        return radioButtons;
+    }
+
+    public void setRadioButtons(List<JRadioButton> radioButtons) {
+        this.radioButtons = radioButtons;
+    }
 }

@@ -73,17 +73,59 @@ public class LoginPage extends JLabel {
         transparentPanel.add(registerButton);
     }
 
+    public TransparentPanel getTransparentPanel() {
+        return transparentPanel;
+    }
 
+    public void setTransparentPanel(TransparentPanel transparentPanel) {
+        this.transparentPanel = transparentPanel;
+    }
 
+    public JButton getLoginButton() {
+        return loginButton;
+    }
 
+    public void setLoginButton(JButton loginButton) {
+        this.loginButton = loginButton;
+    }
 
+    public JButton getRegisterButton() {
+        return registerButton;
+    }
 
+    public void setRegisterButton(JButton registerButton) {
+        this.registerButton = registerButton;
+    }
 
+    public JLabel getUsernameLabel() {
+        return usernameLabel;
+    }
 
+    public void setUsernameLabel(JLabel usernameLabel) {
+        this.usernameLabel = usernameLabel;
+    }
 
+    public JLabel getPasswordLabel() {
+        return passwordLabel;
+    }
 
+    public void setPasswordLabel(JLabel passwordLabel) {
+        this.passwordLabel = passwordLabel;
+    }
 
+    public JTextField getUsernameField() {
+        return usernameField;
+    }
 
+    public void setUsernameField(JTextField usernameField) {
+        this.usernameField = usernameField;
+    }
 
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
 
+    public void setPasswordField(JPasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
 }

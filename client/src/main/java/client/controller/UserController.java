@@ -23,7 +23,7 @@ public class UserController implements UserService{
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        
+
     }
 
     @Override
