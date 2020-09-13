@@ -1,10 +1,16 @@
 package client.gui.label;
 
+import client.controller.UserController;
 import client.gui.panel.TransparentPanel;
+import lib.dto.user.Category;
+import lib.dto.user.UserDto;
+import lib.dto.user.UserIdDto;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RegisterPage extends JLabel {
 
@@ -125,10 +131,30 @@ public class RegisterPage extends JLabel {
             allFieldsLabel.setBounds(50, 70 + i*60, 140, 30);
             fieldsLabels.add(allFieldsLabel);
             transparentPanel.add(allFieldsLabel);
-
-
         }
     }
+
+    public boolean addUser(){
+        Set<String> phoneNumber = new HashSet<>();
+        UserDto userDto = new UserDto();
+        UserIdDto userIdDto = new UserIdDto();
+
+        phoneNumber.add(phoneNumberField.getText());
+
+        userIdDto.setUserName(usernameField.getText());
+        userIdDto.setEmailAdress(emailFiled.getText());
+
+        userDto.setUserId(userIdDto);
+        userDto.setPassword(new String(passwordField.getPassword()));
+        userDto.setPhoneNumber(phoneNumber);
+        userDto.setCategory(Category.MECHANICAL);
+
+
+      return   UserController.getInstance().create(userDto);
+    }
+
+
+
 
     public TransparentPanel getTransparentPanel() {
         return transparentPanel;

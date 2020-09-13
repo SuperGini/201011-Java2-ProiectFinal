@@ -13,6 +13,8 @@ public class User {
     @EmbeddedId
     private UserId userId;
 
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -53,6 +55,14 @@ public class User {
 
     public void setPhoneNumber(Set<String> phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

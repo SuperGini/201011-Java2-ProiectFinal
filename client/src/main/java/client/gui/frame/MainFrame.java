@@ -75,6 +75,13 @@ public class MainFrame extends JFrame {
     private void initRegisterPage(){
         registerPage = new RegisterPage(300,0,1200,800);
         backgroundLabel.add(registerPage);
+
+        registerPage.getRegisterButton().addActionListener(ev ->{
+            if(!registerPage.addUser()){
+                System.out.println("a fost creat un user");
+            }
+
+        });
     }
 
     //method 1
@@ -121,4 +128,19 @@ public class MainFrame extends JFrame {
         });
     }
 
+    public LoginPage getLoginPage() {
+        return loginPage;
+    }
+
+    public void setLoginPage(LoginPage loginPage) {
+        this.loginPage = loginPage;
+    }
+
+    public RegisterPage getRegisterPage() {
+        return registerPage;
+    }
+
+    public void setRegisterPage(RegisterPage registerPage) {
+        this.registerPage = registerPage;
+    }
 }

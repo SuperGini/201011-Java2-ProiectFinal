@@ -24,9 +24,9 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
     }
 
     @Override
-    public void create(UserDto userDto) throws RemoteException {
+    public boolean create(UserDto userDto) throws RemoteException {
         User user = UserConvertor.convert(userDto);
-        userDao.create(user);
+       return userDao.create(user);
     }
 
 

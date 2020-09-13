@@ -22,6 +22,7 @@ public class UserConvertor {
         user.setUserId(userId);
         user.setCategory(userDto.getCategory());
         user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setPassword(userDto.getPassword());
 
         return user;
     }
@@ -37,6 +38,7 @@ public class UserConvertor {
 
         userDto.setUserId(userIdDto);
         userDto.setCategory(user.getCategory());
+        userDto.setPassword(user.getPassword());
         userDto.setPhoneNumber(new HashSet<>(user.getPhoneNumber()));
 
         return userDto;

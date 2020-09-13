@@ -5,7 +5,7 @@ import server.model.user.User;
 import java.util.Optional;
 
 public interface UserDao {
-    void create(User user);
+    boolean create(User user);
 
     Optional<User> findByName(String userName);
 }

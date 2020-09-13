@@ -27,9 +27,9 @@ public class UserController implements UserService{
     }
 
     @Override
-    public void create(UserDto userDto){
+    public boolean create(UserDto userDto){
         try {
-            userService.create(userDto);
+          return  userService.create(userDto);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

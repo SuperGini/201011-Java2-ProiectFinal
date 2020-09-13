@@ -13,6 +13,8 @@ public class UserDto implements Serializable {
 
     private Category category;
 
+    private String password;
+
     private Set<String> phoneNumber = new HashSet<>();
 
     public UserDto(UserIdDto userId, Category category, Set<String> phoneNumber) {
@@ -48,6 +50,13 @@ public class UserDto implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public boolean equals(Object o) {

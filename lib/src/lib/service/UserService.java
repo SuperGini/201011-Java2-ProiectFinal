@@ -7,5 +7,5 @@ import java.rmi.RemoteException;
 
 public interface UserService extends Remote {
 
-    void create(UserDto userDto) throws RemoteException;
+    boolean create(UserDto userDto) throws RemoteException;
 }

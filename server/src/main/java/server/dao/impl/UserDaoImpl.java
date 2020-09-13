@@ -16,10 +16,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void create(User user){
+    public boolean create(User user){
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
+      return  entityManager.getTransaction().getRollbackOnly();
     }
 
     @Override
