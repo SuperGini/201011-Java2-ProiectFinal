@@ -27,8 +27,8 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
 
     public PictureServiceImpl() throws RemoteException {
 
-        var entityManageFactory = Persistence.createEntityManagerFactory("serviceAuto");
-        var entityManager = entityManageFactory.createEntityManager();
+        var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");
+        var entityManager = entityManagerFactory.createEntityManager();
 
         this.pictureDao = new PictureDaoImpl(entityManager);
         addPictureToList();
