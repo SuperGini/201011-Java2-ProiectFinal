@@ -21,6 +21,9 @@ public class UserDto implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public UserDto() {
+    }
+
     public UserIdDto getUserId() {
         return userId;
     }
