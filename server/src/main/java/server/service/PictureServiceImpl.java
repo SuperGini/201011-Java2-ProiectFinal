@@ -16,11 +16,13 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PictureServiceImpl extends UnicastRemoteObject implements PictureService {
 
     private final PictureDao pictureDao;
     private Path path = Paths.get("./server/src/main/resources/images");
+    private final List<PictureDto> pictures = new CopyOnWriteArrayList<>();
 
 
     public PictureServiceImpl() throws RemoteException {
@@ -29,26 +31,23 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
         var entityManager = entityManageFactory.createEntityManager();
 
         this.pictureDao = new PictureDaoImpl(entityManager);
+        addPictureToList();
     }
 
-    //method 2
-
+    //method 1
     public void sendPicturesToDatabase(){
 
         try {
-
             if(findAllBackgroundPictures().isEmpty()){
                 Files.list(path)
                         .forEach(this::sendPicture);
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    //method 1
+    //method 2
     private void sendPicture(Path path){
         Picture image = new Picture();
         pictureDao.sendPicturesToDatabase(image, path);
@@ -59,25 +58,16 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
       return  pictureDao.findAllBackgroundPictures();
     }
 
-
-    @Override
-    public PictureDto getPicture() throws RemoteException{
-        Random random = new Random();
-
-      return    findAllBackgroundPictures().stream()
-                .map( picture-> findAllBackgroundPictures().get(random.nextInt(findAllBackgroundPictures().size())))
+    private void addPictureToList(){
+       pictureDao.findAllBackgroundPictures().stream()
                 .map(PictureConvertor::convert)
-                .findFirst()
-              .get();
-
-      //todo: de transformat dintr-o imagine intr-o lista completa pe care sa fac random cu un thread
-        //todo: atentie de bagat pozele intr-o colectie ce este pastrata pe server doarece de fiecare cand se conecteaza
-        //todo: un client metoda face un select de poze din baza de date.
-
-
+                .forEach(pictures::add);
     }
 
+    @Override
+    public PictureDto getPicture() throws RemoteException {
+        Random random = new Random();
 
-
-
+        return pictures.get(random.nextInt(pictures.size()));
+    }
 }

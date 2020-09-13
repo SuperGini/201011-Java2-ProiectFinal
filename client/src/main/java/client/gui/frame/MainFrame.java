@@ -9,6 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainFrame extends JFrame {
 
@@ -20,7 +23,7 @@ public class MainFrame extends JFrame {
     private LoginPage loginPage;
     private RegisterPage registerPage;
 
-
+    private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
     private static AnimationClass slideEfect = new AnimationClass();
 
 
@@ -56,14 +59,10 @@ public class MainFrame extends JFrame {
     private void initBackgroundLabel(){
         backgroundLabel = new JLabel();
         backgroundLabel.setSize(width, height);
+        scheduleWithFixedDelay();
 
-        byte [] image = PictureController.getInstance().getPicture().getPicture();
 
-        Image rescaleImage = new ImageIcon(image).getImage()
-                            .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(rescaleImage);
 
-        backgroundLabel.setIcon(imageIcon);
         mainPanel.add(backgroundLabel);
 
     }
@@ -77,6 +76,23 @@ public class MainFrame extends JFrame {
         registerPage = new RegisterPage(300,0,1200,800);
         backgroundLabel.add(registerPage);
     }
+
+    //method 1
+    private void scheduleWithFixedDelay(){
+        Runnable task = () -> backgroundLabel.setIcon(getImageIcon());
+        randomPicture.scheduleWithFixedDelay(task,0,10, TimeUnit.SECONDS);
+    }
+
+    // method 2
+    private ImageIcon getImageIcon(){
+        byte [] image = PictureController.getInstance().getPicture().getPicture();
+
+        Image rescaleImage = new ImageIcon(image).getImage()
+                .getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(rescaleImage);
+    }
+
+
 
 
 

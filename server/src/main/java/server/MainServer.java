@@ -29,7 +29,9 @@ public class MainServer {
         }
 
 
-        System.out.println(PictureController.getInstance().getPicture().toString());
+     //   System.out.println(PictureController.getInstance().getPicture().toString());
+        System.out.println("++++++++++++++++++");
+        System.out.println(PictureController.getInstance().getPicture());
 
     }
 }
