@@ -21,8 +21,10 @@ public class User {
     private Set<String> phoneNumber = new HashSet<>();
 
 
-    public User(UserId userId) {
+    public User(UserId userId, Category category, Set<String> phoneNumber) {
         this.userId = userId;
+        this.category = category;
+        this.phoneNumber = phoneNumber;
     }
 
     public User(){
