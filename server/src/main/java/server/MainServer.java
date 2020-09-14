@@ -35,6 +35,6 @@ public class MainServer {
 
         System.out.println("++++++++++++++++++");
         System.out.println(PictureController.getInstance().getPicture());
-
+      //  System.out.println(UserController.getInstance().loginWithUsername("1234", "1234"));
     }
 }

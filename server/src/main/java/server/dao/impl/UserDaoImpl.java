@@ -29,8 +29,17 @@ public class UserDaoImpl implements UserDao {
         TypedQuery<User> namedQuery = entityManager.createNamedQuery("User.findByName", User.class);
         namedQuery.setParameter("userName", userName);
         return namedQuery.getResultStream().findFirst();
-
     }
+
+    @Override
+    public Optional<User> findByEmailAdress(String emailAdress){
+
+        TypedQuery<User> namedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
+        namedQuery.setParameter("emailAdress", emailAdress );
+        return namedQuery.getResultStream().findFirst();
+    }
+
+
 
 
     

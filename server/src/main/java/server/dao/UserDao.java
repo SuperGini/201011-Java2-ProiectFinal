@@ -8,4 +8,6 @@ public interface UserDao {
     boolean create(User user);
 
     Optional<User> findByName(String userName);
+
+    Optional<User> findByEmailAdress(String emailAdress);
 }

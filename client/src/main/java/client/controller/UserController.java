@@ -36,6 +36,26 @@ public class UserController implements UserService{
         }
     }
 
+    @Override
+    public boolean loginWithUsername(String userName, String password){
+        try {
+          return  userService.loginWithUsername(userName, password);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean loginWithEmailAdress(String emailAdress, String password){
+        try {
+           return userService.loginWithEmailAdress(emailAdress, password);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     private static final class SingletonHolder{
         public static final UserController INSTANCE = new UserController();
     }

@@ -7,7 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.userId.userName = :userName")
+@NamedQueries({
+        @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.userId.userName = :userName"),
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.userId.emailAdress = :emailAdress")
+})
 public class User {
 
     @EmbeddedId

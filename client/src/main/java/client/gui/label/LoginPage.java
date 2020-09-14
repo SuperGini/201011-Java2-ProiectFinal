@@ -1,5 +1,6 @@
 package client.gui.label;
 
+import client.controller.UserController;
 import client.gui.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -72,6 +73,31 @@ public class LoginPage extends JLabel {
         registerButton.setBounds(50, 550, 300, 30);
         transparentPanel.add(registerButton);
     }
+
+    public boolean validCredentials(){
+        if(!usernameField.getText().equals("")){
+
+            if(usernameField.getText().contains("@")){ //cauta doar daca pe field e @ => email
+                if(UserController.getInstance()
+                        .loginWithEmailAdress(usernameField.getText(), new String(passwordField.getPassword()))){
+                    JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
+                    return true;
+                }
+            }
+
+             if(UserController.getInstance()
+                     .loginWithUsername(usernameField.getText(), new String(passwordField.getPassword()))){
+
+                 JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
+                return true;
+             }
+
+        }
+        JOptionPane.showMessageDialog(null, "Nu merge boss boss:D!!");
+        return false;
+    }
+
+
 
     public TransparentPanel getTransparentPanel() {
         return transparentPanel;

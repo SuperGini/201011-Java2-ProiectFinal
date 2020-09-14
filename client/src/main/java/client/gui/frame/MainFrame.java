@@ -60,9 +60,6 @@ public class MainFrame extends JFrame {
         backgroundLabel = new JLabel();
         backgroundLabel.setSize(width, height);
         scheduleWithFixedDelay();
-
-
-
         mainPanel.add(backgroundLabel);
 
     }
@@ -70,6 +67,12 @@ public class MainFrame extends JFrame {
     private void initLoginPage(){
         loginPage = new LoginPage(-300,0,1200,800);
         backgroundLabel.add(loginPage);
+
+        loginPage.getLoginButton().addActionListener(ev ->{
+            if(loginPage.validCredentials()){
+
+            }
+        });
     }
 
     private void initRegisterPage(){

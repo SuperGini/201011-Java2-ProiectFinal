@@ -8,4 +8,8 @@ import java.rmi.RemoteException;
 public interface UserService extends Remote {
 
     boolean create(UserDto userDto) throws RemoteException;
+
+    boolean loginWithUsername(String userName, String password) throws RemoteException;
+
+    boolean loginWithEmailAdress(String emailAdress, String password) throws RemoteException;
 }
