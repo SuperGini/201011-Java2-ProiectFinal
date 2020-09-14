@@ -7,10 +7,7 @@ import lib.dto.user.UserDto;
 import lib.dto.user.UserIdDto;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RegisterPage extends JLabel {
 
@@ -30,7 +27,7 @@ public class RegisterPage extends JLabel {
 
 
 
-    private final String [] category = {"mechanical", "body & paint", "warehouse"};
+    private final String [] category = {"MECHANICAL", "BODY", "WAREHOUSE"};
     private final String [] fieldLabel = {"username", "email", "password", "confirm password", "phone number"};
     private List<JRadioButton> radioButtons;
     private List<JLabel> radioButtonLabels;
@@ -92,6 +89,7 @@ public class RegisterPage extends JLabel {
 
         for(int i = 0; i < 3; i++){
             radioButton = new JRadioButton();
+            radioButton.setActionCommand(category[i]);
             radioButton.setBounds(200, 365 + i*30, 100, 50);
             radioButton.setOpaque(false);
             buttonGroup.add(radioButton);
@@ -147,10 +145,19 @@ public class RegisterPage extends JLabel {
         userDto.setUserId(userIdDto);
         userDto.setPassword(new String(passwordField.getPassword()));
         userDto.setPhoneNumber(phoneNumber);
-        userDto.setCategory(Category.MECHANICAL);
+        userDto.setCategory(getCategory());
 
+        return  UserController.getInstance().create(userDto);
+    }
 
-      return   UserController.getInstance().create(userDto);
+    
+    private Category getCategory(){
+        return radioButtons.stream()
+                .filter(AbstractButton::isSelected)
+                .map(e -> Category.valueOf(e.getActionCommand()))
+                .findFirst()
+                .get();
+
     }
 
 
