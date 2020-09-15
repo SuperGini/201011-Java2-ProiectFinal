@@ -150,7 +150,7 @@ public class RegisterPage extends JLabel {
         return  UserController.getInstance().create(userDto);
     }
 
-    
+
     private Category getCategory(){
         return radioButtons.stream()
                 .filter(AbstractButton::isSelected)

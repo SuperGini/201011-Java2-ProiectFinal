@@ -9,9 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 public class MainFrame extends JFrame {
 
@@ -26,6 +28,8 @@ public class MainFrame extends JFrame {
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
     private static AnimationClass slideEfect = new AnimationClass();
 
+    private List<JLabel> pages;
+
 
 
     public MainFrame(){
@@ -35,7 +39,8 @@ public class MainFrame extends JFrame {
         mouseListener();
         initLoginPage();
         initRegisterPage();
-
+        getPages();
+        moveLAbelLeft();
 
 
         setVisible(true);
@@ -65,7 +70,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initLoginPage(){
-        loginPage = new LoginPage(-300,0,1200,800);
+        loginPage = new LoginPage(1200,0,1200,800);
         backgroundLabel.add(loginPage);
 
         loginPage.getLoginButton().addActionListener(ev ->{
@@ -73,10 +78,17 @@ public class MainFrame extends JFrame {
 
             }
         });
+
+        loginPage.getRegisterButton().addActionListener(ev -> {
+            moveLabesLeftAndRaight(registerPage);
+
+
+
+        });
     }
 
     private void initRegisterPage(){
-        registerPage = new RegisterPage(300,0,1200,800);
+        registerPage = new RegisterPage(1200,0,1200,800);
         backgroundLabel.add(registerPage);
 
         registerPage.getRegisterButton().addActionListener(ev ->{
@@ -84,6 +96,10 @@ public class MainFrame extends JFrame {
                 System.out.println("a fost creat un user");
             }
 
+        });
+
+        registerPage.getLoginButton().addActionListener(ev -> {
+            moveLabesLeftAndRaight(loginPage);
         });
     }
 
@@ -100,6 +116,28 @@ public class MainFrame extends JFrame {
         Image rescaleImage = new ImageIcon(image).getImage()
                 .getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(rescaleImage);
+    }
+
+
+    private List<JLabel> getPages(){
+        pages = new ArrayList<>();
+        pages.add(loginPage);
+        pages.add(registerPage);
+        return pages;
+    }
+
+    private void moveLabesLeftAndRaight(JLabel labelPage){
+        for(JLabel page: pages){
+            if((page.getX() == 400)  && (page != labelPage)){
+                slideEfect.jLabelXRight(400,1200,2,4,page);
+                slideEfect.jLabelXLeft(1200,400,2,4,labelPage);
+
+            }
+        }
+    }
+
+    private void moveLAbelLeft(){
+        slideEfect.jLabelXLeft(1200,400,2,4,loginPage);
     }
 
 
