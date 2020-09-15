@@ -1,10 +1,19 @@
 package server.model.client;
 
-public class Client {
+import javax.persistence.*;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Client {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
     private String name;
+
+    @Embedded
+    private Address adress;
 
 
 }
