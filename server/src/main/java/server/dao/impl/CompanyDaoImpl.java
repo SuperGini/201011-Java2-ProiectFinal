@@ -1,30 +1,33 @@
 package server.dao.impl;
 
-import server.dao.PersonDao;
-import server.model.client.Person;
+import server.dao.CompanyDao;
+import server.model.client.Company;
 
 import javax.persistence.EntityManager;
 
-public class PersonDaoImpl implements PersonDao {
+public class CompanyDaoImpl implements CompanyDao {
 
     private EntityManager entityManager;
 
-    public PersonDaoImpl(EntityManager entityManager) {
+    public CompanyDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
-    public boolean createPerson(Person person){
+    public boolean createCompany(Company company){
         entityManager.getTransaction().begin();
-        entityManager.persist(person);
+        entityManager.persist(company);
         entityManager.getTransaction().commit();
 
         return entityManager.getTransaction().getRollbackOnly();
+
     }
 
     @Override
-    public Person findPersonById(int id){
-       return  entityManager.find(Person.class, id);
-
+    public Company findCompanyById(int id){
+        return entityManager.find(Company.class, id);
     }
+
+
+
 }
