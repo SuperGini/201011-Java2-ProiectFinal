@@ -1,5 +1,6 @@
 package server.model.autovehicle;
 
+
 import server.model.client.Client;
 
 import javax.persistence.*;
@@ -17,12 +18,12 @@ public class Vehicle {
     private String vehicleName;
 
     private String serialNumber;
-
+//
     @ManyToOne
     private Client client;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    private Collection<Order> orders  = new HashSet<>();
+    @OneToMany(mappedBy = "vehicle")
+    private Collection<ServiceOrder> serviceOrders  = new HashSet<>();
 
     public int getId() {
         return id;
@@ -43,11 +44,11 @@ public class Vehicle {
     public String getSerialNumber() {
         return serialNumber;
     }
-
+//
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
-
+//
     public Client getClient() {
         return client;
     }
@@ -56,12 +57,12 @@ public class Vehicle {
         this.client = client;
     }
 
-    public Collection<Order> getOrders() {
-        return orders;
+    public Collection<ServiceOrder> getServiceOrders() {
+        return serviceOrders;
     }
 
-    public void setOrders(Collection<Order> orders) {
-        this.orders = orders;
+    public void setServiceOrders(Collection<ServiceOrder> serviceOrders) {
+        this.serviceOrders = serviceOrders;
     }
 
     @Override

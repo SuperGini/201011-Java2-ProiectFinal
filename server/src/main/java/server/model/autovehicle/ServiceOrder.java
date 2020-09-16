@@ -1,26 +1,51 @@
 package server.model.autovehicle;
 
+import lib.dto.user.Category;
 import server.model.client.Client;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class Order {
+@Table(name = "service_order")
+public class ServiceOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
+    private Category category;
+
+
     @ManyToOne
     private Client client;
+
+    public Client getClient() {
+        return client;
+    }
 
     @ElementCollection
     @CollectionTable(name = "problems_of_the_car")
     private List<String> carProblems = new ArrayList<>();
 
     @ManyToMany()
+    @JoinTable(name = "parts_order")
     private Collection<Parts> parts = new HashSet<>();
+
+    @ManyToOne
+    private Vehicle vehicle;
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public int getId() {
         return id;
@@ -30,13 +55,7 @@ public class Order {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
-    }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public List<String> getCarProblems() {
         return carProblems;
@@ -54,12 +73,20 @@ public class Order {
         this.parts = parts;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id;
+        ServiceOrder that = (ServiceOrder) o;
+        return id == that.id;
     }
 
     @Override

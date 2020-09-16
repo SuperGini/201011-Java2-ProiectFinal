@@ -1,6 +1,6 @@
 package server.model.client;
 
-import server.model.autovehicle.Order;
+import server.model.autovehicle.ServiceOrder;
 import server.model.autovehicle.Vehicle;
 
 import javax.persistence.*;
@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Client {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -19,13 +19,13 @@ public abstract class Client {
     private String name;
 
     @Embedded
-    private Address adress;
+    private Adress adress;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
     private Collection<Vehicle> vehicles = new HashSet<>();
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
-    private Collection<Order> orders = new HashSet<>();
+    @OneToMany(mappedBy = "client")
+    private Collection<ServiceOrder> serviceOrders = new HashSet<>();
 
     public int getId() {
         return id;
@@ -43,11 +43,11 @@ public abstract class Client {
         this.name = name;
     }
 
-    public Address getAdress() {
+    public Adress getAdress() {
         return adress;
     }
 
-    public void setAdress(Address adress) {
+    public void setAdress(Adress adress) {
         this.adress = adress;
     }
 
@@ -59,12 +59,12 @@ public abstract class Client {
         this.vehicles = vehicles;
     }
 
-    public Collection<Order> getOrders() {
-        return orders;
+    public Collection<ServiceOrder> getServiceOrders() {
+        return serviceOrders;
     }
 
-    public void setOrders(Collection<Order> orders) {
-        this.orders = orders;
+    public void setServiceOrders(Collection<ServiceOrder> serviceOrders) {
+        this.serviceOrders = serviceOrders;
     }
 
     @Override

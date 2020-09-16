@@ -20,7 +20,8 @@ public class UserDaoImpl implements UserDao {
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
-      return  entityManager.getTransaction().getRollbackOnly();
+
+        return  entityManager.getTransaction().getRollbackOnly();
     }
 
     @Override
