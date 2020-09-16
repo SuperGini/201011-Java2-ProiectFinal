@@ -4,7 +4,7 @@ import lib.dto.user.UserDto;
 import lib.service.UserService;
 import server.convert.UserConvertor;
 import server.dao.UserDao;
-import server.dao.impl.UserDaoImpl;
+import server.dao.impl.user.UserDaoImpl;
 import server.model.user.User;
 
 import javax.persistence.Persistence;

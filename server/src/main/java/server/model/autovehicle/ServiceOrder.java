@@ -30,7 +30,7 @@ public class ServiceOrder {
 
     @ManyToMany()
     @JoinTable(name = "parts_order")
-    private Collection<Parts> parts = new HashSet<>();
+    private Collection<Part> parts = new HashSet<>();
 
     @ManyToOne
     private Vehicle vehicle;
@@ -65,11 +65,11 @@ public class ServiceOrder {
         this.carProblems = carProblems;
     }
 
-    public Collection<Parts> getParts() {
+    public Collection<Part> getParts() {
         return parts;
     }
 
-    public void setParts(Collection<Parts> parts) {
+    public void setParts(Collection<Part> parts) {
         this.parts = parts;
     }
 

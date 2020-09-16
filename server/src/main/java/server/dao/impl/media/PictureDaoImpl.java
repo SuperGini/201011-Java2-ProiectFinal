@@ -1,4 +1,4 @@
-package server.dao.impl;
+package server.dao.impl.media;
 
 import server.dao.PictureDao;
 import server.model.picture.Picture;

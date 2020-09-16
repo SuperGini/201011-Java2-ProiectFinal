@@ -4,7 +4,7 @@ import lib.dto.picture.PictureDto;
 import lib.service.PictureService;
 import server.convert.PictureConvertor;
 import server.dao.PictureDao;
-import server.dao.impl.PictureDaoImpl;
+import server.dao.impl.media.PictureDaoImpl;
 import server.model.picture.Picture;
 
 import javax.persistence.Persistence;

@@ -1,4 +1,4 @@
-package server.dao.impl;
+package server.dao.impl.client;
 
 import server.dao.PersonDao;
 import server.model.client.Person;

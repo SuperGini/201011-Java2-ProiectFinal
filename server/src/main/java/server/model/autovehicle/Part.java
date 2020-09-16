@@ -6,7 +6,10 @@ import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
-public class Parts {
+@NamedQueries({
+        @NamedQuery(name ="Part.findByName", query = "SELECT p FROM Part p WHERE p.partName = :partName"),
+        @NamedQuery(name = "Part.findAll", query = "SELECT p FROM Part p")})
+public class Part {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -66,8 +69,8 @@ public class Parts {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Parts parts = (Parts) o;
-        return Objects.equals(partName, parts.partName);
+        Part part = (Part) o;
+        return Objects.equals(partName, part.partName);
     }
 
     @Override

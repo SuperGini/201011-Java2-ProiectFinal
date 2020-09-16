@@ -1,6 +1,6 @@
 package server;
 
-import server.model.autovehicle.Parts;
+import server.model.autovehicle.Part;
 import server.model.autovehicle.ServiceOrder;
 import server.model.autovehicle.Vehicle;
 import server.model.client.Adress;
@@ -47,10 +47,10 @@ public class MainServer2 {
 
         //*******************
 //
-        Parts parts = new Parts();
+        Part part = new Part();
 
-        parts.setCount(5);
-        parts.setPartName("bujie");
+        part.setCount(5);
+        part.setPartName("bujie");
 
         //**********
 
