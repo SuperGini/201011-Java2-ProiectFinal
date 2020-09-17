@@ -1,9 +1,9 @@
 package server.model.autovehicle;
 
-import lib.dto.user.Category;
 import server.model.client.Client;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -14,8 +14,9 @@ public class ServiceOrder {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
-    private Category category;
+    private double total;
 
+    private Instant timeStamp;
 
     @ManyToOne
     private Client client;
@@ -55,8 +56,7 @@ public class ServiceOrder {
         this.id = id;
     }
 
-
-
+    
     public List<String> getCarProblems() {
         return carProblems;
     }
@@ -73,12 +73,20 @@ public class ServiceOrder {
         this.parts = parts;
     }
 
-    public Category getCategory() {
-        return category;
+    public double getTotal() {
+        return total;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Instant getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Instant timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     @Override
