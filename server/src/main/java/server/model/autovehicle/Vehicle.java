@@ -18,7 +18,15 @@ public class Vehicle {
     private String vehicleName;
 
     private String serialNumber;
-//
+
+    public Vehicle(String vehicleName, String serialNumber) {
+        this.vehicleName = vehicleName;
+        this.serialNumber = serialNumber;
+    }
+
+    public Vehicle() {
+    }
+
     @ManyToOne
     private Client client;
 
