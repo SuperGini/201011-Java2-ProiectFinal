@@ -8,6 +8,31 @@ public class Company extends Client{
 
     private String cui;
 
+
+    public static class Builder{
+        private Company company = new Company();
+
+        public Builder setCui(String cui){
+            company.cui = cui;
+            return this;
+        }
+
+        public Builder setName(String name){
+            company.setName(name);
+            return this;
+        }
+
+        public Builder setAdress(Adress adress){
+          company.setAdress(adress);
+          return this;
+        }
+
+        public Company build(){
+            return company;
+        }
+
+    }
+
     public String getCui() {
         return cui;
     }

@@ -21,13 +21,12 @@ public class PersonConvertor {
                             .build();
 
 
-        Optional.ofNullable(person.getAdress())
-                            .ifPresent(adressDto ->{
+     Optional.ofNullable(person.getAdress())
+                            .ifPresent(adress ->{
                                personDto.setAdress( new AdressDto(
-                                       person.getAdress().getStreet(),
-                                       person.getAdress().getStreet()
+                                       adress.getStreet(),
+                                       adress.getStreet()
                                ));
-
                             });
 
         return personDto;
@@ -41,16 +40,15 @@ public class PersonConvertor {
                         .setName(personDto.getName())
                         .build();
 
+
         Optional.ofNullable(personDto.getAdress())
                 .ifPresent(adress ->{
                     person.setAdress( new Adress(
-                            personDto.getAdress().getStreet(),
-                            personDto.getAdress().getNumber()
+                            adress.getStreet(),
+                            adress.getNumber()
                     ));
                 });
 
-
         return person;
-
     }
 }
