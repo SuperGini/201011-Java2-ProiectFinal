@@ -18,6 +18,15 @@ public class ServiceOrder {
 
     private Instant timeStamp;
 
+    public ServiceOrder(double total, Instant timeStamp) {
+        this.total = total;
+        this.timeStamp = timeStamp;
+    }
+
+
+    public ServiceOrder() {
+    }
+
     @ManyToOne
     private Client client;
 
@@ -56,7 +65,7 @@ public class ServiceOrder {
         this.id = id;
     }
 
-    
+
     public List<String> getCarProblems() {
         return carProblems;
     }

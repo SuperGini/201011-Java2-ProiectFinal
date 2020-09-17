@@ -10,6 +10,15 @@ public class ServiceOrderDto {
 
     private Instant timeStamp;
 
+    public ServiceOrderDto(int id, double total, Instant timeStamp) {
+        this.id = id;
+        this.total = total;
+        this.timeStamp = timeStamp;
+    }
+
+    public ServiceOrderDto() {
+    }
+
     public int getId() {
         return id;
     }
