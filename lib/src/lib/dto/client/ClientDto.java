@@ -8,10 +8,9 @@ public class ClientDto {
 
     private AdressDto adress;
 
-    public ClientDto(int id, String name, AdressDto adress) {
-        this.id = id;
-        this.name = name;
-        this.adress = adress;
+
+
+    public ClientDto() {
     }
 
     public int getId() {

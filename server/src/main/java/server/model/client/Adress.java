@@ -13,6 +13,14 @@ public class Adress {
         return street;
     }
 
+    public Adress(String street, String number) {
+        this.street = street;
+        this.number = number;
+    }
+
+    public Adress() {
+    }
+
     public void setStreet(String street) {
         this.street = street;
     }

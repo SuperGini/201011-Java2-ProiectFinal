@@ -4,10 +4,38 @@ public class PersonDto extends ClientDto{
 
     private String cnp;
 
-    public PersonDto(int id, String name, AdressDto adress, String cnp) {
-        super(id, name, adress);
-        this.cnp = cnp;
+    public PersonDto() {
     }
+
+    public static class Builder{
+        private PersonDto instance = new PersonDto();
+
+
+        public Builder setAdresaDto(AdressDto adresaDto){
+            instance.setAdress(adresaDto);
+            return this;
+        }
+
+        public Builder setNameDto(String name){
+            instance.setName(name);
+            return this;
+        }
+
+        public Builder setCnpDto(String cnp){
+            instance.cnp = cnp;
+            return this;
+        }
+
+        public Builder setIdDto(int id){
+            instance.setId(id);
+            return this;
+        }
+
+        public PersonDto build(){
+            return instance;
+        }
+    }
+
 
     public String getCnp() {
         return cnp;

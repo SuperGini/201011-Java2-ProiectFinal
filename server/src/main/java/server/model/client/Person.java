@@ -12,6 +12,35 @@ public class Person extends Client{
         return cnp;
     }
 
+    public Person() {
+    }
+
+    public static class Builder{
+        private Person person = new Person();
+
+        public Builder setCnp(String cnp){
+            person.setCnp(cnp);
+            return this;
+        }
+
+        public Builder setName(String name){
+            person.setName(name);
+            return this;
+        }
+
+        public Builder setAdress(Adress adress){
+            person.setAdress(adress);
+            return this;
+        }
+
+        public Person build(){
+            return person;
+        }
+
+    }
+
+
+
     public void setCnp(String cnp) {
         this.cnp = cnp;
     }
