@@ -1,5 +1,6 @@
 package server.dao.impl.autovehicle;
 
+import server.dao.PartDao;
 import server.model.autovehicle.Part;
 
 import javax.persistence.EntityManager;
@@ -7,7 +8,7 @@ import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.Optional;
 
-public class PartDaoImpl implements server.dao.impl.PartsDao {
+public class PartDaoImpl implements PartDao {
 
     private EntityManager entityManager;
 
@@ -36,6 +37,7 @@ public class PartDaoImpl implements server.dao.impl.PartsDao {
        TypedQuery<Part> query = entityManager.createNamedQuery("Part.findByName",Part.class);
        query.setParameter("p.partName", partName);
        return query.getResultStream().findFirst();
+
     }
 
     @Override

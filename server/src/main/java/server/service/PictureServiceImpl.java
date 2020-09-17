@@ -22,7 +22,7 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
 
     private final PictureDao pictureDao;
     private Path path = Paths.get("./server/src/main/resources/images");
-    private final List<PictureDto> pictures = new CopyOnWriteArrayList<>();
+    private  List<PictureDto> pictures = new CopyOnWriteArrayList<>();
 
 
     public PictureServiceImpl() throws RemoteException {
@@ -31,6 +31,7 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
         var entityManager = entityManagerFactory.createEntityManager();
 
         this.pictureDao = new PictureDaoImpl(entityManager);
+        sendPicturesToDatabase();
         addPictureToList();
     }
 

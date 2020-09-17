@@ -15,7 +15,7 @@ public class PictureController implements PictureService {
     private PictureController() {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost",4545);
-           pictureService =  (PictureService) registry.lookup("imageService");
+            pictureService =  (PictureService) registry.lookup("imageService");
 
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();

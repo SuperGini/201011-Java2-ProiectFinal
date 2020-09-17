@@ -1,11 +1,11 @@
-package server.dao.impl;
+package server.dao;
 
 import server.model.autovehicle.Part;
 
 import java.util.Collection;
 import java.util.Optional;
 
-public interface PartsDao {
+public interface PartDao {
     boolean createPart(Part part);
 
     Part findPartById(int id);
