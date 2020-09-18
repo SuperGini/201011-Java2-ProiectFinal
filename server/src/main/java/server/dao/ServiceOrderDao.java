@@ -7,7 +7,7 @@ import java.util.Collection;
 public interface ServiceOrderDao {
     boolean createServiceOrder(ServiceOrder serviceOrder);
 
-    server.model.autovehicle.ServiceOrder findById(int id);
+    ServiceOrder findById(int id);
 
-    Collection<server.model.autovehicle.ServiceOrder> findAllServiceOrders();
+    Collection<ServiceOrder> findAll();
 }

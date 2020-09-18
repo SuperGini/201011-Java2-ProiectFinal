@@ -1,8 +1,11 @@
 package server.model.user;
 
 import lib.dto.user.Category;
+import server.model.autovehicle.ServiceOrder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +27,9 @@ public class User {
     @ElementCollection
     @CollectionTable(name = "user_phoneNumber")
     private Set<String> phoneNumber = new HashSet<>();
+
+    @OneToMany
+    private Collection<ServiceOrder> serviceOrders = new ArrayList<>();
 
 
     public User(UserId userId, Category category, Set<String> phoneNumber) {
@@ -66,6 +72,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Collection<ServiceOrder> getServiceOrders() {
+        return serviceOrders;
+    }
+
+    public void setServiceOrders(Collection<ServiceOrder> serviceOrders) {
+        this.serviceOrders = serviceOrders;
     }
 
     @Override

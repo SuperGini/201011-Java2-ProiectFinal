@@ -1,6 +1,7 @@
 package server.model.autovehicle;
 
 import server.model.client.Client;
+import server.model.user.User;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -8,6 +9,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "service_order")
+@NamedQuery(name ="ServiceOrcer.findAll", query = "SELECT s FROM ServiceOrder s")
 public class ServiceOrder {
 
     @Id
@@ -17,6 +19,7 @@ public class ServiceOrder {
     private double total;
 
     private Instant timeStamp;
+
 
     public ServiceOrder(double total, Instant timeStamp) {
         this.total = total;
@@ -33,6 +36,9 @@ public class ServiceOrder {
     public Client getClient() {
         return client;
     }
+
+    @ManyToOne
+    private User user;
 
     @ElementCollection
     @CollectionTable(name = "problems_of_the_car")
@@ -96,6 +102,14 @@ public class ServiceOrder {
 
     public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

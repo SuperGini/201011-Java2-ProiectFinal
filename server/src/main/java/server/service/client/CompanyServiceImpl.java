@@ -7,14 +7,16 @@ import server.dao.impl.client.CompanyDaoImpl;
 import server.model.client.Company;
 
 import javax.persistence.Persistence;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class CompanyServiceImpl implements lib.service.CompanyService {
+public class CompanyServiceImpl extends UnicastRemoteObject implements lib.service.CompanyService {
 
     private CompanyDao companyDao;
 
-    public CompanyServiceImpl() {
+    public CompanyServiceImpl() throws RemoteException {
         var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");
         var entityManager = entityManagerFactory.createEntityManager();
 
