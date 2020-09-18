@@ -1,5 +1,6 @@
 package server;
 
+import server.service.autovehicle.PartServiceImpl;
 import server.service.media.PictureServiceImpl;
 import server.service.user.UserServiceImpl;
 
@@ -17,6 +18,7 @@ public class MainServer {
             Registry registry = LocateRegistry.createRegistry(4545);
             registry.rebind("imageService", new PictureServiceImpl());
             registry.rebind("userService", new UserServiceImpl());
+            registry.rebind("partService", new PartServiceImpl());
 
         } catch (RemoteException e) {
             e.printStackTrace();
