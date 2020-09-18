@@ -65,4 +65,12 @@ public class VehicleController implements VehicleService {
             throw new RuntimeException(e);
         }
     }
+
+    private static final class SingletonHolder{
+        public final static VehicleController INSTANCE = new VehicleController();
+    }
+
+    public static VehicleController getInstance(){
+       return SingletonHolder.INSTANCE;
+    }
 }
