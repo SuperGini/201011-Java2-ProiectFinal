@@ -1,9 +1,11 @@
 package server.model.client;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import java.util.Objects;
 
 @Entity
+@NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name")
 public class Company extends Client{
 
     private String cui;

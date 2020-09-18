@@ -2,10 +2,14 @@ package lib.service;
 
 import lib.dto.client.PersonDto;
 
-public interface PersonService {
-    boolean createPerson(PersonDto personDto);
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-    PersonDto findPersonById(int id);
+public interface PersonService extends Remote {
 
-    PersonDto findPersonByName(String name);
+    boolean createPerson(PersonDto personDto) throws RemoteException;
+
+    PersonDto findPersonById(int id) throws RemoteException;
+
+    PersonDto findPersonByName(String name) throws RemoteException;
 }

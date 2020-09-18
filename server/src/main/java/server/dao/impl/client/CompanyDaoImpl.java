@@ -4,6 +4,8 @@ import server.dao.CompanyDao;
 import server.model.client.Company;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.Optional;
 
 public class CompanyDaoImpl implements CompanyDao {
 
@@ -26,6 +28,15 @@ public class CompanyDaoImpl implements CompanyDao {
     @Override
     public Company findCompanyById(int id){
         return entityManager.find(Company.class, id);
+    }
+
+    @Override
+    public Optional<Company> findCompanyByName(String name){
+        TypedQuery<Company> query = entityManager.createNamedQuery("Company.findByName", Company.class);
+        query.setParameter("name", name);
+
+        return query.getResultStream().findFirst();
+
     }
 
 
