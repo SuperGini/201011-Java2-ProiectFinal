@@ -9,7 +9,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "service_order")
-@NamedQuery(name ="ServiceOrcer.findAll", query = "SELECT s FROM ServiceOrder s")
+@NamedQuery(name ="ServiceOrder.findAll", query = "SELECT s FROM ServiceOrder s")
 public class ServiceOrder {
 
     @Id

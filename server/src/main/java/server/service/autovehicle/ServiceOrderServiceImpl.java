@@ -3,7 +3,7 @@ package server.service.autovehicle;
 import lib.dto.autovehicle.ServiceOrderDto;
 import server.convert.autovehicle.ServiceOrderConvertor;
 import server.dao.ServiceOrderDao;
-import server.dao.impl.client.ServiceOrderDaoImpl;
+import server.dao.impl.autovehicle.ServiceOrderDaoImpl;
 import server.model.autovehicle.ServiceOrder;
 
 import javax.persistence.Persistence;

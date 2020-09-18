@@ -1,4 +1,4 @@
-package server.dao.impl.client;
+package server.dao.impl.autovehicle;
 
 import server.dao.ServiceOrderDao;
 import server.model.autovehicle.ServiceOrder;
@@ -42,6 +42,10 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 //
 //    }
 
-
+ //       public Optional<ServiceOrder> findByClientName(String  clientName) {
+//
+//
+//    }
 
 }
+
