@@ -1,6 +1,10 @@
 package server;
 
 import server.service.autovehicle.PartServiceImpl;
+import server.service.autovehicle.ServiceOrderServiceImpl;
+import server.service.autovehicle.VehicleServiceImpl;
+import server.service.client.CompanyServiceImpl;
+import server.service.client.PersonServiceImpl;
 import server.service.media.PictureServiceImpl;
 import server.service.user.UserServiceImpl;
 
@@ -19,6 +23,10 @@ public class MainServer {
             registry.rebind("imageService", new PictureServiceImpl());
             registry.rebind("userService", new UserServiceImpl());
             registry.rebind("partService", new PartServiceImpl());
+            registry.rebind("vehicleService", new VehicleServiceImpl());
+            registry.rebind("personService", new PersonServiceImpl());
+            registry.rebind("companyService", new CompanyServiceImpl());
+            registry.rebind("serviceOrder", new ServiceOrderServiceImpl());
 
         } catch (RemoteException e) {
             e.printStackTrace();
