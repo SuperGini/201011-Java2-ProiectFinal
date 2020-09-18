@@ -1,4 +1,4 @@
-package server.convert;
+package server.convert.user;
 
 import lib.dto.user.UserDto;
 import lib.dto.user.UserIdDto;

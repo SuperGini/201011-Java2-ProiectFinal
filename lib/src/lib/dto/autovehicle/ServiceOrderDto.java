@@ -1,8 +1,9 @@
 package lib.dto.autovehicle;
 
+import java.io.Serializable;
 import java.time.Instant;
 
-public class ServiceOrderDto {
+public class ServiceOrderDto implements Serializable {
 
     private int id;
 

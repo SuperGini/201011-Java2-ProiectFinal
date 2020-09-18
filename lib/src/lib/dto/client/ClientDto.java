@@ -1,6 +1,8 @@
 package lib.dto.client;
 
-public class ClientDto {
+import java.io.Serializable;
+
+public class ClientDto implements Serializable {
 
     private int id;
 

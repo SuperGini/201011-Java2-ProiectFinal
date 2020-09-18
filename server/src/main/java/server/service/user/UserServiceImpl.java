@@ -1,8 +1,8 @@
-package server.service;
+package server.service.user;
 
 import lib.dto.user.UserDto;
 import lib.service.UserService;
-import server.convert.UserConvertor;
+import server.convert.user.UserConvertor;
 import server.dao.UserDao;
 import server.dao.impl.user.UserDaoImpl;
 import server.model.user.User;

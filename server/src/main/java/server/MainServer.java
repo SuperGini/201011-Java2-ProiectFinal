@@ -1,7 +1,7 @@
 package server;
 
-import server.service.PictureServiceImpl;
-import server.service.UserServiceImpl;
+import server.service.media.PictureServiceImpl;
+import server.service.user.UserServiceImpl;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

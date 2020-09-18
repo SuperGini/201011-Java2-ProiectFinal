@@ -22,7 +22,7 @@ public class PartDaoImpl implements PartDao {
         entityManager.persist(part);
         entityManager.getTransaction().commit();
 
-        return entityManager.getTransaction().getRollbackOnly();
+        return !entityManager.getTransaction().getRollbackOnly();
 
     }
 

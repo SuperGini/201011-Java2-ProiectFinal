@@ -1,8 +1,8 @@
-package server.service;
+package server.service.media;
 
 import lib.dto.picture.PictureDto;
 import lib.service.PictureService;
-import server.convert.PictureConvertor;
+import server.convert.media.PictureConvertor;
 import server.dao.PictureDao;
 import server.dao.impl.media.PictureDaoImpl;
 import server.model.picture.Picture;

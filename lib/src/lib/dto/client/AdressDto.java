@@ -1,6 +1,8 @@
 package lib.dto.client;
 
-public class AdressDto {
+import java.io.Serializable;
+
+public class AdressDto implements Serializable {
 
     private String street;
 

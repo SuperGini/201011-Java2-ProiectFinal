@@ -1,4 +1,4 @@
-package server.convert;
+package server.convert.media;
 import lib.dto.picture.PictureDto;
 import server.model.picture.Picture;
 

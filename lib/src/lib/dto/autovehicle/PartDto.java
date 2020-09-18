@@ -1,6 +1,8 @@
 package lib.dto.autovehicle;
 
-public class PartDto {
+import java.io.Serializable;
+
+public class PartDto implements Serializable {
 
     private int id;
 
