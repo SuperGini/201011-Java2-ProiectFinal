@@ -67,10 +67,10 @@ public class PartController implements PartService {
     }
 
     private static final class SingletonHolder{
-        public final static VehicleController INSTANCE = new VehicleController();
+        public final static PartController INSTANCE = new PartController();
     }
 
-    public static VehicleController getInstance(){
+    public static PartController getInstance(){
         return SingletonHolder.INSTANCE;
     }
 }
