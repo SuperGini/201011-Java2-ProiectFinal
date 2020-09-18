@@ -1,6 +1,6 @@
 package client.gui.label;
 
-import client.controller.UserController;
+import client.controller.user.UserController;
 import client.gui.panel.TransparentPanel;
 import lib.dto.user.Category;
 import lib.dto.user.UserDto;

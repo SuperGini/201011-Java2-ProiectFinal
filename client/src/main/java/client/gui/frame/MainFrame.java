@@ -1,7 +1,7 @@
 package client.gui.frame;
 
 import AppPackage.AnimationClass;
-import client.controller.PictureController;
+import client.controller.media.PictureController;
 import client.gui.label.LoginPage;
 import client.gui.label.RegisterPage;
 

@@ -1,4 +1,4 @@
-package client.controller;
+package client.controller.user;
 
 import lib.dto.user.UserDto;
 import lib.service.UserService;

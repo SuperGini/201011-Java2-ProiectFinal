@@ -1,4 +1,4 @@
-package client.controller;
+package client.controller.media;
 
 import lib.dto.picture.PictureDto;
 import lib.service.PictureService;
