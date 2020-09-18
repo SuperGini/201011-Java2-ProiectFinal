@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public interface PartService extends Remote {
 
-    boolean createPart(PartDto partDto);
+    boolean createPart(PartDto partDto) throws RemoteException;
 
     PartDto findPartById(int id) throws RemoteException;
 

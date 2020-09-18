@@ -28,9 +28,9 @@ public class VehicleServiceImpl extends UnicastRemoteObject implements lib.servi
     public boolean createVehicle(VehicleDto vehicleDto){
         Vehicle vehicle = VehicleConvetor.convert(vehicleDto);
 
-        Optional<Vehicle> findVehicle = vehicleDao.findBySerialNumber(vehicle.getSerialNumber());
+        Optional<Vehicle> optionalVehicle = vehicleDao.findBySerialNumber(vehicle.getSerialNumber());
 
-        if(findVehicle.isEmpty()){
+        if(optionalVehicle.isEmpty()){
             vehicleDao.createVehicle(vehicle);
 
         }

@@ -2,6 +2,8 @@ package server.dao;
 
 import server.model.client.Person;
 
+import java.util.Optional;
+
 public interface PersonDao {
 
     boolean createPerson(Person person);
@@ -9,4 +11,5 @@ public interface PersonDao {
     Person findPersonById(int id);
 
 
+    Optional<Person> findPersonByName(String name);
 }
