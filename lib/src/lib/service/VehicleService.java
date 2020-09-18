@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.util.Collection;
 
 public interface VehicleService extends Remote {
-    boolean createVehicle(VehicleDto vehicleDto);
+    boolean createVehicle(VehicleDto vehicleDto) throws RemoteException;
 
     VehicleDto findById(int id) throws RemoteException;
 
