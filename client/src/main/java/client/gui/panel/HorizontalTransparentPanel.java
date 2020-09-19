@@ -21,7 +21,7 @@ public class HorizontalTransparentPanel extends JPanel {
 
     public HorizontalTransparentPanel(int x, int y, int width, int height, boolean flag) {
         this.setBounds(x, y, width, height);
-        this.setBackground(new Color(150 ,150,150,100));
+        this.setBackground(new Color(150 ,150,150,50));
         this.setOpaque(false);// cel mai important ca sa mearga panourile semitransparente
         this.flag = flag;
 

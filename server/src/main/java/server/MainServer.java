@@ -8,6 +8,10 @@ import server.service.client.PersonServiceImpl;
 import server.service.media.PictureServiceImpl;
 import server.service.user.UserServiceImpl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -15,7 +19,13 @@ import java.rmi.registry.Registry;
 public class MainServer {
     public static void main(String[] args) {
 
-
+        Path x= Paths.get("./server/src/main/resources/blurredImages/nathan-van-egmond-cMUKwEZG2qI-unsplash.jpg");
+        try {
+            boolean y = Files.deleteIfExists(x);
+            System.out.println( y);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         try {

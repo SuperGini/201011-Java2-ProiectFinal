@@ -6,6 +6,7 @@ import server.convert.media.PictureConvertor;
 import server.dao.PictureDao;
 import server.dao.impl.media.PictureDaoImpl;
 import server.model.picture.Picture;
+import server.util.BlurrImage;
 
 import javax.persistence.Persistence;
 import java.io.IOException;
@@ -21,7 +22,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class PictureServiceImpl extends UnicastRemoteObject implements PictureService {
 
     private final PictureDao pictureDao;
-    private Path path = Paths.get("./server/src/main/resources/images");
+    private Path pathBlurr = Paths.get("./server/src/main/resources/blurredImages");
+    private Path pathOriginal = Paths.get("./server/src/main/resources/images");
     private  List<PictureDto> pictures = new CopyOnWriteArrayList<>();
 
 
@@ -38,14 +40,34 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
     //method 1
     public void sendPicturesToDatabase(){
 
+
+
         try {
             if(findAllBackgroundPictures().isEmpty()){
-                Files.list(path)
+
+                Files.list(pathOriginal)
+                        .map(Path::toString)
+                        .forEach(BlurrImage::getBufferdImage);
+
+
+                Files.list(pathBlurr)
                         .forEach(this::sendPicture);
+
+
+                Files.list(pathBlurr)
+                        .forEach( blurredPicture-> {
+                            try {
+
+                               Files.deleteIfExists(blurredPicture);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     //method 2
@@ -61,6 +83,7 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
 
     private void addPictureToList(){
        pictureDao.findAllBackgroundPictures().stream()
+
                 .map(PictureConvertor::convert)
                 .forEach(pictures::add);
     }

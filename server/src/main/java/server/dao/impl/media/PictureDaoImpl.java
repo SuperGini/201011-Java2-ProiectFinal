@@ -23,6 +23,7 @@ public class PictureDaoImpl implements PictureDao {
 
         try {
 
+
             backgroundImage.setPicture(Files.readAllBytes(path)); //might cause OutOfMemoryError -> for big pictures
 
             entityManager.getTransaction().begin();
