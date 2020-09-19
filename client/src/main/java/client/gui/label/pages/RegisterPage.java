@@ -1,4 +1,4 @@
-package client.gui.label;
+package client.gui.label.pages;
 
 import client.controller.user.UserController;
 import client.gui.panel.TransparentPanel;
@@ -49,7 +49,7 @@ public class RegisterPage extends JLabel {
     }
 
     private void initTransparentPanel(){
-        transparentPanel = new TransparentPanel(400, 100, 400, 600);
+        transparentPanel = new TransparentPanel(400, 75, 400, 650);
         this.add(transparentPanel);
     }
 

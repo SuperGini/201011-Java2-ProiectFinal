@@ -2,13 +2,17 @@ package client.gui.frame;
 
 import AppPackage.AnimationClass;
 import client.controller.media.PictureController;
-import client.gui.label.LoginPage;
-import client.gui.label.RegisterPage;
+import client.gui.label.MovingLabel;
+import client.gui.label.pages.LoginPage;
+import client.gui.label.pages.RegisterPage;
+import client.gui.panel.HorizontalTransparentPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -24,6 +28,8 @@ public class MainFrame extends JFrame {
     private JLabel backgroundLabel;
     private LoginPage loginPage;
     private RegisterPage registerPage;
+    private MovingLabel upperLabel, lowerLabel, leftLabel;
+    private HorizontalTransparentPanel upperPanel, lowerPanel;
 
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
     private static AnimationClass slideEfect = new AnimationClass();
@@ -41,10 +47,11 @@ public class MainFrame extends JFrame {
         initRegisterPage();
         getPages();
         moveLAbelLeft();
+        initUpperLabelAndPanel();
+        initLowerLabelAndPanel();
 
-
+        changeFocus();
         setVisible(true);
-
 
 
     }
@@ -118,6 +125,27 @@ public class MainFrame extends JFrame {
         return new ImageIcon(rescaleImage);
     }
 
+    private void initUpperLabelAndPanel(){
+        upperLabel = new MovingLabel(0,0,1200,75);
+        backgroundLabel.add(upperLabel);
+
+        upperPanel = new HorizontalTransparentPanel(0,0,1200,75, true);
+        upperLabel.add(upperPanel);
+    }
+
+    private void initLowerLabelAndPanel(){
+        lowerLabel = new MovingLabel(0,725,1200,75);
+        backgroundLabel.add(lowerLabel);
+        System.out.println("xxx");
+        lowerPanel = new HorizontalTransparentPanel(0,0,1200,75, false);
+        lowerLabel.add(lowerPanel);
+
+    }
+
+
+
+
+
 
     private List<JLabel> getPages(){
         pages = new ArrayList<>();
@@ -165,6 +193,36 @@ public class MainFrame extends JFrame {
             public void mouseDragged(MouseEvent e) {
 
                 setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
+            }
+        });
+    }
+
+
+
+    private void changeFocus(){
+
+
+        this.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+
+                super.windowGainedFocus(e);
+                System.out.println("Focus");
+                upperPanel.setColor1(Color.RED);
+                upperPanel.repaint();
+                lowerPanel.setColor1(Color.RED);
+                lowerPanel.repaint();
+
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                super.windowLostFocus(e);
+                System.out.println("no focus");
+                upperPanel.setColor1(Color.orange);
+                upperPanel.repaint(); // ca sa repicteze panoul cu noua culoare altfel remane vechea culoare
+                lowerPanel.setColor1(Color.orange);
+                lowerPanel.repaint();
             }
         });
     }
