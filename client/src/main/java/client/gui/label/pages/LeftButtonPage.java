@@ -53,6 +53,7 @@ public class LeftButtonPage extends JLabel {
             button.setText(buttonName[i]);
             button.setBackground(new Color(0,0,0,0));
             button.setBorderPainted(false);
+            button.setFocusable(false);
             button.setForeground(Color.WHITE);
 
 
@@ -81,9 +82,9 @@ public class LeftButtonPage extends JLabel {
                 public void mouseEntered(MouseEvent e) {
                     Component but = e.getComponent();
                     if(but.getForeground().equals(Color.BLACK)){
-                        but.setBackground(new Color(200,200,200,200));
+                        but.setBackground(new Color(200,200,200,250));
                     }else{
-                        but.setBackground(new Color(170,170,170,120));
+                        but.setBackground(new Color(170,170,170,150));
                     }
                 }
 

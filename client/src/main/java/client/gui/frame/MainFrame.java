@@ -3,6 +3,7 @@ package client.gui.frame;
 import AppPackage.AnimationClass;
 import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
+import client.gui.label.pages.CreateClientAndVehiclePage;
 import client.gui.label.pages.LeftButtonPage;
 import client.gui.label.pages.LoginPage;
 import client.gui.label.pages.RegisterPage;
@@ -29,6 +30,7 @@ public class MainFrame extends JFrame {
     private JLabel backgroundLabel;
     private LoginPage loginPage;
     private RegisterPage registerPage;
+    private JLabel clientAndVehiclePage;
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
@@ -47,11 +49,13 @@ public class MainFrame extends JFrame {
         mouseListener();
         initLoginPage();
         initRegisterPage();
+        initLeftButtonPage();
+        initCreateClientAndVehiclePage();
         getPages();
-        moveLAbelLeft();
+       // moveLAbelLeft();
         initUpperLabelAndPanel();
         initLowerLabelAndPanel();
-        initLeftButtonPage();
+
 
         changeFocus();
         setVisible(true);
@@ -148,6 +152,13 @@ public class MainFrame extends JFrame {
     private void initLeftButtonPage(){
         leftButtonPage = new LeftButtonPage(0,75,200,650);
         backgroundLabel.add(leftButtonPage);
+    }
+
+    private void initCreateClientAndVehiclePage(){
+        clientAndVehiclePage = new CreateClientAndVehiclePage(0,0,1200,800);
+        backgroundLabel.add(clientAndVehiclePage);
+
+
     }
 
 
