@@ -3,10 +3,7 @@ package client.gui.frame;
 import AppPackage.AnimationClass;
 import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
-import client.gui.label.pages.CreateClientAndVehiclePage;
-import client.gui.label.pages.LeftButtonPage;
-import client.gui.label.pages.LoginPage;
-import client.gui.label.pages.RegisterPage;
+import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
 
 import javax.swing.*;
@@ -31,6 +28,7 @@ public class MainFrame extends JFrame {
     private LoginPage loginPage;
     private RegisterPage registerPage;
     private JLabel clientAndVehiclePage;
+    private JLabel partPage;
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
@@ -51,6 +49,7 @@ public class MainFrame extends JFrame {
         initRegisterPage();
         initLeftButtonPage();
         initCreateClientAndVehiclePage();
+        initPartPage();
         getPages();
        // moveLAbelLeft();
         initUpperLabelAndPanel();
@@ -155,10 +154,13 @@ public class MainFrame extends JFrame {
     }
 
     private void initCreateClientAndVehiclePage(){
-        clientAndVehiclePage = new CreateClientAndVehiclePage(0,0,1200,800);
+        clientAndVehiclePage = new CreateClientAndVehiclePage(1200,0,1200,800);
         backgroundLabel.add(clientAndVehiclePage);
+    }
 
-
+    private void initPartPage(){
+        partPage = new PartPage(0,0,1200,800);
+        backgroundLabel.add(partPage);
     }
 
 

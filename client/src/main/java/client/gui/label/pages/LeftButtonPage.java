@@ -19,7 +19,7 @@ public class LeftButtonPage extends JLabel {
     private JButton button;
     private boolean flag = true;
 
-    private String [] buttonName = {"Create Order", "Create client & vehicle", "Create part", "Statistics", "Account" };
+    private String [] buttonName = {"Create Order", "Create client & vehicle", "Parts", "Statistics", "Account" };
     private List<JButton> buttons = new ArrayList<>();
 
 
