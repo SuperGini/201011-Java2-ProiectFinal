@@ -18,6 +18,7 @@ public class ServiceOrderConvertor {
 
     public static ServiceOrder convert(ServiceOrderDto serviceOrderDto){
         return new ServiceOrder(
+                serviceOrderDto.getId(),
                 serviceOrderDto.getTotal(),
                 serviceOrderDto.getTimeStamp()
         );

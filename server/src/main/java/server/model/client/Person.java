@@ -22,13 +22,16 @@ public class Person extends Client{
 
         public Builder setCnp(String cnp){
             person.setCnp(cnp);
-
             return this;
         }
 
         public Builder setName(String name){
             person.setName(name);
+            return this;
+        }
 
+        public Builder setId(int id){
+            person.setId(id);
             return this;
         }
 

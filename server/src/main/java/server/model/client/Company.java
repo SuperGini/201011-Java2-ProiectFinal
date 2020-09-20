@@ -29,6 +29,11 @@ public class Company extends Client{
           return this;
         }
 
+        public Builder setId(int id){
+            company.setId(id);
+            return this;
+        }
+
         public Company build(){
             return company;
         }

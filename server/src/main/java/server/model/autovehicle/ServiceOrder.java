@@ -21,11 +21,11 @@ public class ServiceOrder {
     private Instant timeStamp;
 
 
-    public ServiceOrder(double total, Instant timeStamp) {
+    public ServiceOrder(int id, double total, Instant timeStamp) {
+        this.id = id;
         this.total = total;
         this.timeStamp = timeStamp;
     }
-
 
     public ServiceOrder() {
     }

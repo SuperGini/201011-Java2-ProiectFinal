@@ -18,6 +18,7 @@ public class VehicleConvetor {
 
     public static Vehicle convert(VehicleDto vehicleDto){
         return new Vehicle(
+                vehicleDto.getId(),
                 vehicleDto.getVehicleName(),
                 vehicleDto.getSerialNumber()
         );

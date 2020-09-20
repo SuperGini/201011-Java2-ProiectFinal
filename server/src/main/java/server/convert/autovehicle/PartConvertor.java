@@ -21,6 +21,7 @@ public class PartConvertor {
 
     public static Part convert(PartDto partDto){
         return  new Part(
+                    partDto.getId(),
                     partDto.getPartName(),
                     partDto.getPrice(),
                     partDto.getCount()

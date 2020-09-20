@@ -36,6 +36,7 @@ public class PersonConvertor {
     public static Person convert(PersonDto personDto){
 
         Person person = new Person.Builder()
+                        .setId(personDto.getId())
                         .setCnp(personDto.getCnp())
                         .setName(personDto.getName())
                         .build();

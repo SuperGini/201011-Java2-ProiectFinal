@@ -21,7 +21,8 @@ public class Part {
 
     private int count;
 
-    public Part(String partName, double price, int count) {
+    public Part(int id, String partName, double price, int count) {
+        this.id = id;
         this.partName = partName;
         this.price = price;
         this.count = count;

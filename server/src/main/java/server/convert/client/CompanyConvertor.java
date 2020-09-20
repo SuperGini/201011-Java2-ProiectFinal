@@ -36,6 +36,7 @@ public class CompanyConvertor {
     public static Company convert(CompanyDto companyDto){
 
          Company company = new Company.Builder()
+                        .setId(companyDto.getId())
                         .setCui(companyDto.getCui())
                         .setName(companyDto.getName())
                         .build();
