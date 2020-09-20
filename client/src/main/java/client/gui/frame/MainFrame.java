@@ -144,7 +144,6 @@ public class MainFrame extends JFrame {
     private void initLowerLabelAndPanel(){
         lowerLabel = new MovingLabel(0,725,1200,75);
         backgroundLabel.add(lowerLabel);
-        System.out.println("xxx");
         lowerPanel = new HorizontalTransparentPanel(0,0,1200,75, false);
         lowerLabel.add(lowerPanel);
 
@@ -233,7 +232,6 @@ public class MainFrame extends JFrame {
             public void windowGainedFocus(WindowEvent e) {
 
                 super.windowGainedFocus(e);
-                System.out.println("Focus");
                 upperPanel.setColor1(new Color(0,175,0,80));
                 upperPanel.repaint();
                 lowerPanel.setColor1(new Color(0,175,0,80));
@@ -244,7 +242,6 @@ public class MainFrame extends JFrame {
             @Override
             public void windowLostFocus(WindowEvent e) {
                 super.windowLostFocus(e);
-                System.out.println("no focus");
                 upperPanel.setColor1(new Color(175,0,0,80));
                 upperPanel.repaint(); // ca sa repicteze panoul cu noua culoare altfel remane vechea culoare
                 lowerPanel.setColor1(new Color(175,0,0,80));

@@ -53,4 +53,14 @@ public class PartDto implements Serializable {
     public void setCount(int count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "PartDto{" +
+                "id=" + id +
+                ", partName='" + partName + '\'' +
+                ", price=" + price +
+                ", count=" + count +
+                '}';
+    }
 }

@@ -16,6 +16,7 @@ public class PartPage extends JLabel {
     private JTextField priceField;
     private JTextField countField;
     private JButton updatePartCount;
+    private JButton addPartToOrder;
 
     private JPanel transparentPanel;
 
@@ -30,6 +31,7 @@ public class PartPage extends JLabel {
         initPartLabels();
         createPartButton();
         initUpdatePartCountButton();
+        initAddPArtToOrderButton();
     }
 
     private void initTransparentPanel(){
@@ -81,6 +83,20 @@ public class PartPage extends JLabel {
         transparentPanel.add(updatePartCount);
 
         updatePartCount.addActionListener(ev ->updatePartNumber());
+    }
+
+    private void initAddPArtToOrderButton(){
+        addPartToOrder = new JButton("Add part to order");
+        addPartToOrder.setBounds(30,300,190,30);
+        transparentPanel.add(addPartToOrder);
+        addPartToOrder.addActionListener(ev -> {
+
+            //:todo -> de aici arunc piesa in comanda dupa ce a fost bagata in contextul de persistenta
+            PartDto part = PartController.getInstance().findPartByName(partField.getText());
+            System.out.println(part);
+
+        });
+
     }
 
 

@@ -35,9 +35,13 @@ public class PartDaoImpl implements PartDao {
     @Override
     public Optional<Part> findPartByName(String partName){
 
-       TypedQuery<Part> query = entityManager.createNamedQuery("Part.findByName",Part.class);
+       entityManager.getTransaction().begin();
+       Query query = entityManager.createQuery("SELECT p FROM Part p WHERE p.partName = :partName");
        query.setParameter("partName", partName);
-       return query.getResultStream().findFirst();
+       Optional<Part> part = query.getResultStream().findFirst();
+       entityManager.getTransaction().commit();
+
+        return part;
     }
 
     @Override
