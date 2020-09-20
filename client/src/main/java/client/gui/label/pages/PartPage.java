@@ -1,6 +1,8 @@
 package client.gui.label.pages;
 
+import client.controller.autovehicle.PartController;
 import client.gui.panel.TransparentPanel;
+import lib.dto.autovehicle.PartDto;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -67,6 +69,50 @@ public class PartPage extends JLabel {
         createPartButton = new JButton("Add Part");
         createPartButton.setBounds(30,200,190,30);
         transparentPanel.add(createPartButton);
+
+        createPartButton.addActionListener(ev -> createPart());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void createPart(){
+        PartDto partDto = new PartDto();
+        partDto.setPartName(partField.getText());
+
+        try{
+            partDto.setPrice(Double.parseDouble(priceField.getText()));
+            partDto.setCount(Integer.parseInt(countField.getText()));
+
+            //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
+            try {
+                if (!PartController.getInstance().createPart(partDto)) {
+                    JOptionPane.showMessageDialog(null, "Part was added to warehouse");
+                }
+
+            }catch(IllegalArgumentException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "The part is allreary in the warehouse");
+            }
+
+
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Wrong format for the price or count");
+        }
+
     }
 
 

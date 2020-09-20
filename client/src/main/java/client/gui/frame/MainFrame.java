@@ -118,6 +118,8 @@ public class MainFrame extends JFrame {
 
     //method 1
     private void scheduleWithFixedDelay(){
+
+        //:todo: nu uita sa dai shutdown la THREAD
         Runnable task = () -> backgroundLabel.setIcon(getImageIcon());
         randomPicture.scheduleWithFixedDelay(task,0,10, TimeUnit.SECONDS);
     }
