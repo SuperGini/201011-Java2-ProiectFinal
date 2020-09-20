@@ -3,6 +3,7 @@ package client.gui.frame;
 import AppPackage.AnimationClass;
 import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
+import client.gui.label.pages.LeftButtonPage;
 import client.gui.label.pages.LoginPage;
 import client.gui.label.pages.RegisterPage;
 import client.gui.panel.HorizontalTransparentPanel;
@@ -28,7 +29,8 @@ public class MainFrame extends JFrame {
     private JLabel backgroundLabel;
     private LoginPage loginPage;
     private RegisterPage registerPage;
-    private MovingLabel upperLabel, lowerLabel, leftLabel;
+    private MovingLabel upperLabel, lowerLabel;
+    private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
 
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
@@ -49,6 +51,7 @@ public class MainFrame extends JFrame {
         moveLAbelLeft();
         initUpperLabelAndPanel();
         initLowerLabelAndPanel();
+        initLeftButtonPage();
 
         changeFocus();
         setVisible(true);
@@ -142,6 +145,14 @@ public class MainFrame extends JFrame {
 
     }
 
+    private void initLeftButtonPage(){
+        leftButtonPage = new LeftButtonPage(0,75,200,650);
+        backgroundLabel.add(leftButtonPage);
+    }
+
+
+
+
 
 
 
@@ -208,9 +219,9 @@ public class MainFrame extends JFrame {
 
                 super.windowGainedFocus(e);
                 System.out.println("Focus");
-                upperPanel.setColor1(Color.RED);
+                upperPanel.setColor1(new Color(0,175,0,80));
                 upperPanel.repaint();
-                lowerPanel.setColor1(Color.RED);
+                lowerPanel.setColor1(new Color(0,175,0,80));
                 lowerPanel.repaint();
 
             }
@@ -219,9 +230,9 @@ public class MainFrame extends JFrame {
             public void windowLostFocus(WindowEvent e) {
                 super.windowLostFocus(e);
                 System.out.println("no focus");
-                upperPanel.setColor1(Color.orange);
+                upperPanel.setColor1(new Color(175,0,0,80));
                 upperPanel.repaint(); // ca sa repicteze panoul cu noua culoare altfel remane vechea culoare
-                lowerPanel.setColor1(Color.orange);
+                lowerPanel.setColor1(new Color(175,0,0,80));
                 lowerPanel.repaint();
             }
         });
