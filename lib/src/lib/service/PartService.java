@@ -14,5 +14,7 @@ public interface PartService extends Remote {
 
     PartDto findPartByName(String name) throws RemoteException;
 
+    int increasePartCount(int count, String partName) throws RemoteException;
+
     Collection<PartDto> findAllParts() throws RemoteException;
 }

@@ -4,6 +4,7 @@ import server.dao.PartDao;
 import server.model.autovehicle.Part;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.Optional;
@@ -37,7 +38,20 @@ public class PartDaoImpl implements PartDao {
        TypedQuery<Part> query = entityManager.createNamedQuery("Part.findByName",Part.class);
        query.setParameter("partName", partName);
        return query.getResultStream().findFirst();
+    }
 
+    @Override
+    public int increasePartCount(int count, String partName){
+        entityManager.getTransaction().begin();
+
+        Query query = entityManager.createQuery("UPDATE Part p SET p.count = p.count + :increment WHERE p.partName = : partName");
+        query.setParameter("increment", count);
+        query.setParameter("partName",partName);
+        int rows = query.executeUpdate();
+
+        entityManager.getTransaction().commit();
+
+        return rows;
     }
 
     @Override

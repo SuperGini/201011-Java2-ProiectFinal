@@ -15,6 +15,7 @@ public class PartPage extends JLabel {
     private JTextField partField;
     private JTextField priceField;
     private JTextField countField;
+    private JButton updatePartCount;
 
     private JPanel transparentPanel;
 
@@ -28,6 +29,7 @@ public class PartPage extends JLabel {
         initCountField();
         initPartLabels();
         createPartButton();
+        initUpdatePartCountButton();
     }
 
     private void initTransparentPanel(){
@@ -73,6 +75,14 @@ public class PartPage extends JLabel {
         createPartButton.addActionListener(ev -> createPart());
     }
 
+    private void initUpdatePartCountButton(){
+        updatePartCount = new JButton("Update count number");
+        updatePartCount.setBounds(30,250,190,30);
+        transparentPanel.add(updatePartCount);
+
+        updatePartCount.addActionListener(ev ->updatePartNumber());
+    }
+
 
 
 
@@ -107,12 +117,29 @@ public class PartPage extends JLabel {
                 JOptionPane.showMessageDialog(null, "The part is allreary in the warehouse");
             }
 
-
         }catch(NumberFormatException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Wrong format for the price or count");
         }
+    }
 
+
+    private void updatePartNumber(){
+        try{
+
+            int count = Integer.parseInt(countField.getText());
+            String partName = partField.getText();
+
+            if(PartController.getInstance().increasePartCount(count, partName) > 0){
+                JOptionPane.showMessageDialog(null, "The count for this part was updated");
+            }else{
+                JOptionPane.showMessageDialog(null, "This part does not exist in the warehouse");
+            }
+
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Wrong format for count, it has to be of type int");
+        }
     }
 
 

@@ -55,13 +55,15 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
     }
 
     @Override
-    public Collection<PartDto> findAllParts(){
-        return partDao.findAllParts().stream()
-                                .map(PartConvertor::convert)
-                                .collect(Collectors.toSet());
-
+    public int increasePartCount(int count, String partName){
+           return partDao.increasePartCount(count, partName);
     }
 
+    @Override
+    public Collection<PartDto> findAllParts() {
+        return partDao.findAllParts().stream()
+                .map(PartConvertor::convert)
+                .collect(Collectors.toSet());
 
-
+    }
 }
