@@ -19,8 +19,7 @@ public class Vehicle {
 
     private String serialNumber;
 
-    public Vehicle(int id, String vehicleName, String serialNumber) {
-        this.id = id;
+    public Vehicle(String vehicleName, String serialNumber) {
         this.vehicleName = vehicleName;
         this.serialNumber = serialNumber;
     }

@@ -163,10 +163,12 @@ public class CreateClientAndVehiclePage extends JLabel {
                                vehicleDto.setVehicleName(brandField.getText());
 
                                personDto.setVehicleDtos(Set.of(vehicleDto));
+                             //  vehicleDto.setClient(personDto);
 
 
 
                    if(!PersonController.getInstance().createPerson(personDto)){
+                    //   VehicleController.getInstance().createVehicle(vehicleDto);
                        JOptionPane.showMessageDialog(null, "Person created!");
                    }else{
                        JOptionPane.showMessageDialog(null, "Person is allready created!");

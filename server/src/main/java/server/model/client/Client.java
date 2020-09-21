@@ -4,6 +4,7 @@ import server.model.autovehicle.ServiceOrder;
 import server.model.autovehicle.Vehicle;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,7 +26,7 @@ public class Client {
     private Collection<Vehicle> vehicles = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
-    private Collection<ServiceOrder> serviceOrders = new HashSet<>();
+    private Collection<ServiceOrder> serviceOrders = new ArrayList<>();
 
     public int getId() {
         return id;

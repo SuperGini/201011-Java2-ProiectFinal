@@ -1,6 +1,10 @@
 package lib.dto.autovehicle;
 
+import lib.dto.client.ClientDto;
+
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class VehicleDto implements Serializable {
 
@@ -9,6 +13,12 @@ public class VehicleDto implements Serializable {
     private String vehicleName;
 
     private String serialNumber;
+
+
+    private ClientDto client;
+
+
+    private Collection<ServiceOrderDto> serviceOrders  = new HashSet<>();
 
     public VehicleDto(int id, String vehicleName, String serialNumber) {
         this.id = id;
@@ -41,5 +51,21 @@ public class VehicleDto implements Serializable {
 
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public ClientDto getClient() {
+        return client;
+    }
+
+    public void setClient(ClientDto client) {
+        this.client = client;
+    }
+
+    public Collection<ServiceOrderDto> getServiceOrders() {
+        return serviceOrders;
+    }
+
+    public void setServiceOrders(Collection<ServiceOrderDto> serviceOrders) {
+        this.serviceOrders = serviceOrders;
     }
 }

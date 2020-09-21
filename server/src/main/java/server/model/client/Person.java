@@ -1,7 +1,11 @@
 package server.model.client;
 
+import server.model.autovehicle.ServiceOrder;
+import server.model.autovehicle.Vehicle;
+
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -40,10 +44,19 @@ public class Person extends Client{
             return this;
         }
 
+        public Builder setVehicle(Collection<Vehicle> vehicle){
+            person.setVehicles(vehicle);
+            return this;
+        }
+
+        public Builder setServiceOrder(Collection<ServiceOrder> serviceOrders){
+            person.setServiceOrders(serviceOrders);
+            return this;
+        }
+
         public Person build(){
             return person;
         }
-
     }
 
 

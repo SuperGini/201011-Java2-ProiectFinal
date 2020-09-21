@@ -29,17 +29,22 @@ public class PersonConvertor {
                                ));
                             });
 
+
         return personDto;
     }
 
 
     public static Person convert(PersonDto personDto){
 
+
         Person person = new Person.Builder()
-                        .setId(personDto.getId())
                         .setCnp(personDto.getCnp())
                         .setName(personDto.getName())
                         .build();
+
+
+
+
 
 
         Optional.ofNullable(personDto.getAdress())
