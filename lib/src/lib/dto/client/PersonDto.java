@@ -1,13 +1,15 @@
 package lib.dto.client;
 
-public class PersonDto extends ClientDto{
+import java.io.Serializable;
+
+public class PersonDto extends ClientDto {
 
     private String cnp;
 
     public PersonDto() {
     }
 
-    public static class Builder{
+    public static class Builder implements Serializable{
         private PersonDto instance = new PersonDto();
 
 

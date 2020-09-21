@@ -30,7 +30,7 @@ public class CompanyServiceImpl extends UnicastRemoteObject implements lib.servi
         Optional<Company> optionalCompany = companyDao.findCompanyByName(company.getName());
 
         if(optionalCompany.isEmpty()){
-            companyDao.createCompany(company);
+           return companyDao.createCompany(company);
         }
 
         throw new IllegalArgumentException();

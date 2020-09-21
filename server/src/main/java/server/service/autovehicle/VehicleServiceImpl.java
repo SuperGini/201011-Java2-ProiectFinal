@@ -30,13 +30,13 @@ public class VehicleServiceImpl extends UnicastRemoteObject implements lib.servi
 
         Optional<Vehicle> optionalVehicle = vehicleDao.findBySerialNumber(vehicle.getSerialNumber());
 
-        if(optionalVehicle.isEmpty()){
-            vehicleDao.createVehicle(vehicle);
-
+        if(optionalVehicle.isEmpty()) {
+            return vehicleDao.createVehicle(vehicle);
         }
 
-        throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
     }
+
 
     @Override
     public VehicleDto findById(int id){

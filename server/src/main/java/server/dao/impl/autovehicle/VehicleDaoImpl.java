@@ -30,7 +30,7 @@ public class VehicleDaoImpl implements VehicleDao {
 
     @Override
     public Optional<Vehicle> findBySerialNumber(String serialNumber){
-        String sql ="SELECT v FROM Vehicle v  WHERE v.serialNumber := serialNumber";
+        String sql ="SELECT v FROM Vehicle v  WHERE v.serialNumber = :serialNumber";
 
         var query = entityManager.createQuery(sql, Vehicle.class);
         query.setParameter("serialNumber", serialNumber);

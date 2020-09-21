@@ -7,14 +7,16 @@ import server.dao.impl.client.PersonDaoImpl;
 import server.model.client.Person;
 
 import javax.persistence.Persistence;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class PersonServiceImpl implements lib.service.PersonService {
+public class PersonServiceImpl extends UnicastRemoteObject implements lib.service.PersonService {
 
     private PersonDao personDao;
 
-    public PersonServiceImpl() {
+    public PersonServiceImpl() throws RemoteException {
         var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");
         var entityManager = entityManagerFactory.createEntityManager();
 
@@ -28,7 +30,7 @@ public class PersonServiceImpl implements lib.service.PersonService {
         Optional<Person> optionalPerson = personDao.findPersonByName(person.getName());
 
          if(optionalPerson.isEmpty()){
-             personDao.createPerson(person);
+            return personDao.createPerson(person);
          }
 
          throw new IllegalArgumentException();

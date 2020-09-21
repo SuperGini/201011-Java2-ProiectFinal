@@ -155,12 +155,12 @@ public class MainFrame extends JFrame {
     }
 
     private void initCreateClientAndVehiclePage(){
-        clientAndVehiclePage = new CreateClientAndVehiclePage(1200,0,1200,800);
+        clientAndVehiclePage = new CreateClientAndVehiclePage(0,0,1200,800);
         backgroundLabel.add(clientAndVehiclePage);
     }
 
     private void initPartPage(){
-        partPage = new PartPage(0,0,1200,800);
+        partPage = new PartPage(1200,0,1200,800);
         backgroundLabel.add(partPage);
     }
 

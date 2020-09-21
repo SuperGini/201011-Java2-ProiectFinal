@@ -10,6 +10,8 @@ public class Company extends Client{
 
     private String cui;
 
+    public Company() {
+    }
 
     public static class Builder{
         private Company company = new Company();

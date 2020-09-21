@@ -69,7 +69,7 @@ public class MainServer2 {
 
      //   vehicle.setClient(em.find(Client.class, 10));
         vehicle.setSerialNumber("lopolol");
-        vehicle.setClient(p);
+       // vehicle.setClient(p);
 
 
         //=========
@@ -88,11 +88,11 @@ public class MainServer2 {
 
         em.getTransaction().begin();
     //   em.persist(parts);
-     //  em.persist(p);
+       em.persist(p);
       //  em.persist(c);
       //  em.persist(m);
       //  em.persist(parts);
-        //  em.persist(vehicle);
+          em.persist(vehicle);
 
 
         em.getTransaction().commit();

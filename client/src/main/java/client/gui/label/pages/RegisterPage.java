@@ -156,8 +156,7 @@ public class RegisterPage extends JLabel {
                 .filter(AbstractButton::isSelected)
                 .map(e -> Category.valueOf(e.getActionCommand()))
                 .findFirst()
-                .get();
-
+                .orElseThrow();
     }
 
 
