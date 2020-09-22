@@ -29,6 +29,7 @@ public class MainFrame extends JFrame {
     private RegisterPage registerPage;
     private JLabel clientAndVehiclePage;
     private JLabel partPage;
+    private JLabel accountPage;
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
@@ -50,6 +51,7 @@ public class MainFrame extends JFrame {
         initLeftButtonPage();
         initCreateClientAndVehiclePage();
         initPartPage();
+        initAccountPage();
         getPages();
        // moveLAbelLeft();
         initUpperLabelAndPanel();
@@ -155,13 +157,19 @@ public class MainFrame extends JFrame {
     }
 
     private void initCreateClientAndVehiclePage(){
-        clientAndVehiclePage = new CreateClientAndVehiclePage(0,0,1200,800);
+        clientAndVehiclePage = new CreateClientAndVehiclePage(1200,0,1200,800);
         backgroundLabel.add(clientAndVehiclePage);
     }
 
     private void initPartPage(){
         partPage = new PartPage(1200,0,1200,800);
         backgroundLabel.add(partPage);
+    }
+
+
+    private void initAccountPage(){
+        accountPage = new AccountPage(0,0,1200,800);
+        backgroundLabel.add(accountPage);
     }
 
 
