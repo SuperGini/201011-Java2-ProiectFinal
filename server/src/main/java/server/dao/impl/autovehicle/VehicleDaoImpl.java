@@ -28,6 +28,8 @@ public class VehicleDaoImpl implements VehicleDao {
         return entityManager.find(Vehicle.class, id);
     }
 
+
+
     @Override
     public Optional<Vehicle> findBySerialNumber(String serialNumber){
         String sql ="SELECT v FROM Vehicle v  WHERE v.serialNumber = :serialNumber";

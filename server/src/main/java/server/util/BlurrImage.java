@@ -18,6 +18,7 @@ public class BlurrImage {
 
         String p = Paths.get(path).getFileName().toString();
         String p1 ="./server/src/main/resources/blurredImages/" + p;
+        System.out.println("blurring image: " + p1);
 
 
         int size = 25;

@@ -12,4 +12,6 @@ public interface PersonService extends Remote {
     PersonDto findPersonById(int id) throws RemoteException;
 
     PersonDto findPersonByName(String name) throws RemoteException;
+
+
 }

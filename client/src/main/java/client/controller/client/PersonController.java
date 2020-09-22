@@ -58,6 +58,17 @@ public class PersonController implements PersonService {
         }
     }
 
+//    @Override
+//    public PersonDto findPerson(String name) {
+//        try {
+//           return personService.findPerson(name);
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
+
     private  static final class SingletonHolder{
         public  static  final  PersonController INSTANCE = new PersonController();
     }

@@ -11,9 +11,8 @@ import lib.dto.client.PersonDto;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 public class CreateClientAndVehiclePage extends JLabel {
 
@@ -27,6 +26,7 @@ public class CreateClientAndVehiclePage extends JLabel {
     private JTextField cuiAndCnpField;
     private JButton createClientButton;
     private JButton createVehicleButton;
+    private JButton findClientButton;
     private JLabel clientLabel;
     private JLabel vehicleLabel;
 
@@ -34,7 +34,12 @@ public class CreateClientAndVehiclePage extends JLabel {
     private ButtonGroup buttonGroup;
 
 
+    private PersonDto personDto;
+    private CompanyDto companyDto;
 
+
+
+        //:todo de facut cerintele pe fileduri la sfarsit -> ca sa nu fie fileduri goale cand persist auto/client
 
     private String [] clientType = {"Person", "Company"};
     private String [] clientString = {"Name:", "Cui/cnp:", "Adress:", "Street:", "Number:"};
@@ -56,6 +61,7 @@ public class CreateClientAndVehiclePage extends JLabel {
         initCreateClientButton();
         initClientLabels();
         initRadioButtons();
+        initFindClientButton();
 
         initBrandField();
         initSerialNumberField();
@@ -116,7 +122,6 @@ public class CreateClientAndVehiclePage extends JLabel {
             clientLabel.setBounds(30,150 + (i*50),100,30);
             clientLabels.add(clientLabel);
             transparentPanel.add(clientLabel);
-
         }
     }
 
@@ -145,57 +150,59 @@ public class CreateClientAndVehiclePage extends JLabel {
         createClientButton.addActionListener(ev -> {
 
             for(JRadioButton button : radioButtons){
+
+                AdressDto adressDto = new AdressDto(
+                        streetField.getText(),
+                        numberField.getText()
+                );
+
+                VehicleDto vehicleDto = new VehicleDto();
+                vehicleDto.setSerialNumber(serialNumberField.getText());
+                vehicleDto.setVehicleName(brandField.getText());
+
+
+
                 if(button.isSelected() && button.getActionCommand().equals(clientType[0])){
-                    AdressDto adressDto = new AdressDto(
-                            streetField.getText(),
-                            numberField.getText()
-                    );
+
 
                     PersonDto personDto = new PersonDto.Builder()
                                         .setAdresaDto(adressDto)
                                         .setCnpDto(cuiAndCnpField.getText())
                                         .setNameDto(nameField.getText())
                                         .build();
-
-
-                    VehicleDto vehicleDto = new VehicleDto();
-                               vehicleDto.setSerialNumber(serialNumberField.getText());
-                               vehicleDto.setVehicleName(brandField.getText());
-
-                               personDto.setVehicleDtos(Set.of(vehicleDto));
-                             //  vehicleDto.setClient(personDto);
-
-
+                    //setez masina pe persoana -> ca s asocieze id-ul in baza de date
+                    personDto.setVehicleDtos(Set.of(vehicleDto));
 
                    if(!PersonController.getInstance().createPerson(personDto)){
-                    //   VehicleController.getInstance().createVehicle(vehicleDto);
+
                        JOptionPane.showMessageDialog(null, "Person created!");
                    }else{
                        JOptionPane.showMessageDialog(null, "Person is allready created!");
                    }
-
-
                 }
 
                 if(button.isSelected() && button.getActionCommand().equals(clientType[1])){
-                    CompanyDto companyDto = new CompanyDto();
-                    companyDto.setName(nameField.getText());
+                    CompanyDto companyDto = new CompanyDto.Builder()
+                                            .setAdressDto(adressDto)
+                                            .setCuiDto(cuiAndCnpField.getText())
+                                            .setNameDto(nameField.getText())
+                                            .build();
+                    //setez masina pe companie -> ca sa asocieze id-ul ibaza de date
+                    companyDto.setVehicleDtos(Set.of(vehicleDto));
 
-                    CompanyController.getInstance().ceateCompany(companyDto);
+                    if(!CompanyController.getInstance().ceateCompany(companyDto)){
+                        JOptionPane.showMessageDialog(null, "Company created!");
 
-
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Company is allready created");
+                    }
                 }
-
             }
-
-
-
         });
     }
 
 
     //init Vehicle side
-
     private void initBrandField(){
         brandField = new JTextField();
         brandField.setBounds(620,250,300,30);
@@ -210,16 +217,13 @@ public class CreateClientAndVehiclePage extends JLabel {
 
     private void initVehicleLabes(){
 
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 2; i++) {
             vehicleLabel = new JLabel(vehicleString[i]);
-            vehicleLabel.setBounds(525,250 + (i*50), 100,30);
+            vehicleLabel.setBounds(525, 250 + (i * 50), 100, 30);
 
             vehicleLabels.add(vehicleLabel);
             transparentPanel.add(vehicleLabel);
-
-
         }
-
     }
 
 
@@ -233,19 +237,109 @@ public class CreateClientAndVehiclePage extends JLabel {
         transparentPanel.add(createVehicleButton);
 
         createVehicleButton.addActionListener(ev -> {
-            VehicleDto vehicleDto = new VehicleDto();
-            vehicleDto.setSerialNumber(serialNumberField.getText());
-            vehicleDto.setVehicleName(brandField.getText());
 
-            VehicleController.getInstance().createVehicle(vehicleDto);
+            try {
+
+                VehicleDto vehicleDto = new VehicleDto();
+                vehicleDto.setVehicleName(brandField.getText());
+                vehicleDto.setSerialNumber(serialNumberField.getText());
+                Set<VehicleDto> vehicleDtos = new HashSet<>();
+                vehicleDtos.add(vehicleDto);
 
 
+                for (JRadioButton button : radioButtons) {
+                    if (button.isSelected() && button.getActionCommand().equals(clientType[0])) {
+                        Optional.ofNullable(personDto)
+                                .ifPresentOrElse(s->s.setVehicleDtos(vehicleDtos),
+                                        this::task);
+                        vehicleDto.setClientDto(personDto);
+                    }
+                }
 
+                for (JRadioButton button : radioButtons) {
+                    if (button.isSelected() && button.getActionCommand().equals(clientType[1])) {
+                        Optional.ofNullable(companyDto)
+                                .ifPresentOrElse(s->s.setVehicleDtos(vehicleDtos),
+                                        this::task);
+                        vehicleDto.setClientDto(companyDto);
+                    }
+                }
+
+
+               if(!VehicleController.getInstance().createVehicle(vehicleDto)){
+                   JOptionPane.showMessageDialog(null, "Vehicle added to client");
+               }
+
+            }catch(IllegalArgumentException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Serial number is allready in the database");
+            }
+            catch(NullPointerException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Find the client first in the database then create the vehicle");
+
+            }
 
         });
     }
 
+    public void task(){
+        throw new NullPointerException();
+    }
 
+    private void initFindClientButton(){
+        findClientButton = new JButton("Find Client");
+        findClientButton.setBounds(350,500,395,30);
+        findClientButton.setBackground(Color.CYAN);
+        transparentPanel.add(findClientButton);
 
+        findClientButton.addActionListener(ev ->{
 
+            if(!radioButtons.get(0).isSelected() && !radioButtons.get(1).isSelected() ){
+                JOptionPane.showMessageDialog(null, "Plese select Person or Company to find by");
+                return;
+            }
+
+            for(JRadioButton button : radioButtons){
+
+                if(button.isSelected() && button.getActionCommand().equals(clientType[0])){
+
+                    try{
+
+                        personDto = PersonController.getInstance().findPersonByName(nameField.getText());
+
+                        nameField.setText(personDto.getName());
+                        cuiAndCnpField.setText(personDto.getCnp());
+                        streetField.setText(personDto.getAdress().getStreet());
+                        numberField.setText(personDto.getAdress().getNumber());
+                        System.out.println(personDto.getId());
+
+                    }catch(NoSuchElementException e){
+                        JOptionPane.showMessageDialog(null, "Plese select Company to find");
+                        e.printStackTrace();
+
+                    }
+
+                }
+
+                if(button.isSelected() && button.getActionCommand().equals(clientType[1])) {
+
+                    try{
+                        companyDto = CompanyController.getInstance().findCompanyByName(nameField.getText());
+
+                        nameField.setText(companyDto.getName());
+                        cuiAndCnpField.setText(companyDto.getCui());
+                        streetField.setText(companyDto.getAdress().getStreet());
+                        numberField.setText(companyDto.getAdress().getNumber());
+                        System.out.println(companyDto.getId());
+
+                    }catch(NoSuchElementException e){
+                        JOptionPane.showMessageDialog(null, "Plese select Person to find");
+                        e.printStackTrace();
+
+                    }
+                }
+            }
+        });
+    }
 }

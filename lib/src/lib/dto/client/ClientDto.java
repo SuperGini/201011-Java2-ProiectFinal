@@ -16,9 +16,11 @@ public class ClientDto implements Serializable {
 
     private AdressDto adress;
 
+
     private Collection<VehicleDto> vehicleDtos = new HashSet<>();
 
     private Collection<ServiceOrderDto> serviceOrderDtos = new ArrayList<>();
+
 
 
 

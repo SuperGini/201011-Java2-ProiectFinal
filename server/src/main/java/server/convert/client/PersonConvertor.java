@@ -25,10 +25,9 @@ public class PersonConvertor {
                             .ifPresent(adress ->{
                                personDto.setAdress( new AdressDto(
                                        adress.getStreet(),
-                                       adress.getStreet()
+                                       adress.getNumber()
                                ));
                             });
-
 
         return personDto;
     }
@@ -38,13 +37,10 @@ public class PersonConvertor {
 
 
         Person person = new Person.Builder()
+                        .setId(personDto.getId()) //aici am adaugat
                         .setCnp(personDto.getCnp())
                         .setName(personDto.getName())
                         .build();
-
-
-
-
 
 
         Optional.ofNullable(personDto.getAdress())

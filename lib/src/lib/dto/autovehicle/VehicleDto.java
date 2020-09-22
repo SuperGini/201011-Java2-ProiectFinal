@@ -15,7 +15,7 @@ public class VehicleDto implements Serializable {
     private String serialNumber;
 
 
-    private ClientDto client;
+   private ClientDto clientDto;
 
 
     private Collection<ServiceOrderDto> serviceOrders  = new HashSet<>();
@@ -53,12 +53,29 @@ public class VehicleDto implements Serializable {
         this.serialNumber = serialNumber;
     }
 
-    public ClientDto getClient() {
-        return client;
+//    public PersonDto getPersonDto() {
+//        return personDto;
+//    }
+//
+//    public void setPersonDto(PersonDto personDto) {
+//        this.personDto = personDto;
+//    }
+//
+//    public CompanyDto getCompanyDto() {
+//        return companyDto;
+//    }
+//
+//    public void setCompanyDto(CompanyDto companyDto) {
+//        this.companyDto = companyDto;
+//    }
+
+
+    public ClientDto getClientDto() {
+        return clientDto;
     }
 
-    public void setClient(ClientDto client) {
-        this.client = client;
+    public void setClientDto(ClientDto clientDto) {
+        this.clientDto = clientDto;
     }
 
     public Collection<ServiceOrderDto> getServiceOrders() {

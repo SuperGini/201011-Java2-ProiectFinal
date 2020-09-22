@@ -11,5 +11,9 @@ public interface PersonDao {
     Person findPersonById(int id);
 
 
+    Person mergePerson(Person person);
+
     Optional<Person> findPersonByName(String name);
+
+
 }

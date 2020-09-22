@@ -31,13 +31,24 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
+    public Person mergePerson(Person person){
+        return entityManager.merge(person);
+
+    }
+
+    @Override
     public Optional<Person> findPersonByName(String name){
         TypedQuery<Person> query = entityManager.createNamedQuery("Person.findByName",Person.class);
 
         query.setParameter("name", name);
 
-        return query.getResultStream().findFirst();
+        Optional<Person> person = query.getResultStream().findFirst();
 
+        return person;
     }
+
+
+
+
 
 }

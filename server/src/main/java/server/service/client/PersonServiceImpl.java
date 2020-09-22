@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl extends UnicastRemoteObject implements lib.service.PersonService {
 
     private PersonDao personDao;
-  //  private VehicleDao vehicleDao;
+
 
     public PersonServiceImpl() throws RemoteException {
         var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");
         var entityManager = entityManagerFactory.createEntityManager();
 
         personDao = new PersonDaoImpl(entityManager);
-     //   vehicleDao = new VehicleDaoImpl(entityManager);
+
     }
 
     @Override
@@ -57,9 +57,10 @@ public class PersonServiceImpl extends UnicastRemoteObject implements lib.servic
     @Override
     public PersonDto findPersonByName(String name){
 
-       return personDao.findPersonByName(name)
+        return personDao.findPersonByName(name)
                 .map(PersonConvertor::convert)
                 .orElseThrow(NoSuchElementException::new);
+
 
     }
 

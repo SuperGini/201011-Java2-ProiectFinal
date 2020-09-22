@@ -22,6 +22,7 @@ public class Client {
     @Embedded
     private Adress adress;
 
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
     private Collection<Vehicle> vehicles = new HashSet<>();
 

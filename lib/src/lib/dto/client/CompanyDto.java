@@ -4,7 +4,6 @@ public class CompanyDto extends ClientDto{
 
     private String cui;
 
-
     public static class Builder{
         private CompanyDto companyDto = new CompanyDto();
 
@@ -35,8 +34,6 @@ public class CompanyDto extends ClientDto{
 
     }
 
-
-
     public String getCui() {
         return cui;
     }
@@ -44,6 +41,5 @@ public class CompanyDto extends ClientDto{
     public void setCui(String cui) {
         this.cui = cui;
     }
-
 
 }
