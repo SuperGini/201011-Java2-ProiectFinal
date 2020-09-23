@@ -30,6 +30,7 @@ public class MainFrame extends JFrame {
     private JLabel clientAndVehiclePage;
     private JLabel partPage;
     private JLabel accountPage;
+    private JLabel createOrderPage;
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
@@ -52,6 +53,7 @@ public class MainFrame extends JFrame {
         initCreateClientAndVehiclePage();
         initPartPage();
         initAccountPage();
+        initCreateOrderPage();
         getPages();
        // moveLAbelLeft();
         initUpperLabelAndPanel();
@@ -168,8 +170,13 @@ public class MainFrame extends JFrame {
 
 
     private void initAccountPage(){
-        accountPage = new AccountPage(0,0,1200,800);
+        accountPage = new AccountPage(1200,0,1200,800);
         backgroundLabel.add(accountPage);
+    }
+
+    private void initCreateOrderPage(){
+        createOrderPage = new CreateOrderPage(0,0,1200,800);
+        backgroundLabel.add(createOrderPage);
     }
 
 
