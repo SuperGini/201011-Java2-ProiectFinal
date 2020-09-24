@@ -33,10 +33,6 @@ public class ServiceOrder {
     @ManyToOne
     private Client client;
 
-    public Client getClient() {
-        return client;
-    }
-
     @ManyToOne
     private User user;
 
@@ -57,6 +53,10 @@ public class ServiceOrder {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     public void setClient(Client client) {

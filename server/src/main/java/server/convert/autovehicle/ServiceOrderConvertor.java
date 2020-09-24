@@ -9,18 +9,27 @@ public class ServiceOrderConvertor {
     }
 
     public static ServiceOrderDto convert(ServiceOrder serviceOrder){
-        return new ServiceOrderDto(
-                serviceOrder.getId(),
-                serviceOrder.getTotal(),
-                serviceOrder.getTimeStamp()
+        ServiceOrderDto serviceOrderDto = new ServiceOrderDto(
+                                              serviceOrder.getId(),
+                                              serviceOrder.getTotal(),
+                                              serviceOrder.getTimeStamp()
         );
+
+        serviceOrderDto.setCarProblems(serviceOrder.getCarProblems());
+
+        return serviceOrderDto;
+
     }
 
     public static ServiceOrder convert(ServiceOrderDto serviceOrderDto){
-        return new ServiceOrder(
+        ServiceOrder serviceOrder =  new ServiceOrder(
                 serviceOrderDto.getId(),
                 serviceOrderDto.getTotal(),
                 serviceOrderDto.getTimeStamp()
         );
+
+        serviceOrder.setCarProblems(serviceOrderDto.getCarProblems());
+
+        return serviceOrder;
     }
 }

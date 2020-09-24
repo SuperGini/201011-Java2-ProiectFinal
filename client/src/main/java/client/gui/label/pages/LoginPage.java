@@ -89,7 +89,7 @@ public class LoginPage extends JLabel {
              if(UserController.getInstance()
                      .loginWithUsername(usernameField.getText(), new String(passwordField.getPassword()))){
 
-                 JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
+               //  JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
                 return true;
              }
 

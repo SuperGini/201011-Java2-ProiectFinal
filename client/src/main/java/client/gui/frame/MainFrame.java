@@ -239,7 +239,7 @@ public class MainFrame extends JFrame {
             }
         }
     }
-    
+
 
     private void moveLoginPageRaightAndLeftButtonPageRaight(){
         slideEfect.jLabelXRight(-200,0,2, 4,leftButtonPage);
