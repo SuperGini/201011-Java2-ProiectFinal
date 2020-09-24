@@ -5,6 +5,7 @@ import lib.service.ClientService;
 import server.convert.client.CleintConvertor;
 import server.dao.ClientDao;
 import server.dao.impl.client.ClientDaoImpl;
+import server.model.client.Client;
 
 import javax.persistence.Persistence;
 import java.rmi.RemoteException;
@@ -29,4 +30,5 @@ public class ClientServiceImpl extends UnicastRemoteObject implements ClientServ
                     .map(CleintConvertor::convert)
                     .orElseThrow(NoSuchElementException::new);
     }
+
 }

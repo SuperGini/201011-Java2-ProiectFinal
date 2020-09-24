@@ -24,7 +24,11 @@ public class ClientDaoImpl implements server.dao.ClientDao {
 
         return query.getResultStream().findFirst();
 
+    }
 
+    @Override
+    public Client findClientById(int id){
+            return entityManager.find(Client.class, id);
     }
 
 }

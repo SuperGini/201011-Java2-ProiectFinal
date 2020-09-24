@@ -9,11 +9,13 @@ public class ServiceOrderConvertor {
     }
 
     public static ServiceOrderDto convert(ServiceOrder serviceOrder){
+
         ServiceOrderDto serviceOrderDto = new ServiceOrderDto(
                                               serviceOrder.getId(),
                                               serviceOrder.getTotal()
 
         );
+
 
         serviceOrderDto.setCarProblems(serviceOrder.getCarProblems());
 
@@ -28,7 +30,9 @@ public class ServiceOrderConvertor {
 
         );
 
+
         serviceOrder.setCarProblems(serviceOrderDto.getCarProblems());
+
 
         return serviceOrder;
     }

@@ -32,4 +32,12 @@ public class ClientController implements ClientService {
             throw new RuntimeException(e);
         }
     }
+
+    private static final class SingletonHolder{
+        public static final ClientController INSTANCE = new ClientController();
+    }
+
+    public static ClientController getInstance(){
+       return SingletonHolder.INSTANCE;
+    }
 }

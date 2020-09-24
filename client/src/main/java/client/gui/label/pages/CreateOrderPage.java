@@ -1,12 +1,18 @@
 package client.gui.label.pages;
 
+import client.controller.autovehicle.ServiceOrderController;
+import client.controller.autovehicle.VehicleController;
+import client.controller.client.ClientController;
+import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.autovehicle.VehicleDto;
+import lib.dto.client.ClientDto;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreateOrderPage extends JLabel {
@@ -36,14 +42,20 @@ public class CreateOrderPage extends JLabel {
 
     private DefaultListModel<ServiceOrderDto> listServiceOrderModel= new DefaultListModel<>();
     private DefaultListModel<PartDto> listPartModel = new DefaultListModel<>();
-    private DefaultTableModel  tableModel;
+    private DefaultListModel<String> listProblemModel = new DefaultListModel<>();
+
     private JScrollPane scrollPane;
 
     private String [] label = {"Order:", "User:", "Client:", "Brand:", "Serial:"};
     private List<JLabel> genericLabels = new ArrayList<>();
+  // private DefaultTableModel  tableModel;
+
+    private ClientDto clientDto;
+    private VehicleDto vehicleDto;
+
 
     public CreateOrderPage(int x, int y, int width, int height) {
-        tableModel = new DefaultTableModel();
+     //   tableModel = new DefaultTableModel();
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initCarProblemLabel();
@@ -98,9 +110,13 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void intiCarProblemArea(){
+
         carProblemArea = new JTextArea();
         carProblemArea.setBounds(115,50,300,400);
-        transparentPanel.add(carProblemArea);
+
+        JScrollPane scrollPane = new JScrollPane(carProblemArea);
+        scrollPane.setBounds(115,50,300,400);
+        transparentPanel.add(scrollPane);
     }
 
     private void initAddProblemField(){
@@ -113,6 +129,15 @@ public class CreateOrderPage extends JLabel {
         addProblemButton = new JButton("add problem");
         addProblemButton.setBounds(115,500,300,30);
         transparentPanel.add(addProblemButton);
+
+        addProblemButton.addActionListener(ev -> {
+            carProblemArea.append(addProblemField.getText());
+
+
+
+        });
+
+
     }
 
     private void initPartList(){
@@ -234,12 +259,35 @@ public class CreateOrderPage extends JLabel {
         findClientButton = new JButton("find client");
         findClientButton.setBounds(430,380,200,30);
         transparentPanel.add(findClientButton);
+
+        findClientButton.addActionListener( ev -> {
+
+            clientDto = ClientController.getInstance().findClientByName(findField.getText());
+            clientLabel.setText(clientDto.getName());
+
+        });
+
+
+
+
     }
 
+    //todo: de aici pot sa scot si clientul dupa id de vazut cum fac asta ca sa nu mai fac un find de client.
+    //todo: de vazut cum fac un obiect combinat
     private void initFindCarButton(){
         findCarButton = new JButton("find car serial");
         findCarButton.setBounds(430,420,200,30);
         transparentPanel.add(findCarButton);
+
+        findCarButton.addActionListener( ev -> {
+            vehicleDto = VehicleController.getInstance().findBySerialNumber(findField.getText());
+            brandLabel.setText(vehicleDto.getVehicleName());
+            serialLabel.setText(vehicleDto.getSerialNumber());
+
+
+
+        });
+
     }
 
     private void findPartButton(){
@@ -252,6 +300,32 @@ public class CreateOrderPage extends JLabel {
         createOrderButton = new JButton("create order");
         createOrderButton.setBounds(430,500,200,30);
         transparentPanel.add(createOrderButton);
+
+        createOrderButton.addActionListener(ev ->{
+
+            ServiceOrderDto serviceOrderDto = new ServiceOrderDto();
+
+            serviceOrderDto.setIdClient(clientDto.getId());
+            serviceOrderDto.setIdVehicul(vehicleDto.getId());
+            serviceOrderDto.setIdUsername(
+                    MainFrame.getInstance().getAccountPage().getUserDto().getUserId().getUserName()
+            );
+
+
+
+            String text = carProblemArea.getText();
+            String [] textLines = text.split("\n");
+            List<String> lines = Arrays.asList(textLines);
+
+            serviceOrderDto.setCarProblems(lines);
+
+            ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto);
+
+
+
+        });
+
+
     }
 
     public JLabel getOrderLabel() {
@@ -292,5 +366,53 @@ public class CreateOrderPage extends JLabel {
 
     public void setSerialLabel(JLabel serialLabel) {
         this.serialLabel = serialLabel;
+    }
+
+    public JButton getAddProblemButton() {
+        return addProblemButton;
+    }
+
+    public void setAddProblemButton(JButton addProblemButton) {
+        this.addProblemButton = addProblemButton;
+    }
+
+    public JButton getFindPartButton() {
+        return findPartButton;
+    }
+
+    public void setFindPartButton(JButton findPartButton) {
+        this.findPartButton = findPartButton;
+    }
+
+    public JButton getAddPartToOrderButton() {
+        return addPartToOrderButton;
+    }
+
+    public void setAddPartToOrderButton(JButton addPartToOrderButton) {
+        this.addPartToOrderButton = addPartToOrderButton;
+    }
+
+    public JButton getFindClientButton() {
+        return findClientButton;
+    }
+
+    public void setFindClientButton(JButton findClientButton) {
+        this.findClientButton = findClientButton;
+    }
+
+    public JButton getFindCarButton() {
+        return findCarButton;
+    }
+
+    public void setFindCarButton(JButton findCarButton) {
+        this.findCarButton = findCarButton;
+    }
+
+    public JButton getCreateOrderButton() {
+        return createOrderButton;
+    }
+
+    public void setCreateOrderButton(JButton createOrderButton) {
+        this.createOrderButton = createOrderButton;
     }
 }

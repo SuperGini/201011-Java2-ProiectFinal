@@ -5,6 +5,8 @@ import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
+import lib.dto.autovehicle.VehicleDto;
+import lib.dto.client.ClientDto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +45,8 @@ public class MainFrame extends JFrame {
 
     private int poitX = 1800;
 
-
+    private ClientDto clientDto;
+    private VehicleDto vehicleDto;
 
 
     private MainFrame(){

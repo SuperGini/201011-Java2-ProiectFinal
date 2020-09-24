@@ -21,9 +21,17 @@ public class ServiceOrderDto implements Serializable {
 
     private Collection<PartDto> parts = new HashSet<>();
 
+    private VehicleDto vehicleDtos;
+
     private UserDto userDto;
 
     private ClientDto clientDto;
+
+    private String idUsername;
+
+    private int idClient;
+
+    private int idVehicul;
 
     public ServiceOrderDto(int id, double total) {
         this.id = id;
@@ -52,13 +60,6 @@ public class ServiceOrderDto implements Serializable {
         this.total = total;
     }
 
-//    public Instant getTimeStamp() {
-//        return timeStamp;
-//    }
-//
-//    public void setTimeStamp(Instant timeStamp) {
-//        this.timeStamp = timeStamp;
-//    }
 
     public List<String> getCarProblems() {
         return carProblems;
@@ -90,5 +91,38 @@ public class ServiceOrderDto implements Serializable {
 
     public void setClientDto(ClientDto clientDto) {
         this.clientDto = clientDto;
+    }
+
+    public VehicleDto getVehicleDtos() {
+        return vehicleDtos;
+    }
+
+    public void setVehicleDtos(VehicleDto vehicleDtos) {
+        this.vehicleDtos = vehicleDtos;
+    }
+
+
+    public String getIdUsername() {
+        return idUsername;
+    }
+
+    public void setIdUsername(String idUsername) {
+        this.idUsername = idUsername;
+    }
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
+    }
+
+    public int getIdVehicul() {
+        return idVehicul;
+    }
+
+    public void setIdVehicul(int idVehicul) {
+        this.idVehicul = idVehicul;
     }
 }

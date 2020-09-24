@@ -60,7 +60,7 @@ public class ServiceOrderController implements ServiceOrderService {
         public static final ServiceOrderController INSTANCE = new ServiceOrderController();
     }
 
-    private static ServiceOrderController getInstance(){
+    public static ServiceOrderController getInstance(){
         return SingeltonHolder.INSTANCE;
     }
 }
