@@ -3,6 +3,7 @@ package server;
 import server.service.autovehicle.PartServiceImpl;
 import server.service.autovehicle.ServiceOrderServiceImpl;
 import server.service.autovehicle.VehicleServiceImpl;
+import server.service.client.ClientServiceImpl;
 import server.service.client.CompanyServiceImpl;
 import server.service.client.PersonServiceImpl;
 import server.service.media.PictureServiceImpl;
@@ -37,6 +38,7 @@ public class MainServer {
             registry.rebind("personService", new PersonServiceImpl());
             registry.rebind("companyService", new CompanyServiceImpl());
             registry.rebind("serviceOrder", new ServiceOrderServiceImpl());
+            registry.rebind("clientService", new ClientServiceImpl());
 
         } catch (RemoteException e) {
             e.printStackTrace();

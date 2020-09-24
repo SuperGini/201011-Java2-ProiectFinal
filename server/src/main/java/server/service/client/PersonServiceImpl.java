@@ -30,7 +30,7 @@ public class PersonServiceImpl extends UnicastRemoteObject implements lib.servic
     }
 
     @Override
-    public boolean createPerson(PersonDto personDto){
+    public boolean createPerson(PersonDto personDto) throws RemoteException{
 
         Person person = PersonConvertor.convert(personDto);
 
@@ -50,7 +50,7 @@ public class PersonServiceImpl extends UnicastRemoteObject implements lib.servic
     }
 
     @Override
-    public PersonDto findPersonById(int id){
+    public PersonDto findPersonById(int id) throws RemoteException{
         return PersonConvertor.convert(personDao.findPersonById(id));
     }
 
@@ -58,8 +58,8 @@ public class PersonServiceImpl extends UnicastRemoteObject implements lib.servic
     public PersonDto findPersonByName(String name){
 
         return personDao.findPersonByName(name)
-                .map(PersonConvertor::convert)
-                .orElseThrow(NoSuchElementException::new);
+                    .map(PersonConvertor::convert)
+                    .orElseThrow(NoSuchElementException::new);
 
 
     }

@@ -15,7 +15,7 @@ public class CleintConvertor {
                     clientDto.setName(client.getName());
 
         return clientDto;
-        
+
     }
 
     public static Client convert(ClientDto clientDto){

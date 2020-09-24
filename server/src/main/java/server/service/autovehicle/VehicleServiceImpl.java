@@ -38,7 +38,7 @@ public class VehicleServiceImpl extends UnicastRemoteObject implements lib.servi
     }
 
     @Override
-    public boolean createVehicle(VehicleDto vehicleDto){
+    public boolean createVehicle(VehicleDto vehicleDto) throws RemoteException{
 
         Vehicle vehicle = VehicleConvetor.convert(vehicleDto);
 
@@ -76,7 +76,7 @@ public class VehicleServiceImpl extends UnicastRemoteObject implements lib.servi
 
 
     @Override
-    public VehicleDto findById(int id){
+    public VehicleDto findById(int id) throws RemoteException{
         return VehicleConvetor.convert(vehicleDao.findById(id));
     }
 
@@ -89,7 +89,7 @@ public class VehicleServiceImpl extends UnicastRemoteObject implements lib.servi
     }
 
     @Override
-    public Collection<VehicleDto> findAllVehicles(){
+    public Collection<VehicleDto> findAllVehicles() throws RemoteException{
         return vehicleDao.findAllVehicles().stream()
                                 .map(VehicleConvetor::convert)
                                 .collect(Collectors.toSet());

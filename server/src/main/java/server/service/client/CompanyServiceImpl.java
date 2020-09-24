@@ -28,7 +28,7 @@ public class CompanyServiceImpl extends UnicastRemoteObject implements lib.servi
     }
 
     @Override
-    public boolean ceateCompany(CompanyDto companyDto){
+    public boolean ceateCompany(CompanyDto companyDto) throws RemoteException{
 
         Company company = CompanyConvertor.convert(companyDto);
 
@@ -49,12 +49,12 @@ public class CompanyServiceImpl extends UnicastRemoteObject implements lib.servi
     }
 
     @Override
-    public CompanyDto findById(int id){
+    public CompanyDto findById(int id) throws RemoteException{
        return CompanyConvertor.convert(companyDao.findCompanyById(id));
     }
 
     @Override
-    public CompanyDto findCompanyByName(String name){
+    public CompanyDto findCompanyByName(String name) throws RemoteException{
 
         return companyDao.findCompanyByName(name)
                 .map(CompanyConvertor::convert)

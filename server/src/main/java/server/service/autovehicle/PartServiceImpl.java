@@ -28,7 +28,7 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
     }
 
     @Override
-    public boolean createPart(PartDto partDto){
+    public boolean createPart(PartDto partDto) throws RemoteException{
         Part part = PartConvertor.convert(partDto);
 
         Optional<Part> findPart = partDao.findPartByName(part.getPartName());
@@ -41,13 +41,13 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
     }
 
     @Override
-    public PartDto findPartById(int id){
+    public PartDto findPartById(int id) throws RemoteException{
        Part part = partDao.findPartById(id);
        return PartConvertor.convert(part);
     }
 
     @Override
-    public PartDto findPartByName(String name){
+    public PartDto findPartByName(String name) throws RemoteException{
 
        return partDao.findPartByName(name)
                .map(PartConvertor::convert)
@@ -55,12 +55,12 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
     }
 
     @Override
-    public int increasePartCount(int count, String partName){
+    public int increasePartCount(int count, String partName) throws javassist.tools.rmi.RemoteException {
            return partDao.increasePartCount(count, partName);
     }
 
     @Override
-    public Collection<PartDto> findAllParts() {
+    public Collection<PartDto> findAllParts() throws RemoteException {
         return partDao.findAllParts().stream()
                 .map(PartConvertor::convert)
                 .collect(Collectors.toSet());

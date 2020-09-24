@@ -24,20 +24,20 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
     }
 
     @Override
-    public boolean createServiceOrder(ServiceOrderDto serviceOrderDto){
+    public boolean createServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException{
         ServiceOrder serviceOrder = ServiceOrderConvertor.convert(serviceOrderDto);
 
         return serviceOrderDao.createServiceOrder(serviceOrder);
     }
 
     @Override
-    public ServiceOrderDto findById(int id){
+    public ServiceOrderDto findById(int id) throws RemoteException{
         return ServiceOrderConvertor
                     .convert(serviceOrderDao.findById(id));
     }
 
     @Override
-    public Collection<ServiceOrderDto> findAll(){
+    public Collection<ServiceOrderDto> findAll() throws RemoteException{
         return serviceOrderDao.findAll()
                 .stream()
                 .map(ServiceOrderConvertor::convert)
