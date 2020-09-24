@@ -46,7 +46,7 @@ public class MainFrame extends JFrame {
 
 
 
-    public MainFrame(){
+    private MainFrame(){
 
         initFrame();
         initBackgroundLabel();
@@ -326,4 +326,13 @@ public class MainFrame extends JFrame {
     public void setRegisterPage(RegisterPage registerPage) {
         this.registerPage = registerPage;
     }
+
+    private static final class SingletonHolder{
+        public static final MainFrame INSTANCE = new MainFrame();
+    }
+
+    public static MainFrame getInstance(){
+        return SingletonHolder.INSTANCE;
+    }
+
 }
