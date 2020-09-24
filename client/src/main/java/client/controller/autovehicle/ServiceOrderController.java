@@ -14,9 +14,9 @@ public class ServiceOrderController implements ServiceOrderService {
     private ServiceOrderService serviceOrderService;
 
     public ServiceOrderController() {
-        Registry registry = null;
+
         try {
-            registry = LocateRegistry.getRegistry("localhost", 4545);
+            Registry registry = LocateRegistry.getRegistry("localhost", 4545);
             serviceOrderService = (ServiceOrderService) registry.lookup("serviceOrder");
         } catch (RemoteException e) {
             e.printStackTrace();
