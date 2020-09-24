@@ -47,9 +47,19 @@ public class UserController implements UserService{
     }
 
     @Override
-    public boolean loginWithEmailAdress(String emailAdress, String password){
+    public UserDto loginWithEmailAdress(String emailAdress, String password){
         try {
            return userService.loginWithEmailAdress(emailAdress, password);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public UserDto loginWithUsername2(String userName, String password) {
+        try {
+           return userService.loginWithUsername2(userName, password);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

@@ -1,10 +1,14 @@
 package client.gui.label.pages;
 
 import client.controller.user.UserController;
+import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
+import lib.dto.user.UserDto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class LoginPage extends JLabel {
 
@@ -15,7 +19,6 @@ public class LoginPage extends JLabel {
     private JLabel passwordLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-
 
 
     public LoginPage(int x, int y, int width, int height) {
@@ -78,24 +81,62 @@ public class LoginPage extends JLabel {
     public boolean validCredentials(){
         if(!usernameField.getText().equals("")){
 
-            if(usernameField.getText().contains("@")){ //cauta doar daca pe field e @ => email
-                if(UserController.getInstance()
-                        .loginWithEmailAdress(usernameField.getText(), new String(passwordField.getPassword()))){
-                    JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
-                    return true;
+                try{
+                    if(usernameField.getText().contains("@")){ //cauta doar daca pe field e @ => email
+
+                        UserDto userDto = UserController.getInstance()
+                                .loginWithEmailAdress(usernameField.getText(), new String(passwordField.getPassword()));
+
+                        if(Optional.ofNullable(userDto).isPresent()){
+
+                            JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
+                            setUserAndLabelsInMyAccountPage(userDto);
+
+
+                            return true;
+                        }
+                    }
+
+
+                    UserDto userDto = UserController.getInstance()
+                            .loginWithUsername2(usernameField.getText(), new String(passwordField.getPassword()));
+                    setUserAndLabelsInMyAccountPage(userDto);
+                    if(Optional.ofNullable(userDto).isPresent()){
+
+
+
+                        return true;
+                    }
+
+                }catch(NoSuchElementException e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Nu merge boss boss:D!!");
                 }
-            }
-
-             if(UserController.getInstance()
-                     .loginWithUsername(usernameField.getText(), new String(passwordField.getPassword()))){
-
-               //  JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
-                return true;
-             }
-
+        }else{
+            JOptionPane.showMessageDialog(null, "Enter credentials");
+            return false;
         }
-        JOptionPane.showMessageDialog(null, "Nu merge boss boss:D!!");
+
         return false;
+    }
+
+
+    private void setUserAndLabelsInMyAccountPage(UserDto userDto){
+
+        AccountPage accoutPage = MainFrame.getInstance().getAccountPage();
+
+        accoutPage.setUserDto(userDto);
+        accoutPage.getUserLabel().setText(userDto.getUserId().getUserName());
+        accoutPage.getEmailLabel().setText(userDto.getUserId().getEmailAdress());
+        accoutPage.getPhone1Label().setText(userDto.getPhoneNumber().get(0));
+        accoutPage.getCategoryLabel().setText(userDto.getCategory().toString());
+
+        if(userDto.getPhoneNumber().size() == 2){
+            accoutPage.getPhone1Label().setText(userDto.getPhoneNumber().get(1));
+        }
+
+        MainFrame.getInstance().getCreateOrderPage().getUserLabel().setText(userDto.getUserId().getUserName());
+
     }
 
 

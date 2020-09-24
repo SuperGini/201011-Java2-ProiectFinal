@@ -133,7 +133,7 @@ public class RegisterPage extends JLabel {
     }
 
     public boolean addUser(){
-        Set<String> phoneNumber = new HashSet<>();
+        List<String> phoneNumber = new ArrayList<>();
         UserDto userDto = new UserDto();
         UserIdDto userIdDto = new UserIdDto();
 

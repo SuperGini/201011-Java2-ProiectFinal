@@ -4,10 +4,7 @@ import lib.dto.user.Category;
 import server.model.autovehicle.ServiceOrder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @NamedQueries({
@@ -26,13 +23,13 @@ public class User {
 
     @ElementCollection
     @CollectionTable(name = "user_phoneNumber")
-    private Set<String> phoneNumber = new HashSet<>();
+    private List<String> phoneNumber = new ArrayList<>();
 
     @OneToMany
     private Collection<ServiceOrder> serviceOrders = new ArrayList<>();
 
 
-    public User(UserId userId, Category category, Set<String> phoneNumber) {
+    public User(UserId userId, Category category, List<String> phoneNumber) {
         this.userId = userId;
         this.category = category;
         this.phoneNumber = phoneNumber;
@@ -58,11 +55,11 @@ public class User {
         this.category = category;
     }
 
-    public Set<String> getPhoneNumber() {
+    public List<String> getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Set<String> phoneNumber) {
+    public void setPhoneNumber(List<String> phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

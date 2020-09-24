@@ -11,5 +11,8 @@ public interface UserService extends Remote {
 
     boolean loginWithUsername(String userName, String password) throws RemoteException;
 
-    boolean loginWithEmailAdress(String emailAdress, String password) throws RemoteException;
+    UserDto loginWithEmailAdress(String emailAdress, String password) throws RemoteException;
+
+
+    UserDto loginWithUsername2(String userName, String password) throws RemoteException;
 }

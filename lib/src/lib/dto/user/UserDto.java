@@ -3,9 +3,7 @@ package lib.dto.user;
 
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class UserDto implements Serializable {
 
@@ -15,9 +13,9 @@ public class UserDto implements Serializable {
 
     private String password;
 
-    private Set<String> phoneNumber = new HashSet<>();
+    private List<String> phoneNumber = new ArrayList<>(2);
 
-    public UserDto(UserIdDto userId, Category category, Set<String> phoneNumber) {
+    public UserDto(UserIdDto userId, Category category, List<String> phoneNumber) {
         this.userId = userId;
         this.category = category;
         this.phoneNumber = phoneNumber;
@@ -42,11 +40,11 @@ public class UserDto implements Serializable {
         this.category = category;
     }
 
-    public Set<String> getPhoneNumber() {
+    public List<String> getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Set<String> phoneNumber) {
+    public void setPhoneNumber(List<String> phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

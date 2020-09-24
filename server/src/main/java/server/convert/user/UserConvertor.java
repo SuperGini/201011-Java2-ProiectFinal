@@ -5,7 +5,7 @@ import lib.dto.user.UserIdDto;
 import server.model.user.User;
 import server.model.user.UserId;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class UserConvertor {
 
@@ -39,7 +39,7 @@ public class UserConvertor {
         userDto.setUserId(userIdDto);
         userDto.setCategory(user.getCategory());
         userDto.setPassword(user.getPassword());
-        userDto.setPhoneNumber(new HashSet<>(user.getPhoneNumber()));
+        userDto.setPhoneNumber(new ArrayList<>(user.getPhoneNumber()));
 
         return userDto;
 

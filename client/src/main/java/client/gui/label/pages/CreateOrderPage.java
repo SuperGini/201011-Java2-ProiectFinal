@@ -31,6 +31,9 @@ public class CreateOrderPage extends JLabel {
     private JButton createOrderButton;
     private JTextField findField;
 
+    private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
+
+
     private DefaultListModel<ServiceOrderDto> listServiceOrderModel= new DefaultListModel<>();
     private DefaultListModel<PartDto> listPartModel = new DefaultListModel<>();
     private DefaultTableModel  tableModel;
@@ -63,6 +66,7 @@ public class CreateOrderPage extends JLabel {
         initFindField();
         initPartList();
         initCreateOrder();
+        initMiniLabels();
 
 
     }
@@ -197,6 +201,29 @@ public class CreateOrderPage extends JLabel {
         }
     }
 
+    private void initMiniLabels(){
+        orderLabel = new JLabel("cxcvxcv");
+        orderLabel.setBounds(460,50, 50,20);
+        transparentPanel.add(orderLabel);
+
+        userLabel = new JLabel("dasd");
+        userLabel.setBounds(460,80, 50,20);
+        transparentPanel.add(userLabel);
+
+        clientLabel = new JLabel("ddd");
+        clientLabel.setBounds(460,110, 50,20);
+        transparentPanel.add(clientLabel);
+
+        brandLabel = new JLabel("gdsffgsdf");
+        brandLabel.setBounds(460,140, 50,20);
+        transparentPanel.add(brandLabel);
+
+        serialLabel = new JLabel("fsdfgsafsad");
+        serialLabel.setBounds(460,170, 50,20);
+        transparentPanel.add(serialLabel);
+    }
+
+
     private void initFindField(){
         findField = new JTextField();
         findField.setBounds(430,340,200,30);
@@ -227,9 +254,43 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(createOrderButton);
     }
 
+    public JLabel getOrderLabel() {
+        return orderLabel;
+    }
 
+    public void setOrderLabel(JLabel orderLabel) {
+        this.orderLabel = orderLabel;
+    }
 
+    public JLabel getUserLabel() {
+        return userLabel;
+    }
 
+    public void setUserLabel(JLabel userLabel) {
+        this.userLabel = userLabel;
+    }
 
+    public JLabel getClientLabel() {
+        return clientLabel;
+    }
 
+    public void setClientLabel(JLabel clientLabel) {
+        this.clientLabel = clientLabel;
+    }
+
+    public JLabel getBrandLabel() {
+        return brandLabel;
+    }
+
+    public void setBrandLabel(JLabel brandLabel) {
+        this.brandLabel = brandLabel;
+    }
+
+    public JLabel getSerialLabel() {
+        return serialLabel;
+    }
+
+    public void setSerialLabel(JLabel serialLabel) {
+        this.serialLabel = serialLabel;
+    }
 }

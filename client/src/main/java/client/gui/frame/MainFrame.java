@@ -29,8 +29,8 @@ public class MainFrame extends JFrame {
     private RegisterPage registerPage;
     private JLabel clientAndVehiclePage;
     private JLabel partPage;
-    private JLabel accountPage;
-    private JLabel createOrderPage;
+    private AccountPage accountPage;
+    private CreateOrderPage createOrderPage;
     private JLabel statisticPage;
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
@@ -51,12 +51,13 @@ public class MainFrame extends JFrame {
         initFrame();
         initBackgroundLabel();
         mouseListener();
+        initAccountPage();
         initLoginPage();
         initRegisterPage();
         initLeftButtonPage();
         initCreateClientAndVehiclePage();
         initPartPage();
-        initAccountPage();
+
         initCreateOrderPage();
         initStatisticPage();
         getPages();
@@ -325,6 +326,47 @@ public class MainFrame extends JFrame {
 
     public void setRegisterPage(RegisterPage registerPage) {
         this.registerPage = registerPage;
+    }
+
+    public JLabel getClientAndVehiclePage() {
+        return clientAndVehiclePage;
+    }
+
+    public void setClientAndVehiclePage(JLabel clientAndVehiclePage) {
+        this.clientAndVehiclePage = clientAndVehiclePage;
+    }
+
+    public JLabel getPartPage() {
+        return partPage;
+    }
+
+    public void setPartPage(JLabel partPage) {
+        this.partPage = partPage;
+    }
+
+
+    public AccountPage getAccountPage() {
+        return accountPage;
+    }
+
+    public void setAccountPage(AccountPage accountPage) {
+        this.accountPage = accountPage;
+    }
+
+    public CreateOrderPage getCreateOrderPage() {
+        return createOrderPage;
+    }
+
+    public void setCreateOrderPage(CreateOrderPage createOrderPage) {
+        this.createOrderPage = createOrderPage;
+    }
+
+    public JLabel getStatisticPage() {
+        return statisticPage;
+    }
+
+    public void setStatisticPage(JLabel statisticPage) {
+        this.statisticPage = statisticPage;
     }
 
     private static final class SingletonHolder{

@@ -5,6 +5,7 @@ import server.model.user.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
@@ -39,6 +40,22 @@ public class UserDaoImpl implements UserDao {
         namedQuery.setParameter("emailAdress", emailAdress );
         return namedQuery.getResultStream().findFirst();
     }
+
+    @Override
+    public List<User> findByName2(String userName){
+
+        TypedQuery<User> namedQuery = entityManager.createNamedQuery("User.findByName", User.class);
+        namedQuery.setParameter("userName", userName);
+        return namedQuery.getResultList();
+    }
+
+//    @Override
+//    public List<User> findByEmailAdress2(String emailAdress){
+//
+//        TypedQuery<User> namedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
+//        namedQuery.setParameter("emailAdress", emailAdress );
+//        return namedQuery.getResultList();
+//    }
 
 
 

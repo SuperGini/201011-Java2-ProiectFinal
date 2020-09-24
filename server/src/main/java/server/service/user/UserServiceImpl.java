@@ -10,6 +10,7 @@ import server.model.user.User;
 import javax.persistence.Persistence;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class UserServiceImpl extends UnicastRemoteObject implements UserService {
@@ -30,6 +31,8 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
        return userDao.create(user);
     }
 
+
+    //todo: de sters la final ca nu o mai folosesc
     @Override
     public boolean loginWithUsername(String userName, String password) throws RemoteException {
         Optional<User> user = userDao.findByName(userName);
@@ -38,14 +41,27 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
                 .isPresent();
 
     }
-
+    //todo: de sters la final ca nu o mai folosesc
     @Override
-    public boolean loginWithEmailAdress(String emailAdress, String password) throws RemoteException {
+    public UserDto loginWithEmailAdress(String emailAdress, String password) throws RemoteException {
         Optional<User> user = userDao.findByEmailAdress(emailAdress);
 
         return user.filter(u -> u.getPassword().equals(password))
-                .isPresent();
+                .map(UserConvertor::convert)
+                .orElseThrow( NoSuchElementException::new);
     }
+
+    @Override
+    public UserDto loginWithUsername2(String userName, String password) throws RemoteException {
+        Optional<User> user = userDao.findByName(userName);
+
+
+        return user.filter(u -> u.getPassword().equals(password))
+                .map(UserConvertor::convert)
+                .orElseThrow( NoSuchElementException::new);
+
+    }
+
 
 
 }
