@@ -11,8 +11,8 @@ public class ServiceOrderConvertor {
     public static ServiceOrderDto convert(ServiceOrder serviceOrder){
         ServiceOrderDto serviceOrderDto = new ServiceOrderDto(
                                               serviceOrder.getId(),
-                                              serviceOrder.getTotal(),
-                                              serviceOrder.getTimeStamp()
+                                              serviceOrder.getTotal()
+
         );
 
         serviceOrderDto.setCarProblems(serviceOrder.getCarProblems());
@@ -24,8 +24,8 @@ public class ServiceOrderConvertor {
     public static ServiceOrder convert(ServiceOrderDto serviceOrderDto){
         ServiceOrder serviceOrder =  new ServiceOrder(
                 serviceOrderDto.getId(),
-                serviceOrderDto.getTotal(),
-                serviceOrderDto.getTimeStamp()
+                serviceOrderDto.getTotal()
+
         );
 
         serviceOrder.setCarProblems(serviceOrderDto.getCarProblems());

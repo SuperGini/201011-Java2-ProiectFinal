@@ -4,7 +4,6 @@ import server.model.client.Client;
 import server.model.user.User;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -18,13 +17,13 @@ public class ServiceOrder {
 
     private double total;
 
-    private Instant timeStamp;
+   // private Instant timeStamp;
 
 
-    public ServiceOrder(int id, double total, Instant timeStamp) {
+    public ServiceOrder(int id, double total) {
         this.id = id;
         this.total = total;
-        this.timeStamp = timeStamp;
+     //   this.timeStamp = timeStamp;
     }
 
     public ServiceOrder() {
@@ -96,13 +95,13 @@ public class ServiceOrder {
         this.total = total;
     }
 
-    public Instant getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(Instant timeStamp) {
-        this.timeStamp = timeStamp;
-    }
+//    public Instant getTimeStamp() {
+//        return timeStamp;
+//    }
+//
+//    public void setTimeStamp(Instant timeStamp) {
+//        this.timeStamp = timeStamp;
+//    }
 
     public User getUser() {
         return user;

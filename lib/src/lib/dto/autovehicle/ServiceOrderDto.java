@@ -4,7 +4,6 @@ import lib.dto.client.ClientDto;
 import lib.dto.user.UserDto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,7 +15,7 @@ public class ServiceOrderDto implements Serializable {
 
     private double total;
 
-    private Instant timeStamp;
+   // private Instant timeStamp;
 
     private List<String> carProblems = new ArrayList<>();
 
@@ -26,10 +25,10 @@ public class ServiceOrderDto implements Serializable {
 
     private ClientDto clientDto;
 
-    public ServiceOrderDto(int id, double total, Instant timeStamp) {
+    public ServiceOrderDto(int id, double total) {
         this.id = id;
         this.total = total;
-        this.timeStamp = timeStamp;
+
     }
 
 
@@ -53,13 +52,13 @@ public class ServiceOrderDto implements Serializable {
         this.total = total;
     }
 
-    public Instant getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(Instant timeStamp) {
-        this.timeStamp = timeStamp;
-    }
+//    public Instant getTimeStamp() {
+//        return timeStamp;
+//    }
+//
+//    public void setTimeStamp(Instant timeStamp) {
+//        this.timeStamp = timeStamp;
+//    }
 
     public List<String> getCarProblems() {
         return carProblems;
