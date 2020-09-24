@@ -11,6 +11,8 @@ import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,11 +23,13 @@ public class CreateOrderPage extends JLabel {
     private JList orderId;
     private JTextArea carProblemArea;
     private JTable partsArea;
-    private JList partList;
+  //  private JList partList;
+    private JLabel countLabel;
+    private JTextField countField;
 
     private JTable findPartArea;
     private JTextField addProblemField;
-  //  private JTextField findPartField;
+    private JTextField findPartField;
     private JButton addProblemButton;
     private JButton findPartButton;
     private JButton addPartToOrderButton;
@@ -35,6 +39,7 @@ public class CreateOrderPage extends JLabel {
     private JButton findClientButton;
     private JButton findCarButton;
     private JButton createOrderButton;
+    private JButton closeOrderButton;
     private JTextField findField;
 
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
@@ -46,16 +51,17 @@ public class CreateOrderPage extends JLabel {
 
     private JScrollPane scrollPane;
 
+
     private String [] label = {"Order:", "User:", "Client:", "Brand:", "Serial:"};
     private List<JLabel> genericLabels = new ArrayList<>();
-  // private DefaultTableModel  tableModel;
+   private DefaultTableModel tableModel;
 
     private ClientDto clientDto;
     private VehicleDto vehicleDto;
 
 
     public CreateOrderPage(int x, int y, int width, int height) {
-     //   tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel();
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initCarProblemLabel();
@@ -63,22 +69,24 @@ public class CreateOrderPage extends JLabel {
         intiCarProblemArea();
         initAddProblemField();
         initAddProblemButton();
-        //initPartsArea();
-       // tableData();
+        initPartsArea();
+        tableData();
 
 
         //initFindPartField();
         findPartButton();
         initAddPartToOrderButton();
-        initfindPartsArea();
+     //   initfindPartsArea();
         initGenerilLabels();
         initORderParsLable();
         initFindClientButton();
         initFindCarButton();
         initFindField();
-        initPartList();
+        //initPartList();
         initCreateOrder();
         initMiniLabels();
+        initCloseOrderButton();
+        initCount();
 
 
     }
@@ -140,68 +148,69 @@ public class CreateOrderPage extends JLabel {
 
     }
 
-    private void initPartList(){
-        partList = new JList(listPartModel);
-        partList.setBounds(645,50,300,350);
-        transparentPanel.add(partList);
-    }
-
-
-
-
-
-//    private void initPartsArea(){
-//        partsArea = new JTable(tableModel);
-//        scrollPane = new JScrollPane(partsArea);
-//        partsArea.setBounds(645,50,300,350);
-//        transparentPanel.add(partsArea);
-//        partsArea.setRowHeight(20);
-////        partsArea.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-////        partsArea.setFont(new Font("Segoe UI", Font.BOLD, 12));
-////        partsArea.getTableHeader().setOpaque(false);
-////        partsArea.getTableHeader().setBackground(new Color(32,136,203));
-////        partsArea.getTableHeader().setForeground(new Color(255,255,255));
-////        partsArea.setShowVerticalLines(false);
-////        partsArea.setSelectionBackground(new Color (232,57,95));
-
-
-
-
-
- //   }
-
-        //todo: de vazut daca am timp sa fa cut tabel. Momentan am un bug la vizualizare si numerge
-//    private void tableData(){
-//        List<PartDto> partsDtos = new ArrayList<>();
-//       // tableModel.setRowCount(0);
-//
-//        String [] columns = {"id", "part name", "count", "price"};
-//
-//
-//        tableModel.setColumnIdentifiers(columns);
-//
-//
-//
-//
-//        Object [] row = new Object [4];
-//
-//        for(PartDto partDto : partsDtos){
-//            row[0] = partDto.getId();
-//            row[1] = partDto.getPartName();
-//            row[2] = partDto.getCount();
-//            row[3] = partDto.getPrice();
-//            tableModel.addRow(row);
-//
-//        }
+//    private void initPartList(){
+//        partList = new JList(listPartModel);
+//        partList.setBounds(645,50,300,350);
+//        transparentPanel.add(partList);
 //    }
 
 
 
-    private void initfindPartsArea(){
-        findPartArea = new JTable();
-        findPartArea.setBounds(645,410,300,40);
-        transparentPanel.add(findPartArea);
+
+
+    private void initPartsArea(){
+        partsArea = new JTable(tableModel);
+        partsArea.setBounds(645,50,300,350);
+        scrollPane = new JScrollPane(partsArea);
+        scrollPane.setBounds(645,50,300,350);
+        transparentPanel.add(scrollPane);
+        partsArea.setRowHeight(20);
+        partsArea.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
+        partsArea.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        partsArea.getTableHeader().setOpaque(false);
+        partsArea.getTableHeader().setBackground(new Color(32,136,203));
+        partsArea.getTableHeader().setForeground(new Color(255,255,255));
+        partsArea.setShowVerticalLines(false);
+        partsArea.setSelectionBackground(new Color (232,57,95));
+
+
+
+
+
     }
+
+        //todo: de vazut daca am timp sa fa cut tabel. Momentan am un bug la vizualizare si numerge
+    private void tableData(){
+        List<PartDto> partsDtos = new ArrayList<>();
+        tableModel.setRowCount(0);
+
+        String [] columns = {"id", "part name", "count", "price"};
+
+
+        tableModel.setColumnIdentifiers(columns);
+
+
+
+
+        Object [] row = new Object [4];
+
+        for(PartDto partDto : partsDtos){
+            row[0] = partDto.getId();
+            row[1] = partDto.getPartName();
+            row[2] = partDto.getCount();
+            row[3] = partDto.getPrice();
+            tableModel.addRow(row);
+
+        }
+    }
+
+
+
+//    private void initfindPartsArea(){
+//        findPartArea = new JTable();
+//        findPartArea.setBounds(645,410,300,40);
+//        transparentPanel.add(findPartArea);
+//    }
 
 //    private void initFindPartField(){
 //        findPartField = new JTextField();
@@ -210,12 +219,27 @@ public class CreateOrderPage extends JLabel {
 //    }
 
 
+    private void initCount(){
+        countField = new JTextField();
+        countField.setBounds(900,460,30,30);
+        transparentPanel.add(countField);
+
+        countLabel = new JLabel("count");
+        countLabel.setBounds(850,460,50,30);
+        transparentPanel.add(countLabel);
+
+
+    }
+
 
     private void initAddPartToOrderButton(){
         addPartToOrderButton =new JButton("add part to order");
         addPartToOrderButton.setBounds(645,500,300,30); //430,500,200,30
         transparentPanel.add(addPartToOrderButton);
     }
+
+
+
 
     private void initGenerilLabels(){
         for( int i = 0; i < 5; i++){
@@ -251,13 +275,13 @@ public class CreateOrderPage extends JLabel {
 
     private void initFindField(){
         findField = new JTextField();
-        findField.setBounds(430,340,200,30);
+        findField.setBounds(430,300,200,30);
         transparentPanel.add(findField);
     }
 
     private void initFindClientButton(){
         findClientButton = new JButton("find client");
-        findClientButton.setBounds(430,380,200,30);
+        findClientButton.setBounds(430,340,200,30);
         transparentPanel.add(findClientButton);
 
         findClientButton.addActionListener( ev -> {
@@ -276,7 +300,7 @@ public class CreateOrderPage extends JLabel {
     //todo: de vazut cum fac un obiect combinat
     private void initFindCarButton(){
         findCarButton = new JButton("find car serial");
-        findCarButton.setBounds(430,420,200,30);
+        findCarButton.setBounds(430,380,200,30);
         transparentPanel.add(findCarButton);
 
         findCarButton.addActionListener( ev -> {
@@ -292,13 +316,13 @@ public class CreateOrderPage extends JLabel {
 
     private void findPartButton(){
         findPartButton = new JButton("find part");
-        findPartButton.setBounds(430,460,200,30);
+        findPartButton.setBounds(430,420,200,30);
         transparentPanel.add(findPartButton);
     }
 
     private void initCreateOrder(){
         createOrderButton = new JButton("create order");
-        createOrderButton.setBounds(430,500,200,30);
+        createOrderButton.setBounds(430,460,200,30);
         transparentPanel.add(createOrderButton);
 
         createOrderButton.addActionListener(ev ->{
@@ -325,7 +349,14 @@ public class CreateOrderPage extends JLabel {
 
         });
 
+    }
 
+
+
+    private void initCloseOrderButton(){
+        closeOrderButton = new JButton("close order");
+        closeOrderButton.setBounds(430,500,200,30);
+        transparentPanel.add(closeOrderButton);
     }
 
     public JLabel getOrderLabel() {
