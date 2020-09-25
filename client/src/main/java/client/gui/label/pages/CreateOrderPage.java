@@ -1,5 +1,6 @@
 package client.gui.label.pages;
 
+import client.controller.autovehicle.PartController;
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.autovehicle.VehicleController;
 import client.controller.client.ClientController;
@@ -26,8 +27,9 @@ public class CreateOrderPage extends JLabel {
   //  private JList partList;
     private JLabel countLabel;
     private JTextField countField;
+    private JTextArea findPartArea;
 
-    private JTable findPartArea;
+  //  private JTable findPartArea;
     private JTextField addProblemField;
     private JTextField findPartField;
     private JButton addProblemButton;
@@ -40,7 +42,9 @@ public class CreateOrderPage extends JLabel {
     private JButton findCarButton;
     private JButton createOrderButton;
     private JButton closeOrderButton;
+    private JButton orderReadyButton;
     private JTextField findField;
+
 
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
@@ -54,10 +58,12 @@ public class CreateOrderPage extends JLabel {
 
     private String [] label = {"Order:", "User:", "Client:", "Brand:", "Serial:"};
     private List<JLabel> genericLabels = new ArrayList<>();
-   private DefaultTableModel tableModel;
+    private DefaultTableModel tableModel;
+    private List<PartDto> partsDtos = new ArrayList<>();
 
     private ClientDto clientDto;
     private VehicleDto vehicleDto;
+    private PartDto partDto;
 
 
     public CreateOrderPage(int x, int y, int width, int height) {
@@ -87,6 +93,8 @@ public class CreateOrderPage extends JLabel {
         initMiniLabels();
         initCloseOrderButton();
         initCount();
+        initFindPartArea();
+        initOrderReadyButton();
 
 
     }
@@ -181,7 +189,7 @@ public class CreateOrderPage extends JLabel {
 
         //todo: de vazut daca am timp sa fa cut tabel. Momentan am un bug la vizualizare si numerge
     private void tableData(){
-        List<PartDto> partsDtos = new ArrayList<>();
+
         tableModel.setRowCount(0);
 
         String [] columns = {"id", "part name", "count", "price"};
@@ -232,10 +240,48 @@ public class CreateOrderPage extends JLabel {
     }
 
 
+    private void initFindPartArea(){
+        findPartArea = new JTextArea();
+        findPartArea.setBounds(645,405,300,50);
+        transparentPanel.add(findPartArea);
+
+
+    }
+
+    private void initOrderReadyButton(){
+        orderReadyButton = new JButton("orderReady");
+        orderReadyButton.setBounds(645,460,200,30);
+        transparentPanel.add(orderReadyButton);
+    }
+
+
     private void initAddPartToOrderButton(){
         addPartToOrderButton =new JButton("add part to order");
         addPartToOrderButton.setBounds(645,500,300,30); //430,500,200,30
         transparentPanel.add(addPartToOrderButton);
+
+        addPartToOrderButton.addActionListener(ev -> {
+
+            try{
+                int count = Integer.parseInt(countField.getText());
+
+                partDto.setCount(count);
+                partsDtos.add(partDto);
+
+                PartController.getInstance().decreasePartCount(count, partDto.getPartName());
+                tableData();
+                findPartArea.setText("");
+
+            }catch(NumberFormatException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Enter an integer number ");
+
+            }
+
+
+
+
+        });
     }
 
 
@@ -318,6 +364,14 @@ public class CreateOrderPage extends JLabel {
         findPartButton = new JButton("find part");
         findPartButton.setBounds(430,420,200,30);
         transparentPanel.add(findPartButton);
+
+        findPartButton.addActionListener( ev-> {
+            findPartArea.setText("");
+            partDto = PartController.getInstance().findPartByName(findField.getText());
+            findPartArea.append(partDto.toString());
+
+
+        });
     }
 
     private void initCreateOrder(){

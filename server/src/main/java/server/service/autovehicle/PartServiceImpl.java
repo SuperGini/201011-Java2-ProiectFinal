@@ -55,8 +55,13 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
     }
 
     @Override
-    public int increasePartCount(int count, String partName) throws javassist.tools.rmi.RemoteException {
-           return partDao.increasePartCount(count, partName);
+    public int increasePartCount(int count, String partName) throws RemoteException {
+        return partDao.increasePartCount(count, partName);
+    }
+
+    @Override
+    public int decreasePartCount(int count, String partName) throws RemoteException{
+        return partDao.decreasePartCount(count,partName);
     }
 
     @Override

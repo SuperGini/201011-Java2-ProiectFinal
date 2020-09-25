@@ -10,9 +10,13 @@ public interface PartDao {
 
     Part findPartById(int id);
 
+    void refreshPart(Part part);
+
     Optional<Part> findPartByName(String partName);
 
     int increasePartCount(int count, String partName);
+
+    int decreasePartCount(int count, String partName);
 
     Collection<Part> findAllParts();
 }
