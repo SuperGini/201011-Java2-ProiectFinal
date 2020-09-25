@@ -5,6 +5,7 @@ import lib.dto.autovehicle.ServiceOrderDto;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
+import java.util.List;
 
 public interface ServiceOrderService extends Remote {
 
@@ -13,4 +14,6 @@ public interface ServiceOrderService extends Remote {
     ServiceOrderDto findById(int id) throws RemoteException;
 
     Collection<ServiceOrderDto> findAll() throws RemoteException;
+
+    List<Integer> findAllServiceOrderIds() throws RemoteException;
 }

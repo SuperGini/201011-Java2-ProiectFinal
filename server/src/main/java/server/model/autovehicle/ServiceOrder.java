@@ -8,7 +8,12 @@ import java.util.*;
 
 @Entity
 @Table(name = "service_order")
-@NamedQuery(name ="ServiceOrder.findAll", query = "SELECT s FROM ServiceOrder s")
+@NamedQueries({
+        @NamedQuery(name ="ServiceOrder.findAll", query = "SELECT s FROM ServiceOrder s"),
+        @NamedQuery(name = "ServiceOrder.findAllIds" , query ="SELECT o.id FROM Order o" )
+})
+
+
 public class ServiceOrder {
 
     @Id

@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Collection;
+import java.util.List;
 
 public class ServiceOrderController implements ServiceOrderService {
 
@@ -50,6 +51,16 @@ public class ServiceOrderController implements ServiceOrderService {
     public Collection<ServiceOrderDto> findAll(){
         try {
             return serviceOrderService.findAll();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Integer> findAllServiceOrderIds(){
+        try {
+            return serviceOrderService.findAllServiceOrderIds();
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

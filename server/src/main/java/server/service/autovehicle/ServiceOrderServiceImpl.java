@@ -19,6 +19,7 @@ import javax.persistence.Persistence;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -73,4 +74,9 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
 
     }
 
+    @Override
+    public List<Integer> findAllServiceOrderIds() throws RemoteException{
+        return serviceOrderDao.findAllServiceOrderIds();
+
+    }
 }

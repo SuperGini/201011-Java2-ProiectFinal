@@ -6,6 +6,7 @@ import server.model.autovehicle.ServiceOrder;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.List;
 
 public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
@@ -37,6 +38,16 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return query.getResultList();
     }
 
+    @Override
+    public List<Integer> findAllServiceOrderIds(){
+
+        TypedQuery<Integer> query = entityManager.createNamedQuery("ServiceOrder.findAllIds",Integer.class);
+
+        return query.getResultList();
+    }
+
+
+
         //todo: de rezolvat cu jpql
 //    public Collection<ServiceOrder> findByUser(String username){
 //
@@ -46,6 +57,8 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 //
 //
 //    }
+
+
 
 }
 
