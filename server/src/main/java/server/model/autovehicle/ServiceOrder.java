@@ -10,7 +10,7 @@ import java.util.*;
 @Table(name = "service_order")
 @NamedQueries({
         @NamedQuery(name ="ServiceOrder.findAll", query = "SELECT s FROM ServiceOrder s"),
-        @NamedQuery(name = "ServiceOrder.findAllIds" , query ="SELECT o.id FROM Order o" )
+        @NamedQuery(name = "ServiceOrder.findAllIds" , query ="SELECT o.id FROM ServiceOrder o" )
 })
 
 
@@ -22,13 +22,12 @@ public class ServiceOrder {
 
     private double total;
 
-   // private Instant timeStamp;
+
 
 
     public ServiceOrder(int id, double total) {
         this.id = id;
         this.total = total;
-     //   this.timeStamp = timeStamp;
     }
 
     public ServiceOrder() {

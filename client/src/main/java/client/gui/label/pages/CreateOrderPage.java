@@ -14,8 +14,7 @@ import lib.dto.client.ClientDto;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class CreateOrderPage extends JLabel {
@@ -43,13 +42,16 @@ public class CreateOrderPage extends JLabel {
     private JButton createOrderButton;
     private JButton closeOrderButton;
     private JButton orderReadyButton;
+    private JButton
     private JTextField findField;
+
+
 
 
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
-    private DefaultTableModel orderModel = new DefaultTableModel();
- //   private DefaultListModel<ServiceOrderDto> listServiceOrderModel= new DefaultListModel<>();
+
+
 //    private DefaultListModel<PartDto> listPartModel = new DefaultListModel<>();
 //    private DefaultListModel<String> listProblemModel = new DefaultListModel<>();
 
@@ -60,9 +62,14 @@ public class CreateOrderPage extends JLabel {
     private String [] label = {"Order:", "User:", "Client:", "Brand:", "Serial:"};
     private List<JLabel> genericLabels = new ArrayList<>();
     private DefaultTableModel tableModel;
+    private DefaultTableModel orderModel;
 
-    private List<PartDto> partsDtos = new ArrayList<>();
-    private List<Integer> orderIds = new ArrayList<>();
+    private Collection<PartDto> partsDtos = new HashSet<>();
+    private List<Integer> orderIds = ServiceOrderController.getInstance().findAllServiceOrderIds();
+
+
+
+    private DefaultListModel<Integer> listOrderId= new DefaultListModel<>();
 
     private ClientDto clientDto;
     private VehicleDto vehicleDto;
@@ -71,12 +78,15 @@ public class CreateOrderPage extends JLabel {
 
     public CreateOrderPage(int x, int y, int width, int height) {
         tableModel = new DefaultTableModel();
+
+        orderModel = new DefaultTableModel();
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initCarProblemLabel();
         initPartsArea();
-        initTableServiceOrder();
         initTableDataOrderId();
+        initTableServiceOrder();
+
         tableDataParts();
 
 
@@ -123,10 +133,20 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void initTableServiceOrder(){
+//
+//        orderList = new JList<>(listOrderId);
+//        orderList.setBounds(5,50,100,450);
+//        transparentPanel.add(orderList);
+//        listOrderId.
+
+
+
+
+
         orderId = new JTable(orderModel);
-        orderId.setBounds(5,50,100,500);
+        orderId.setBounds(5,50,100,450);
         scrollPaneOrder = new JScrollPane(orderId);
-        scrollPaneOrder.setBounds(5,50,100,500);
+        scrollPaneOrder.setBounds(5,50,100,450);
         transparentPanel.add(scrollPaneOrder);
         orderId.setRowHeight(20);
         orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
@@ -143,15 +163,17 @@ public class CreateOrderPage extends JLabel {
         orderModel.setRowCount(0);
 
         String [] column = {"Order nr:"};
+
         orderModel.setColumnIdentifiers(column);
 
         Object [] row = new Object [1];
 
-        for(Integer id : orderIds){
-            row[0] = id;
-        }
+        for(Integer integer : orderIds){
+            row[0] = integer;
 
-        orderModel.addRow(row);
+            orderModel.addRow(row);
+
+        }
 
     }
 
@@ -217,7 +239,7 @@ public class CreateOrderPage extends JLabel {
 
     }
 
-        //todo: de vazut daca am timp sa fa cut tabel. Momentan am un bug la vizualizare si numerge
+
     private void tableDataParts(){
 
         tableModel.setRowCount(0);
@@ -279,9 +301,25 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void initOrderReadyButton(){
-        orderReadyButton = new JButton("orderReady");
+        orderReadyButton = new JButton("order Ready");
         orderReadyButton.setBounds(645,460,200,30);
         transparentPanel.add(orderReadyButton);
+
+
+        orderReadyButton.addActionListener(ev -> {
+
+
+
+
+
+
+
+
+
+
+
+
+        });
     }
 
 
@@ -296,11 +334,15 @@ public class CreateOrderPage extends JLabel {
                 int count = Integer.parseInt(countField.getText());
 
                 partDto.setCount(count);
-                partsDtos.add(partDto);
 
-                PartController.getInstance().decreasePartCount(count, partDto.getPartName());
-                tableDataParts();
-                findPartArea.setText("");
+                //:todo de facut cand baga aceeasi piesa dar o alta cantitate sa faca updae daor la count in tabel si la count in baza de date
+               if(partsDtos.add(partDto)){
+                   PartController.getInstance().decreasePartCount(count, partDto.getPartName());
+                   tableDataParts();
+                   findPartArea.setText("");
+               }
+
+
 
             }catch(NumberFormatException e){
                 e.printStackTrace();
@@ -429,6 +471,11 @@ public class CreateOrderPage extends JLabel {
 
             ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto);
 
+
+            System.out.println(orderIds.toString());
+            initTableDataOrderId();
+            orderIds.clear();
+            orderIds.addAll( ServiceOrderController.getInstance().findAllServiceOrderIds());
 
 
         });

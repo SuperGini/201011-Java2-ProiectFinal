@@ -1,6 +1,7 @@
 package lib.dto.autovehicle;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class PartDto implements Serializable {
 
@@ -59,5 +60,18 @@ public class PartDto implements Serializable {
         return  "Part:........................" + partName + "\n" +
                 "price:......................." + price + "\n" +
                 "count:......................." + count;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PartDto partDto = (PartDto) o;
+        return Objects.equals(partName, partDto.partName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(partName);
     }
 }
