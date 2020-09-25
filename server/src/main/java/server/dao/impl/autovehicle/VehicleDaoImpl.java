@@ -4,7 +4,9 @@ import server.dao.VehicleDao;
 import server.model.autovehicle.Vehicle;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class VehicleDaoImpl implements VehicleDao {
@@ -47,5 +49,17 @@ public class VehicleDaoImpl implements VehicleDao {
         var query = entityManager.createQuery(sql, Vehicle.class);
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<Object[]> findVehicleWithClient(String serialNumber){
+            String jpql ="SELECT v.id, v.vehicleName, v.serialNumber, v.client.id, v.client.name FROM Vehicle AS v WHERE v.serialNumber = :serialNumber";
+
+           TypedQuery<Object []> query = entityManager.createQuery(jpql, Object[].class);
+           query.setParameter("serialNumber", serialNumber);
+
+           return query.getResultList();
+
+
     }
 }

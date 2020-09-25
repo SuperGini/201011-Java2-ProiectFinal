@@ -425,9 +425,32 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(findCarButton);
 
         findCarButton.addActionListener( ev -> {
-            vehicleDto = VehicleController.getInstance().findBySerialNumber(findField.getText());
-            brandLabel.setText(vehicleDto.getVehicleName());
-            serialLabel.setText(vehicleDto.getSerialNumber());
+
+            List<Object []> object = VehicleController.getInstance().findVehicleWithClient(findField.getText());
+
+            for(Object [] obj : object){
+
+                int vehicleId = (int) obj[0];
+                String brand = (String) obj[1];
+                String serialNumber = (String) obj[2];
+                int clientId = (int) obj[3];
+                String clientName = (String) obj[4];
+
+
+
+                brandLabel.setText(brand);
+                serialLabel.setText(serialNumber);
+                clientLabel.setText(clientName);
+
+
+            }
+
+
+
+//
+//            vehicleDto = VehicleController.getInstance().findBySerialNumber(findField.getText());
+//            brandLabel.setText(vehicleDto.getVehicleName());
+//            serialLabel.setText(vehicleDto.getSerialNumber());
 
 
 
@@ -441,11 +464,21 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(findPartButton);
 
         findPartButton.addActionListener( ev-> {
-            findPartArea.setText("");
-            partDto = PartController.getInstance().findPartByName(findField.getText());
-            findPartArea.append(partDto.toString());
 
+            if(!findField.getText().equals("")){
 
+                try{
+                    findPartArea.setText("");
+                    partDto = PartController.getInstance().findPartByName(findField.getText());
+                    findPartArea.append(partDto.toString());
+
+                }catch(NoSuchElementException e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null,"No part by that name was found");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Enter part name");
+            }
         });
     }
 

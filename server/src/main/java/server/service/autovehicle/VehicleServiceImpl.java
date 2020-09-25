@@ -16,6 +16,7 @@ import javax.persistence.Persistence;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,6 +94,13 @@ public class VehicleServiceImpl extends UnicastRemoteObject implements lib.servi
         return vehicleDao.findAllVehicles().stream()
                                 .map(VehicleConvetor::convert)
                                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<Object[]> findVehicleWithClient(String serialNumber) throws RemoteException{
+        return vehicleDao.findVehicleWithClient(serialNumber);
+
+
     }
 
 }

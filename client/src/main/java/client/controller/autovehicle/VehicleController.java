@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Collection;
+import java.util.List;
 
 public class VehicleController implements VehicleService {
 
@@ -60,6 +61,16 @@ public class VehicleController implements VehicleService {
     public Collection<VehicleDto> findAllVehicles(){
         try {
             return vehicleService.findAllVehicles();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Object[]> findVehicleWithClient(String serialNumber){
+        try {
+           return vehicleService.findVehicleWithClient(serialNumber);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

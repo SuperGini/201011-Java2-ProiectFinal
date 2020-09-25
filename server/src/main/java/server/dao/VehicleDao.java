@@ -3,6 +3,7 @@ package server.dao;
 import server.model.autovehicle.Vehicle;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface VehicleDao {
@@ -14,4 +15,6 @@ public interface VehicleDao {
     Optional<Vehicle> findBySerialNumber(String serialNumber);
 
     Collection<Vehicle> findAllVehicles();
+
+    List<Object[]> findVehicleWithClient(String serialNumber);
 }

@@ -84,4 +84,6 @@ public class ServiceOrderController implements ServiceOrderService {
     public static ServiceOrderController getInstance(){
         return SingeltonHolder.INSTANCE;
     }
+
+
 }
