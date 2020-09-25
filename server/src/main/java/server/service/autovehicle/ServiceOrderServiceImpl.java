@@ -2,10 +2,8 @@ package server.service.autovehicle;
 
 import lib.dto.autovehicle.ServiceOrderDto;
 import server.convert.autovehicle.ServiceOrderConvertor;
-import server.dao.ClientDao;
-import server.dao.ServiceOrderDao;
-import server.dao.UserDao;
-import server.dao.VehicleDao;
+import server.dao.*;
+import server.dao.impl.autovehicle.PartDaoImpl;
 import server.dao.impl.autovehicle.ServiceOrderDaoImpl;
 import server.dao.impl.autovehicle.VehicleDaoImpl;
 import server.dao.impl.client.ClientDaoImpl;
@@ -29,6 +27,7 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
     private VehicleDao vehicleDao;
     private UserDao userDao;
     private ClientDao clientDao;
+    private PartDao partDao;
 
     public ServiceOrderServiceImpl() throws RemoteException {
         var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");
@@ -38,7 +37,7 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
         vehicleDao = new VehicleDaoImpl(entityManager);
         userDao = new UserDaoImpl(entityManager);
         clientDao = new ClientDaoImpl(entityManager);
-
+        partDao = new PartDaoImpl(entityManager);
 
     }
 
@@ -77,6 +76,22 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
     @Override
     public List<Integer> findAllServiceOrderIds() throws RemoteException{
         return serviceOrderDao.findAllServiceOrderIds();
+
+    }
+
+    @Override
+    public void updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException{
+
+        ServiceOrder serviceOrder = ServiceOrderConvertor.convert(serviceOrderDto);
+
+        var parts =serviceOrderDto.getPartsIds().stream()
+                .map(s ->partDao.findPartById(s))
+                .collect(Collectors.toSet());
+
+                serviceOrder.setParts(parts);
+
+                serviceOrderDao.updateServiceOrder(serviceOrder);
+
 
     }
 }

@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreateOrderPage extends JLabel {
 
@@ -42,7 +43,6 @@ public class CreateOrderPage extends JLabel {
     private JButton createOrderButton;
     private JButton closeOrderButton;
     private JButton orderReadyButton;
-    private JButton
     private JTextField findField;
 
 
@@ -74,6 +74,7 @@ public class CreateOrderPage extends JLabel {
     private ClientDto clientDto;
     private VehicleDto vehicleDto;
     private PartDto partDto;
+    private ServiceOrderDto serviceOrderDto;
 
 
     public CreateOrderPage(int x, int y, int width, int height) {
@@ -201,8 +202,6 @@ public class CreateOrderPage extends JLabel {
         addProblemButton.addActionListener(ev -> {
             carProblemArea.append(addProblemField.getText());
 
-
-
         });
 
 
@@ -266,17 +265,7 @@ public class CreateOrderPage extends JLabel {
 
 
 
-//    private void initfindPartsArea(){
-//        findPartArea = new JTable();
-//        findPartArea.setBounds(645,410,300,40);
-//        transparentPanel.add(findPartArea);
-//    }
 
-//    private void initFindPartField(){
-//        findPartField = new JTextField();
-//        findPartField.setBounds(645,460,300,30);
-//        transparentPanel.add(findPartField);
-//    }
 
 
     private void initCount(){
@@ -309,8 +298,13 @@ public class CreateOrderPage extends JLabel {
         orderReadyButton.addActionListener(ev -> {
 
 
+            var idOfParts = partsDtos.stream()
+                                     .map(PartDto::getId)
+                                     .collect(Collectors.toSet());
 
+            serviceOrderDto.setPartsIds(idOfParts);
 
+            ServiceOrderController.getInstance().updateServiceOrder(serviceOrderDto);
 
 
 
@@ -369,23 +363,23 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void initMiniLabels(){
-        orderLabel = new JLabel("cxcvxcv");
+        orderLabel = new JLabel("");
         orderLabel.setBounds(460,50, 50,20);
         transparentPanel.add(orderLabel);
 
-        userLabel = new JLabel("dasd");
+        userLabel = new JLabel("");
         userLabel.setBounds(460,80, 50,20);
         transparentPanel.add(userLabel);
 
-        clientLabel = new JLabel("ddd");
+        clientLabel = new JLabel("");
         clientLabel.setBounds(460,110, 50,20);
         transparentPanel.add(clientLabel);
 
-        brandLabel = new JLabel("gdsffgsdf");
+        brandLabel = new JLabel("");
         brandLabel.setBounds(460,140, 50,20);
         transparentPanel.add(brandLabel);
 
-        serialLabel = new JLabel("fsdfgsafsad");
+        serialLabel = new JLabel("");
         serialLabel.setBounds(460,170, 50,20);
         transparentPanel.add(serialLabel);
     }
@@ -404,9 +398,18 @@ public class CreateOrderPage extends JLabel {
 
         findClientButton.addActionListener( ev -> {
 
-            clientDto = ClientController.getInstance().findClientByName(findField.getText());
-            clientLabel.setText(clientDto.getName());
+            if(!findField.getText().equals("")){
+                try{
+                    clientDto = ClientController.getInstance().findClientByName(findField.getText());
+                    clientLabel.setText(clientDto.getName());
 
+                }catch(NoSuchElementException e){
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "No client with that name was found");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Enter the client name");
+            }
         });
 
 
@@ -453,7 +456,7 @@ public class CreateOrderPage extends JLabel {
 
         createOrderButton.addActionListener(ev ->{
 
-            ServiceOrderDto serviceOrderDto = new ServiceOrderDto();
+            serviceOrderDto = new ServiceOrderDto();
 
             serviceOrderDto.setIdClient(clientDto.getId());
             serviceOrderDto.setIdVehicul(vehicleDto.getId());
@@ -469,19 +472,22 @@ public class CreateOrderPage extends JLabel {
 
             serviceOrderDto.setCarProblems(lines);
 
-            ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto);
+            if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
+                JOptionPane.showMessageDialog(null, "Order created");
+                System.out.println(orderIds.toString());
+                orderIds.clear();
+                orderIds.addAll( ServiceOrderController.getInstance().findAllServiceOrderIds());
+                initTableDataOrderId();
+            }else{
+
+            }
 
 
-            System.out.println(orderIds.toString());
-            initTableDataOrderId();
-            orderIds.clear();
-            orderIds.addAll( ServiceOrderController.getInstance().findAllServiceOrderIds());
 
 
         });
 
     }
-
 
 
     private void initCloseOrderButton(){

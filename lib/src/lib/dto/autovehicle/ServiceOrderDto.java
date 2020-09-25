@@ -4,10 +4,7 @@ import lib.dto.client.ClientDto;
 import lib.dto.user.UserDto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class ServiceOrderDto implements Serializable {
 
@@ -20,6 +17,8 @@ public class ServiceOrderDto implements Serializable {
     private List<String> carProblems = new ArrayList<>();
 
     private Collection<PartDto> parts = new HashSet<>();
+
+    private Set<Integer> partsIds = new HashSet<>();
 
     private VehicleDto vehicleDtos;
 
@@ -39,6 +38,13 @@ public class ServiceOrderDto implements Serializable {
 
     }
 
+    public Set<Integer> getPartsIds() {
+        return partsIds;
+    }
+
+    public void setPartsIds(Set<Integer> partsIds) {
+        this.partsIds = partsIds;
+    }
 
     public ServiceOrderDto() {
     }

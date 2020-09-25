@@ -13,4 +13,6 @@ public interface ServiceOrderDao {
     Collection<ServiceOrder> findAll();
 
     List<Integer> findAllServiceOrderIds();
+
+    void updateServiceOrder(ServiceOrder serviceOrder);
 }

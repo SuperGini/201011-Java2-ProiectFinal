@@ -67,6 +67,16 @@ public class ServiceOrderController implements ServiceOrderService {
         }
     }
 
+    @Override
+    public void updateServiceOrder(ServiceOrderDto serviceOrderDto){
+        try {
+            serviceOrderService.updateServiceOrder(serviceOrderDto);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     private static final class SingeltonHolder{
         public static final ServiceOrderController INSTANCE = new ServiceOrderController();
     }

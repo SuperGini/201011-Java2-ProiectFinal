@@ -46,6 +46,15 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return query.getResultList();
     }
 
+    @Override
+    public void updateServiceOrder(ServiceOrder serviceOrder){
+
+        entityManager.getTransaction().begin();
+        entityManager.merge(serviceOrder);
+        entityManager.getTransaction().commit();
+
+    }
+
 
 
         //todo: de rezolvat cu jpql
