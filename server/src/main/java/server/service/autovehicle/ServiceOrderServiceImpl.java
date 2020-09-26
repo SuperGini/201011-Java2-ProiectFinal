@@ -1,6 +1,7 @@
 package server.service.autovehicle;
 
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.service.ServiceOrderService;
 import server.convert.autovehicle.ServiceOrderConvertor;
 import server.dao.*;
 import server.dao.impl.autovehicle.PartDaoImpl;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib.service.ServiceOrderService {
+public class ServiceOrderServiceImpl extends UnicastRemoteObject implements ServiceOrderService {
 
     private ServiceOrderDao serviceOrderDao;
     private VehicleDao vehicleDao;
@@ -45,10 +46,10 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
     public boolean createServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException{
         ServiceOrder serviceOrder = ServiceOrderConvertor.convert(serviceOrderDto);
 
-        Client client = clientDao.findClientById(serviceOrderDto.getIdClient());
-        Vehicle vehicle = vehicleDao.findById(serviceOrderDto.getIdVehicul());
+        Client client = clientDao.findClientById(serviceOrderDto.getClientDto().getId());
+        Vehicle vehicle = vehicleDao.findById(serviceOrderDto.getVehicleDtos().getId());
 
-        User user = userDao.findByName(serviceOrderDto.getIdUsername())
+        User user = userDao.findByName(serviceOrderDto.getUserDto().getUserId().getUserName())
                                     .orElseThrow(NoSuchElementException::new);
 
         serviceOrder.setClient(client);
@@ -80,9 +81,9 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
     }
 
     @Override
-    public void updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException{
+    public boolean updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException{
 
-        ServiceOrder serviceOrder = ServiceOrderConvertor.convert(serviceOrderDto);
+        ServiceOrder serviceOrder = serviceOrderDao.findById(serviceOrderDto.getId());
 
         var parts =serviceOrderDto.getPartsIds().stream()
                 .map(s ->partDao.findPartById(s))
@@ -90,8 +91,15 @@ public class ServiceOrderServiceImpl  extends UnicastRemoteObject implements lib
 
                 serviceOrder.setParts(parts);
 
-                serviceOrderDao.updateServiceOrder(serviceOrder);
+              return  serviceOrderDao.updateServiceOrder(serviceOrder);
 
+    }
 
+    @Override
+    public List<Object[]> findOrdersByIds(int id) throws RemoteException{
+//         serviceOrderDao.findOrdersByIds(id).stream()
+//                .map(s -> Arrays.stream(s))
+//                 .map(s ->s.)
+        return null;
     }
 }

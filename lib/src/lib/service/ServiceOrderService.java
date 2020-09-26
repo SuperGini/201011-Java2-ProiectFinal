@@ -17,5 +17,7 @@ public interface ServiceOrderService extends Remote {
 
     List<Integer> findAllServiceOrderIds() throws RemoteException;
 
-    void updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException;
+    boolean updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException;
+
+    List<Object[]> findOrdersByIds(int id) throws RemoteException;
 }

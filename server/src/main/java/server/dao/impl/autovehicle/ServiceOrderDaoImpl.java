@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
@@ -34,7 +35,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
     @Override
     public Collection<ServiceOrder> findAll(){
 
-        TypedQuery<ServiceOrder> query = entityManager.createNamedQuery("ServiceOrcer.findAll", ServiceOrder.class);
+        TypedQuery<ServiceOrder> query = entityManager.createNamedQuery("ServiceOrder.findAll", ServiceOrder.class);
         return query.getResultList();
     }
 
@@ -47,12 +48,23 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
     }
 
     @Override
-    public void updateServiceOrder(ServiceOrder serviceOrder){
+    public boolean updateServiceOrder(ServiceOrder serviceOrder){
 
         entityManager.getTransaction().begin();
         entityManager.merge(serviceOrder);
         entityManager.getTransaction().commit();
 
+        return entityManager.getTransaction().getRollbackOnly();
+    }
+
+    @Override
+    public Optional<ServiceOrder> findOrdersByIds(int id){
+
+
+        TypedQuery<ServiceOrder> query = entityManager.createNamedQuery("ServiceOrder.findOrderById", ServiceOrder.class);
+        query.setParameter("id", id);
+
+        return query.getResultList().stream().findFirst();
     }
 
 

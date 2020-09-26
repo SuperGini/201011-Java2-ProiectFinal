@@ -68,14 +68,25 @@ public class ServiceOrderController implements ServiceOrderService {
     }
 
     @Override
-    public void updateServiceOrder(ServiceOrderDto serviceOrderDto){
+    public boolean updateServiceOrder(ServiceOrderDto serviceOrderDto){
         try {
-            serviceOrderService.updateServiceOrder(serviceOrderDto);
+           return serviceOrderService.updateServiceOrder(serviceOrderDto);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Object[]> findOrdersByIds(int id){
+        try {
+           return serviceOrderService.findOrdersByIds(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private static final class SingeltonHolder{
         public static final ServiceOrderController INSTANCE = new ServiceOrderController();

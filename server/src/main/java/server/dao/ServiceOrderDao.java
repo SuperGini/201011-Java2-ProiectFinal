@@ -4,6 +4,7 @@ import server.model.autovehicle.ServiceOrder;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface ServiceOrderDao {
     boolean createServiceOrder(ServiceOrder serviceOrder);
@@ -14,5 +15,7 @@ public interface ServiceOrderDao {
 
     List<Integer> findAllServiceOrderIds();
 
-    void updateServiceOrder(ServiceOrder serviceOrder);
+    boolean updateServiceOrder(ServiceOrder serviceOrder);
+
+    Optional<ServiceOrder> findOrdersByIds(int id);
 }
