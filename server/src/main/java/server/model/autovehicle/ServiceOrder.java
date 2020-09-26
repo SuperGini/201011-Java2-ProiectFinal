@@ -21,6 +21,8 @@ public class ServiceOrder {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
+    private int partCount;
+
     private double total;
 
     public ServiceOrder(int id, double total) {
@@ -97,13 +99,13 @@ public class ServiceOrder {
         this.total = total;
     }
 
-//    public Instant getTimeStamp() {
-//        return timeStamp;
-//    }
-//
-//    public void setTimeStamp(Instant timeStamp) {
-//        this.timeStamp = timeStamp;
-//    }
+    public int getPartCount() {
+        return partCount;
+    }
+
+    public void setPartCount(int partCount) {
+        this.partCount = partCount;
+    }
 
     public User getUser() {
         return user;

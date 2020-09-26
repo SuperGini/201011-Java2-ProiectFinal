@@ -10,9 +10,11 @@ public class ServiceOrderDto implements Serializable {
 
     private int id;
 
+    private int partCount;
+
     private double total;
 
-   // private Instant timeStamp;
+
 
     private List<String> carProblems = new ArrayList<>();
 
@@ -26,11 +28,7 @@ public class ServiceOrderDto implements Serializable {
 
     private ClientDto clientDto;
 
-//    private String idUsername;
-//
-//    private int idClient;
-//
-//    private int idVehicul;
+
 
     public ServiceOrderDto(int id, double total) {
         this.id = id;
@@ -107,28 +105,11 @@ public class ServiceOrderDto implements Serializable {
         this.vehicleDtos = vehicleDtos;
     }
 
+    public int getPartCount() {
+        return partCount;
+    }
 
-//    public String getIdUsername() {
-//        return idUsername;
-//    }
-//
-//    public void setIdUsername(String idUsername) {
-//        this.idUsername = idUsername;
-//    }
-//
-//    public int getIdClient() {
-//        return idClient;
-//    }
-//
-//    public void setIdClient(int idClient) {
-//        this.idClient = idClient;
-//    }
-//
-//    public int getIdVehicul() {
-//        return idVehicul;
-//    }
-//
-//    public void setIdVehicul(int idVehicul) {
-//        this.idVehicul = idVehicul;
-//    }
+    public void setPartCount(int partCount) {
+        this.partCount = partCount;
+    }
 }

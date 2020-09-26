@@ -39,7 +39,7 @@ public class ServiceOrderConvertor {
 
         );
 
-
+        serviceOrderDto.setPartCount(serviceOrderDto.getPartCount());
         serviceOrderDto.setParts(new HashSet<>(partsDto));
         serviceOrderDto.setUserDto(userDto);
         serviceOrderDto.setVehicleDtos(vehicleDto);
