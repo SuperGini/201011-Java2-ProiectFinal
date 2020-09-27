@@ -24,6 +24,9 @@ public class PartPage extends JLabel {
     private JButton addPartToOrder;
     private JTable orderId;
     private JTable partsArea;
+    private JButton refreshListButton;
+    private JButton refreshPartTable;
+
 
     private JPanel transparentPanel;
 
@@ -53,6 +56,8 @@ public class PartPage extends JLabel {
         createPartButton();
         initUpdatePartCountButton();
         initAddPArtToOrderButton();
+        initRefreshListButton();
+        refreshPartTable();
 
         initTableServiceOrder();
         initTableDataOrderId();
@@ -122,6 +127,46 @@ public class PartPage extends JLabel {
             System.out.println(part);
 
         });
+
+    }
+
+
+    private void initRefreshListButton(){
+        refreshListButton = new JButton("refresh");
+        refreshListButton.setBounds(30,350,190,30);
+        transparentPanel.add(refreshListButton);
+        refreshListButton.addActionListener(ev ->{
+            orderIds.clear();
+            orderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIds()));
+            initTableDataOrderId();
+
+
+        });
+
+    }
+
+    private void refreshPartTable(){
+        refreshPartTable = new JButton("refresh part table");
+        refreshPartTable.setBounds(30,400,190,30);
+        transparentPanel.add(refreshPartTable);
+
+        refreshPartTable.addActionListener(ev ->{
+
+            int row = orderId.getSelectedRow();
+            int id = (int) orderId.getModel().getValueAt(row, 0);
+            partsDtos.clear();
+            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+
+
+            serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
+            tableDataParts();
+
+            System.out.println(partsDtos.toString());
+
+
+
+        });
+
 
     }
 

@@ -29,7 +29,9 @@ public class PartDaoImpl implements PartDao {
 
     @Override
     public Part findPartById(int id){
-       return entityManager.find(Part.class, id);
+       Part part = entityManager.find(Part.class, id);
+       entityManager.refresh(part);
+       return part;
     }
 
     @Override

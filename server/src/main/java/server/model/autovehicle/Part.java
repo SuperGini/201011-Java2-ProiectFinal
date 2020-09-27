@@ -29,7 +29,7 @@ public class Part {
     public Part() {
     }
 
-    @ManyToMany(mappedBy = "parts")
+    @ManyToOne()
     private ServiceOrder orders;
 
 
@@ -67,11 +67,11 @@ public class Part {
         this.count = count;
     }
 
-    public List<ServiceOrder> getOrders() {
+    public ServiceOrder getOrders() {
         return orders;
     }
 
-    public void setOrders(List<ServiceOrder> orders) {
+    public void setOrders(ServiceOrder orders) {
         this.orders = orders;
     }
 

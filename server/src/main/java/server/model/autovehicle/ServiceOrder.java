@@ -51,8 +51,7 @@ public class ServiceOrder {
     private List<CountPart> coutParts = new ArrayList<>();
 
 
-    @ManyToMany()
-    @JoinTable(name = "parts_order")
+    @OneToMany(mappedBy = "orders")
     @Basic(fetch = FetchType.EAGER)
     private List<Part> parts = new ArrayList<>();
 

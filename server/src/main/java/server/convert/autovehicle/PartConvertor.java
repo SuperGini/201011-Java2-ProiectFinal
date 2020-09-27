@@ -4,9 +4,6 @@ import lib.dto.autovehicle.PartDto;
 import server.model.autovehicle.Part;
 import server.model.autovehicle.ServiceOrder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PartConvertor {
 
 
@@ -37,10 +34,9 @@ public class PartConvertor {
                     partDto.getCount()
         );
 
-        List<ServiceOrder> serviceOrders = new ArrayList<>();
-        serviceOrders.add(ServiceOrderConvertor.convert(partDto.getServiceOrderDto()));
+       ServiceOrder serviceOrder = ServiceOrderConvertor.convert(partDto.getServiceOrderDto());
 
-        part.setOrders(serviceOrders);
+        part.setOrders(serviceOrder);
      //   part.setTotalNumberOfParts(partDto.getTotalNumberOfParts());
 
         return part;

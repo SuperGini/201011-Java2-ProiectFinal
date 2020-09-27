@@ -69,6 +69,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         TypedQuery<ServiceOrder> query = entityManager.createNamedQuery("ServiceOrder.findOrderById", ServiceOrder.class);
         query.setParameter("id", id);
 
+
         return query.getResultList().stream().findFirst();
     }
 

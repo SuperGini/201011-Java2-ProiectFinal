@@ -39,7 +39,7 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
         ServiceOrder serviceOrder = serviceOrderDao.findById(partDto.getServiceOrderDto().getId());
 
         Optional<Part> findPart = partDao.findPartByName(part.getPartName());
-
+            part.setOrders(serviceOrder);
 
         if(findPart.isEmpty()){
 
