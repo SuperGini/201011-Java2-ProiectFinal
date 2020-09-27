@@ -31,6 +31,8 @@ public class PartPage extends JLabel {
     private JButton closePartOrder;
     private JLabel totalLabel;
     private JLabel finalPrice;
+    private JLabel genericLabel;
+    private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
     private int id;
 
@@ -41,6 +43,8 @@ public class PartPage extends JLabel {
 
     private JScrollPane scrollPane;
     private JScrollPane scrollPaneOrder;
+
+    private List<JLabel> genericLabels = new ArrayList<>();
 
     private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
     private List<PartDto> partsDtos = new CopyOnWriteArrayList<>();
@@ -63,7 +67,10 @@ public class PartPage extends JLabel {
         initUpdatePartCountButton();
         initAddPArtToOrderButton();
         initRefreshListButton();
-     //   refreshPartTable();
+        initGenerilLabels();
+        initMiniLabels();
+
+
         initTotalLabel();
         initFinalPriceLabel();
         initClosePartOrder();
@@ -199,14 +206,38 @@ public class PartPage extends JLabel {
 
     }
 
-//    private void refreshPartTable(){
-//        refreshPartTable = new JButton("refresh part table");
-//        refreshPartTable.setBounds(30,400,190,30);
-//        transparentPanel.add(refreshPartTable);
-//
-//
-//
-//    }
+    private void initGenerilLabels(){
+        String [] label = {"Order:", "User:", "Client:", "Brand:", "Serial:"};
+
+        for( int i = 0; i < 5; i++){
+            genericLabel = new JLabel(label[i]);
+            genericLabel.setBounds(420,50 + (i*30), 50,20);
+            genericLabels.add(genericLabel);
+            transparentPanel.add(genericLabel);
+        }
+    }
+
+    private void initMiniLabels(){
+        orderLabel = new JLabel("");
+        orderLabel.setBounds(460,50, 50,20);
+        transparentPanel.add(orderLabel);
+
+        userLabel = new JLabel("");
+        userLabel.setBounds(460,80, 50,20);
+        transparentPanel.add(userLabel);
+
+        clientLabel = new JLabel("");
+        clientLabel.setBounds(460,110, 50,20);
+        transparentPanel.add(clientLabel);
+
+        brandLabel = new JLabel("");
+        brandLabel.setBounds(460,140, 50,20);
+        transparentPanel.add(brandLabel);
+
+        serialLabel = new JLabel("");
+        serialLabel.setBounds(460,170, 50,20);
+        transparentPanel.add(serialLabel);
+    }
 
 
 
@@ -391,10 +422,11 @@ public class PartPage extends JLabel {
 
 
     private void refreshPartTable(int id){
+
         partsDtos.clear();
         ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+        setGenericLabels(serviceOrderDto);
 
-        //++++++++++++++++++++aici treubuioe bagata++++++++++++++++++++++++++++++++++++
         serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
         tableDataParts();
 
@@ -407,6 +439,14 @@ public class PartPage extends JLabel {
 
         finalPrice.setText(c);
 
+    }
+
+    private void setGenericLabels( ServiceOrderDto serviceOrderDto){
+        orderLabel.setText(String.valueOf(serviceOrderDto.getId()));
+        clientLabel.setText(serviceOrderDto.getClientDto().getName());
+        brandLabel.setText(serviceOrderDto.getVehicleDtos().getVehicleName());
+        serialLabel.setText(serviceOrderDto.getVehicleDtos().getSerialNumber());
+        userLabel.setText(serviceOrderDto.getUserDto().getUserId().getUserName());
     }
 
     private double totalSum(PartDto partDto){
