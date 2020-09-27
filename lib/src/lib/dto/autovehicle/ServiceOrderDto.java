@@ -10,17 +10,7 @@ public class ServiceOrderDto implements Serializable {
 
     private int id;
 
-    private int partCount;
-
     private double total;
-
-
-
-    private List<String> carProblems = new ArrayList<>();
-
-    private Collection<PartDto> parts = new HashSet<>();
-
-    private Set<Integer> partsIds = new HashSet<>();
 
     private VehicleDto vehicleDtos;
 
@@ -29,6 +19,15 @@ public class ServiceOrderDto implements Serializable {
     private ClientDto clientDto;
 
 
+    private List<String> carProblems = new ArrayList<>();
+
+    private List<PartDto> parts = new ArrayList<>();
+
+
+    private List<Integer> partsIds = new ArrayList();
+
+    private List<CountPartDto> countPartDtos = new ArrayList<>();
+
 
     public ServiceOrderDto(int id, double total) {
         this.id = id;
@@ -36,11 +35,23 @@ public class ServiceOrderDto implements Serializable {
 
     }
 
-    public Set<Integer> getPartsIds() {
+    public List<PartDto> getParts() {
+        return parts;
+    }
+
+    public List<Integer> getPartsIds() {
         return partsIds;
     }
 
-    public void setPartsIds(Set<Integer> partsIds) {
+    public List<CountPartDto> getCountPartDtos() {
+        return countPartDtos;
+    }
+
+    public void setCountPartDtos(List<CountPartDto> countPartDtos) {
+        this.countPartDtos = countPartDtos;
+    }
+
+    public void setPartsIds(List<Integer> partsIds) {
         this.partsIds = partsIds;
     }
 
@@ -73,14 +84,6 @@ public class ServiceOrderDto implements Serializable {
         this.carProblems = carProblems;
     }
 
-    public Collection<PartDto> getParts() {
-        return parts;
-    }
-
-    public void setParts(Collection<PartDto> parts) {
-        this.parts = parts;
-    }
-
     public UserDto getUserDto() {
         return userDto;
     }
@@ -105,11 +108,8 @@ public class ServiceOrderDto implements Serializable {
         this.vehicleDtos = vehicleDtos;
     }
 
-    public int getPartCount() {
-        return partCount;
+    public void setParts(List<PartDto> parts) {
+        this.parts = parts;
     }
 
-    public void setPartCount(int partCount) {
-        this.partCount = partCount;
-    }
 }

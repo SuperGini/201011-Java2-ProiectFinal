@@ -1,10 +1,12 @@
 package client.gui.label.pages;
 
+import client.controller.autovehicle.CountPartController;
 import client.controller.autovehicle.PartController;
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.autovehicle.VehicleController;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
+import lib.dto.autovehicle.CountPartDto;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.VehicleDto;
@@ -13,9 +15,11 @@ import lib.dto.client.ClientDto;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.NoSuchElementException;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class CreateOrderPage extends JLabel {
@@ -64,17 +68,20 @@ public class CreateOrderPage extends JLabel {
     private DefaultTableModel tableModel;
     private DefaultTableModel orderModel;
 
-    private Collection<PartDto> partsDtos = new CopyOnWriteArraySet<>();
-    private List<Integer> orderIds = ServiceOrderController.getInstance().findAllServiceOrderIds();
+    private List<PartDto> partsDtos = new ArrayList<>();
+    private List<CountPartDto> countPartDtos = new ArrayList<>();
 
 
 
-    private DefaultListModel<Integer> listOrderId= new DefaultListModel<>();
+
+
+    private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
+
 
     private ClientDto clientDto = new ClientDto();
     private VehicleDto vehicleDto = new VehicleDto();
     private PartDto partDto;
-    private ServiceOrderDto serviceOrderDto = new ServiceOrderDto();
+    private ServiceOrderDto serviceOrderDto;
 
 
     public CreateOrderPage(int x, int y, int width, int height) {
@@ -253,13 +260,12 @@ public class CreateOrderPage extends JLabel {
 
         Object [] row = new Object [4];
 
-        for(PartDto partDto : partsDtos){
-            row[0] = partDto.getId();
-            row[1] = partDto.getPartName();
-            row[2] = partDto.getCount();
-            row[3] = partDto.getPrice();
+        for(int i = 0; i < partsDtos.size(); i++){
+            row [0] = partsDtos.get(i).getId();
+            row [1] = partsDtos.get(i).getPartName();
+            row [2] = countPartDtos.get(i).getCountPartDto();
+            row [3] = partsDtos.get(i).getPrice();
             tableModel.addRow(row);
-
         }
     }
 
@@ -300,27 +306,34 @@ public class CreateOrderPage extends JLabel {
 
             var idOfParts = partsDtos.stream()
                                      .map(PartDto::getId)
-                                     .collect(Collectors.toSet());
+                                     .collect(Collectors.toList());
 
-            serviceOrderDto.setPartsIds(idOfParts);
+
+                try{
+                    serviceOrderDto.setPartsIds(new CopyOnWriteArrayList<>(idOfParts));
+
+                    System.out.println("id la piese");
+                    System.out.println(serviceOrderDto.getPartsIds().stream().map(s->s.toString()).collect(Collectors.joining(", ")));
+                   // serviceOrderDto.setCountPartDtos(countPartDtos);
+
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+
+                    JOptionPane.showMessageDialog(null, "Select order first" );
+                }
+
+
+
 
            if(!ServiceOrderController.getInstance().updateServiceOrder(serviceOrderDto)){
                partsDtos.clear();
+
                tableDataParts();
                findField.setText("");
                JOptionPane.showMessageDialog(null, "Parts added to order");
            }else{
                JOptionPane.showMessageDialog(null, "Parts are noit added to order");
            }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -335,20 +348,36 @@ public class CreateOrderPage extends JLabel {
 
         addPartToOrderButton.addActionListener(ev -> {
 
+            if(orderLabel.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Select an order first before adding a part");
+                return;
+            }
+
+
             if (!countField.getText().equals("")) {
 
             try {
 
                 int count = Integer.parseInt(countField.getText());
 
-                partDto.setCount(count);
+                CountPartDto countPartDto = new CountPartDto();
+                countPartDto.setCountPartDto(count);
+                countPartDtos.add(countPartDto);
+                countPartDto.setServiceOrderDto(serviceOrderDto);
+                if(!CountPartController.getInstance().createCount(countPartDto)){
+                    JOptionPane.showMessageDialog(null, "S-a creat count");
+                }
+
+
+
+
 
                 //:todo de facut cand baga aceeasi piesa dar o alta cantitate sa faca updae daor la count in tabel si la count in baza de date
                 if (partsDtos.add(partDto)) {
                     PartController.getInstance().decreasePartCount(count, partDto.getPartName());
                     tableDataParts();
                     findPartArea.setText("");
-                    System.out.println(serviceOrderDto.getId() + " id service order ");
+
                 }
 
 
@@ -358,6 +387,7 @@ public class CreateOrderPage extends JLabel {
                 JOptionPane.showMessageDialog(null, "Enter an integer number ");
             }catch(NullPointerException e){
                 JOptionPane.showMessageDialog(null, "Find a part first");
+                e.printStackTrace();
             }
 
         }else{
@@ -419,6 +449,7 @@ public class CreateOrderPage extends JLabel {
             int id = (int) orderId.getModel().getValueAt(row, 0);
 
             partsDtos.clear();
+
             carProblemArea.setText("");
 
             serviceOrderDto = ServiceOrderController.getInstance().findById(id);
@@ -431,7 +462,7 @@ public class CreateOrderPage extends JLabel {
 
 
             carProblemArea.append(serviceOrderDto.getCarProblems().toString());
-            partsDtos.addAll(serviceOrderDto.getParts());
+            partsDtos.addAll(new CopyOnWriteArrayList<>(serviceOrderDto.getParts()));
             tableDataParts();
 
             System.out.println(serviceOrderDto.getId());
@@ -544,33 +575,33 @@ public class CreateOrderPage extends JLabel {
 
     private void createNewOrder(){
 
-                ServiceOrderDto newServiceOrderDto = new ServiceOrderDto();
+                 serviceOrderDto = new ServiceOrderDto();
 
-               // newServiceOrderDto.setIdClient(clientDto.getId());
-                newServiceOrderDto.setClientDto(clientDto);
-                newServiceOrderDto.setVehicleDtos(vehicleDto);
-               // newServiceOrderDto.setIdVehicul(vehicleDto.getId());
-//                newServiceOrderDto.setIdUsername(
-//                        MainFrame.getInstance().getAccountPage().getUserDto().getUserId().getUserName()
-//                );
+        serviceOrderDto.setClientDto(clientDto);
+        serviceOrderDto.setVehicleDtos(vehicleDto);
 
-                 newServiceOrderDto.setUserDto(MainFrame.getInstance().getAccountPage().getUserDto());
+
+        serviceOrderDto.setUserDto(MainFrame.getInstance().getAccountPage().getUserDto());
 
 
                 String text = carProblemArea.getText();
                 String [] textLines = text.split("\n");
                 List<String> lines = Arrays.asList(textLines);
 
-                newServiceOrderDto.setCarProblems(lines);
-              //   System.out.println(serviceOrderDto.getCarProblems().toString());
+        serviceOrderDto.setCarProblems(lines);
 
-                if(!ServiceOrderController.getInstance().createServiceOrder(newServiceOrderDto)){
+
+                if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
-                    System.out.println(orderIds.toString());
+
+
+                    //aici++++++++++++++++++++++++++++++++++++++++++++++++
+
                     orderIds.clear();
-                    orderIds.addAll( ServiceOrderController.getInstance().findAllServiceOrderIds());
+                    orderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIds()));
+                    System.out.println(orderIds.toString() + "++++++");
                     initTableDataOrderId();
-                    System.out.println(newServiceOrderDto.getId());
+                    System.out.println(serviceOrderDto.getId());
                 }else{
                     JOptionPane.showMessageDialog(null,"Order was not created");
 

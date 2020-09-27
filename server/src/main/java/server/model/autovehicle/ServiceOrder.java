@@ -4,7 +4,9 @@ import server.model.client.Client;
 import server.model.user.User;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "service_order")
@@ -21,9 +23,9 @@ public class ServiceOrder {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
-    private int partCount;
 
     private double total;
+
 
     public ServiceOrder(int id, double total) {
         this.id = id;
@@ -39,19 +41,37 @@ public class ServiceOrder {
     @ManyToOne
     private User user;
 
+
     @ElementCollection
     @CollectionTable(name = "problems_of_the_car")
     private List<String> carProblems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "serviceOrder")
+    @Basic(fetch = FetchType.EAGER)
+    private List<CountPart> coutParts = new ArrayList<>();
+
+
     @ManyToMany()
     @JoinTable(name = "parts_order")
-    private Collection<Part> parts = new HashSet<>();
+    @Basic(fetch = FetchType.EAGER)
+    private List<Part> parts = new ArrayList<>();
+
+
+
 
     @ManyToOne
     private Vehicle vehicle;
 
     public Vehicle getVehicle() {
         return vehicle;
+    }
+
+    public List<CountPart> getCoutParts() {
+        return coutParts;
+    }
+
+    public void setCoutParts(List<CountPart> coutParts) {
+        this.coutParts = coutParts;
     }
 
     public void setVehicle(Vehicle vehicle) {
@@ -83,11 +103,11 @@ public class ServiceOrder {
         this.carProblems = carProblems;
     }
 
-    public Collection<Part> getParts() {
+    public List<Part> getParts() {
         return parts;
     }
 
-    public void setParts(Collection<Part> parts) {
+    public void setParts(List<Part> parts) {
         this.parts = parts;
     }
 
@@ -99,13 +119,6 @@ public class ServiceOrder {
         this.total = total;
     }
 
-    public int getPartCount() {
-        return partCount;
-    }
-
-    public void setPartCount(int partCount) {
-        this.partCount = partCount;
-    }
 
     public User getUser() {
         return user;
@@ -114,6 +127,7 @@ public class ServiceOrder {
     public void setUser(User user) {
         this.user = user;
     }
+
 
     @Override
     public boolean equals(Object o) {

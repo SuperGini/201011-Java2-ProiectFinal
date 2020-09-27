@@ -14,7 +14,6 @@ import server.model.user.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 public class ServiceOrderConvertor {
@@ -30,7 +29,7 @@ public class ServiceOrderConvertor {
         Collection<PartDto> partsDto = serviceOrder.getParts()
                                     .stream()
                                     .map(PartConvertor::convert)
-                                    .collect(Collectors.toSet());
+                                    .collect(Collectors.toList());
 
 
         ServiceOrderDto serviceOrderDto = new ServiceOrderDto(
@@ -39,8 +38,8 @@ public class ServiceOrderConvertor {
 
         );
 
-        serviceOrderDto.setPartCount(serviceOrderDto.getPartCount());
-        serviceOrderDto.setParts(new HashSet<>(partsDto));
+
+        serviceOrderDto.setParts(new ArrayList<>(partsDto));
         serviceOrderDto.setUserDto(userDto);
         serviceOrderDto.setVehicleDtos(vehicleDto);
         serviceOrderDto.setClientDto(clientDto);
@@ -67,6 +66,9 @@ public class ServiceOrderConvertor {
         Client client = CleintConvertor.convert(serviceOrderDto.getClientDto());
         Vehicle vehicle = VehicleConvetor.convert(serviceOrderDto.getVehicleDtos());
         User user = UserConvertor.convert(serviceOrderDto.getUserDto());
+
+
+
 
         serviceOrder.setClient(client);
         serviceOrder.setVehicle(vehicle);

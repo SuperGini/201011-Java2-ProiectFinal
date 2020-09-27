@@ -4,6 +4,7 @@ import server.dao.ServiceOrderDao;
 import server.model.autovehicle.ServiceOrder;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.List;
@@ -50,7 +51,11 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
     @Override
     public boolean updateServiceOrder(ServiceOrder serviceOrder){
 
+
+
         entityManager.getTransaction().begin();
+
+
         entityManager.merge(serviceOrder);
         entityManager.getTransaction().commit();
 
@@ -65,6 +70,20 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         query.setParameter("id", id);
 
         return query.getResultList().stream().findFirst();
+    }
+
+    @Override
+    public int updateParsAndPartsCount(int orderId){
+        String jpql = "UPDATE ServiceOrder o SET o.partCountInOrders = o.partCountInOrders, o.parts = o.parts WHERE o.id = : id";
+
+         entityManager.getTransaction().begin();
+         Query query = entityManager.createQuery(jpql);
+         query.setParameter("id", orderId);
+         int rows = query.executeUpdate();
+        entityManager.getTransaction().commit();
+
+        return rows;
+
     }
 
 

@@ -18,4 +18,6 @@ public interface ServiceOrderDao {
     boolean updateServiceOrder(ServiceOrder serviceOrder);
 
     Optional<ServiceOrder> findOrdersByIds(int id);
+
+    int updateParsAndPartsCount(int orderId);
 }

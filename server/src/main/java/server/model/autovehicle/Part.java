@@ -1,9 +1,7 @@
 package server.model.autovehicle;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @NamedQueries({
@@ -32,7 +30,9 @@ public class Part {
     }
 
     @ManyToMany(mappedBy = "parts")
-    private Collection<ServiceOrder> orders = new HashSet<>();
+    private ServiceOrder orders;
+
+
 
 
     public int getId() {
@@ -67,11 +67,11 @@ public class Part {
         this.count = count;
     }
 
-    public Collection<ServiceOrder> getOrders() {
+    public List<ServiceOrder> getOrders() {
         return orders;
     }
 
-    public void setOrders(Collection<ServiceOrder> orders) {
+    public void setOrders(List<ServiceOrder> orders) {
         this.orders = orders;
     }
 
@@ -88,4 +88,13 @@ public class Part {
         return Objects.hash(partName);
     }
 
+    @Override
+    public String toString() {
+        return "Part{" +
+                "id=" + id +
+                ", partName='" + partName + '\'' +
+                ", price=" + price +
+                ", count=" + count +
+                '}';
+    }
 }

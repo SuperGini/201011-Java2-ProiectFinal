@@ -13,6 +13,10 @@ public class PartDto implements Serializable {
 
     private int count;
 
+    private ServiceOrderDto serviceOrderDto;
+
+
+
     public PartDto(int id, String partName, double price, int count) {
         this.id = id;
         this.partName = partName;
@@ -55,11 +59,20 @@ public class PartDto implements Serializable {
         this.count = count;
     }
 
+
     @Override
     public String toString() {
         return  "Part:........................" + partName + "\n" +
                 "price:......................." + price + "\n" +
                 "count:......................." + count;
+    }
+
+    public ServiceOrderDto getServiceOrderDto() {
+        return serviceOrderDto;
+    }
+
+    public void setServiceOrderDto(ServiceOrderDto serviceOrderDto) {
+        this.serviceOrderDto = serviceOrderDto;
     }
 
     @Override

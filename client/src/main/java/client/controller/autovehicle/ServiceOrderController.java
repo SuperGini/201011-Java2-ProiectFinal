@@ -78,6 +78,16 @@ public class ServiceOrderController implements ServiceOrderService {
     }
 
     @Override
+    public int updateParsAndPartsCount(int orderId) {
+        try {
+           return serviceOrderService.updateParsAndPartsCount(orderId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public List<Object[]> findOrdersByIds(int id){
         try {
            return serviceOrderService.findOrdersByIds(id);

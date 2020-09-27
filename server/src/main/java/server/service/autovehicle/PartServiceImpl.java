@@ -4,8 +4,11 @@ import lib.dto.autovehicle.PartDto;
 import lib.service.PartService;
 import server.convert.autovehicle.PartConvertor;
 import server.dao.PartDao;
+import server.dao.ServiceOrderDao;
 import server.dao.impl.autovehicle.PartDaoImpl;
+import server.dao.impl.autovehicle.ServiceOrderDaoImpl;
 import server.model.autovehicle.Part;
+import server.model.autovehicle.ServiceOrder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,20 +23,26 @@ import java.util.stream.Collectors;
 public class PartServiceImpl extends UnicastRemoteObject implements PartService {
 
     private PartDao partDao;
+    private ServiceOrderDao serviceOrderDao;
 
     public PartServiceImpl() throws RemoteException {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         partDao = new PartDaoImpl(entityManager);
+        serviceOrderDao = new ServiceOrderDaoImpl(entityManager);
     }
 
     @Override
     public boolean createPart(PartDto partDto) throws RemoteException{
         Part part = PartConvertor.convert(partDto);
 
+        ServiceOrder serviceOrder = serviceOrderDao.findById(partDto.getServiceOrderDto().getId());
+
         Optional<Part> findPart = partDao.findPartByName(part.getPartName());
 
+
         if(findPart.isEmpty()){
+
         return partDao.createPart(part);
 
         }

@@ -4,9 +4,7 @@ import lib.dto.autovehicle.ServiceOrderDto;
 import lib.service.ServiceOrderService;
 import server.convert.autovehicle.ServiceOrderConvertor;
 import server.dao.*;
-import server.dao.impl.autovehicle.PartDaoImpl;
-import server.dao.impl.autovehicle.ServiceOrderDaoImpl;
-import server.dao.impl.autovehicle.VehicleDaoImpl;
+import server.dao.impl.autovehicle.*;
 import server.dao.impl.client.ClientDaoImpl;
 import server.dao.impl.user.UserDaoImpl;
 import server.model.autovehicle.ServiceOrder;
@@ -29,6 +27,8 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     private UserDao userDao;
     private ClientDao clientDao;
     private PartDao partDao;
+    private CountPartDao countPartDao;
+
 
     public ServiceOrderServiceImpl() throws RemoteException {
         var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");
@@ -39,6 +39,7 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
         userDao = new UserDaoImpl(entityManager);
         clientDao = new ClientDaoImpl(entityManager);
         partDao = new PartDaoImpl(entityManager);
+        countPartDao = new CountPartDaoImpl(entityManager);
 
     }
 
@@ -85,15 +86,34 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
 
         ServiceOrder serviceOrder = serviceOrderDao.findById(serviceOrderDto.getId());
 
+
+
         var parts =serviceOrderDto.getPartsIds().stream()
                 .map(s ->partDao.findPartById(s))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
+
+//        var countParts = serviceOrder.getCoutParts().stream()
+//                .map(s->countPartDao.findById(s.getId()))
+//                .collect(Collectors.toList());
+
 
                 serviceOrder.setParts(parts);
+            //    serviceOrder.setCoutParts(countParts);
+
+            //    countParts.stream().forEach(s ->s.setServiceOrder(serviceOrder));
+
+
 
               return  serviceOrderDao.updateServiceOrder(serviceOrder);
 
     }
+
+    @Override
+    public int updateParsAndPartsCount(int orderId) throws RemoteException{
+      return   serviceOrderDao.updateParsAndPartsCount(orderId);
+
+    }
+
 
     @Override
     public List<Object[]> findOrdersByIds(int id) throws RemoteException{

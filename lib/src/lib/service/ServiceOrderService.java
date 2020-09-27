@@ -19,5 +19,7 @@ public interface ServiceOrderService extends Remote {
 
     boolean updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException;
 
+    int updateParsAndPartsCount(int orderId) throws RemoteException;
+
     List<Object[]> findOrdersByIds(int id) throws RemoteException;
 }
