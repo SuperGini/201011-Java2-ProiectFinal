@@ -53,8 +53,6 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
     @Override
     public boolean updateServiceOrder(ServiceOrder serviceOrder){
 
-
-
         entityManager.getTransaction().begin();
 
 
@@ -75,6 +73,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return query.getResultList().stream().findFirst();
     }
 
+    //de sters
     @Override
     public int updateParsAndPartsCount(int orderId){
         String jpql = "UPDATE ServiceOrder o SET o.partCountInOrders = o.partCountInOrders, o.parts = o.parts WHERE o.id = : id";
@@ -89,6 +88,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
     }
 
+    //de sters
     @Override
     public Object initInfoOnPartPageAndCreateOrderPage(int orderId){
         String jpql = "SELECT o.parts FROM ServiceOrder AS o WHERE o.id = :id";
@@ -98,17 +98,23 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return query.getSingleResult();
     }
 
+    @Override
+    public int setTotalPriceToOrder(int orderId, double totalPrice){
+        String jpql ="UPDATE ServiceOrder s SET s.total = s.total + :increment WHERE s.id = :id";
+        entityManager.getTransaction().begin();
 
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("increment", totalPrice);
+        query.setParameter("id", orderId);
+        int rows = query.executeUpdate();
 
-        //todo: de rezolvat cu jpql
-//    public Collection<ServiceOrder> findByUser(String username){
-//
-//    }
+        entityManager.getTransaction().commit();
 
- //       public Optional<ServiceOrder> findByClientName(String  clientName) {
-//
-//
-//    }
+        //detach la instanta
+      //  entityManager.detach(findById(orderId));
+        return rows;
+
+    }
 
 
 

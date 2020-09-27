@@ -22,4 +22,6 @@ public interface ServiceOrderDao {
     int updateParsAndPartsCount(int orderId);
 
     Object initInfoOnPartPageAndCreateOrderPage(int orderId);
+
+    int setTotalPriceToOrder(int orderId, double totalPrice);
 }

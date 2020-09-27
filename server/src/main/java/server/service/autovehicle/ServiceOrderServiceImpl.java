@@ -126,7 +126,7 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     }
 
 
-
+    //de sters
     @Override
     public List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId)throws RemoteException{
 
@@ -135,7 +135,10 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
                return y.getParts().stream().map(PartConvertor::convert)
                        .collect(Collectors.toList());
 
+    }
 
-
+    @Override
+    public int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException{
+        return serviceOrderDao.setTotalPriceToOrder(orderId, totalPrice);
     }
 }

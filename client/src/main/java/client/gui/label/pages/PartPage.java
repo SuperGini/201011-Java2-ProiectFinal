@@ -182,6 +182,20 @@ public class PartPage extends JLabel {
         closePartOrder.setBounds(545,450,400,40);
         transparentPanel.add(closePartOrder);
 
+        closePartOrder.addActionListener(ev ->{
+
+            double totalPrice = Double.parseDouble(finalPrice.getText());
+
+            int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id,totalPrice);
+
+            if(updatePrice > 0){
+                JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + finalPrice.getText());
+            }
+
+
+
+        });
+
 
     }
 
@@ -258,6 +272,7 @@ public class PartPage extends JLabel {
 
             if(PartController.getInstance().increasePartCount(count, partName) > 0){
                 JOptionPane.showMessageDialog(null, "The count for this part was updated");
+                refreshPartTable(id);
             }else{
                 JOptionPane.showMessageDialog(null, "This part does not exist in the warehouse");
             }
@@ -270,11 +285,7 @@ public class PartPage extends JLabel {
 
 
     private void initTableServiceOrder(){
-//
-//        orderList = new JList<>(listOrderId);
-//        orderList.setBounds(5,50,100,450);
-//        transparentPanel.add(orderList);
-//        listOrderId.
+
 
 
 

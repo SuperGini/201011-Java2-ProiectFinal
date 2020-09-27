@@ -108,6 +108,16 @@ public class ServiceOrderController implements ServiceOrderService {
         }
     }
 
+    @Override
+    public int setTotalPriceToOrder(int orderId, double totalPrice){
+        try {
+            return serviceOrderService.setTotalPriceToOrder(orderId, totalPrice);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private static final class SingeltonHolder{
         public static final ServiceOrderController INSTANCE = new ServiceOrderController();

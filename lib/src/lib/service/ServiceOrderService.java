@@ -25,4 +25,6 @@ public interface ServiceOrderService extends Remote {
     List<Object[]> findOrdersByIds(int id) throws RemoteException;
 
     List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId) throws RemoteException;
+
+    int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException;
 }
