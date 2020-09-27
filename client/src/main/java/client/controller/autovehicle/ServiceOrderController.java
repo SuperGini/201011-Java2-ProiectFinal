@@ -1,5 +1,6 @@
 package client.controller.autovehicle;
 
+import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.service.ServiceOrderService;
 
@@ -91,6 +92,16 @@ public class ServiceOrderController implements ServiceOrderService {
     public List<Object[]> findOrdersByIds(int id){
         try {
            return serviceOrderService.findOrdersByIds(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId){
+        try {
+            return serviceOrderService.initInfoOnPartPageAndCreateOrderPage(orderId);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

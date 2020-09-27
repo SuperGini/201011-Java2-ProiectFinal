@@ -13,7 +13,9 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name ="ServiceOrder.findAll", query = "SELECT s FROM ServiceOrder s"),
         @NamedQuery(name = "ServiceOrder.findAllIds" , query ="SELECT o.id FROM ServiceOrder o" ),
-        @NamedQuery(name = "ServiceOrder.findOrderById", query = "SELECT o FROM ServiceOrder o WHERE o.id = :id" )
+        @NamedQuery(name = "ServiceOrder.findOrderById", query = "SELECT o FROM ServiceOrder o WHERE o.id = :id" ),
+        @NamedQuery(name = "ServiceOrder.selectParts", query = "SELECT o.parts FROM ServiceOrder o WHERE o.id = :id")
+
 })
 
 

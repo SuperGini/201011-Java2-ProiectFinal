@@ -1,5 +1,6 @@
 package lib.service;
 
+import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 
 import java.rmi.Remote;
@@ -22,4 +23,6 @@ public interface ServiceOrderService extends Remote {
     int updateParsAndPartsCount(int orderId) throws RemoteException;
 
     List<Object[]> findOrdersByIds(int id) throws RemoteException;
+
+    List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId) throws RemoteException;
 }

@@ -30,7 +30,9 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
     @Override
     public ServiceOrder findById(int id){
-           return entityManager.find(ServiceOrder.class, id);
+           ServiceOrder serviceOrder = entityManager.find(ServiceOrder.class, id);
+           entityManager.refresh(serviceOrder);
+           return serviceOrder;
     }
 
     @Override
@@ -85,6 +87,15 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
         return rows;
 
+    }
+
+    @Override
+    public Object initInfoOnPartPageAndCreateOrderPage(int orderId){
+        String jpql = "SELECT o.parts FROM ServiceOrder AS o WHERE o.id = :id";
+        TypedQuery<Object> query = entityManager.createQuery(jpql, Object.class);
+        query.setParameter("id", orderId);
+
+        return query.getSingleResult();
     }
 
 

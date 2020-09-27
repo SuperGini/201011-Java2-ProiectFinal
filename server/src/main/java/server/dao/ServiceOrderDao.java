@@ -20,4 +20,6 @@ public interface ServiceOrderDao {
     Optional<ServiceOrder> findOrdersByIds(int id);
 
     int updateParsAndPartsCount(int orderId);
+
+    Object initInfoOnPartPageAndCreateOrderPage(int orderId);
 }

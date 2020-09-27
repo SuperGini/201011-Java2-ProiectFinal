@@ -9,6 +9,8 @@ import lib.dto.autovehicle.ServiceOrderDto;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,7 +28,11 @@ public class PartPage extends JLabel {
     private JTable partsArea;
     private JButton refreshListButton;
     private JButton refreshPartTable;
+    private JButton closePartOrder;
+    private JLabel totalLabel;
+    private JLabel finalPrice;
 
+    private int id;
 
     private JPanel transparentPanel;
 
@@ -37,7 +43,7 @@ public class PartPage extends JLabel {
     private JScrollPane scrollPaneOrder;
 
     private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
-    private List<PartDto> partsDtos = new ArrayList<>();
+    private List<PartDto> partsDtos = new CopyOnWriteArrayList<>();
 
 
     private List<JLabel> partLabels = new ArrayList<>();
@@ -57,12 +63,21 @@ public class PartPage extends JLabel {
         initUpdatePartCountButton();
         initAddPArtToOrderButton();
         initRefreshListButton();
-        refreshPartTable();
+     //   refreshPartTable();
+        initTotalLabel();
+        initFinalPriceLabel();
+        initClosePartOrder();
 
         initTableServiceOrder();
         initTableDataOrderId();
         tableDataParts();
         initPartsArea();
+
+        selectOrdersWithMouse();
+
+
+
+
     }
 
     private void initTransparentPanel(){
@@ -130,6 +145,22 @@ public class PartPage extends JLabel {
 
     }
 
+    private void initTotalLabel(){
+        totalLabel = new JLabel("Total:................................................................");
+        totalLabel.setFont(new Font("Dialog",Font.BOLD, 16));
+        totalLabel.setBounds(645,400,200,30);
+        transparentPanel.add(totalLabel);
+    }
+
+
+    private void initFinalPriceLabel(){
+        finalPrice  = new JLabel("0");
+        finalPrice.setFont(new Font("Dialog",Font.BOLD, 16));
+        finalPrice.setBounds(850,400,200,30);
+        transparentPanel.add(finalPrice);
+
+    }
+
 
     private void initRefreshListButton(){
         refreshListButton = new JButton("refresh");
@@ -145,30 +176,23 @@ public class PartPage extends JLabel {
 
     }
 
-    private void refreshPartTable(){
-        refreshPartTable = new JButton("refresh part table");
-        refreshPartTable.setBounds(30,400,190,30);
-        transparentPanel.add(refreshPartTable);
 
-        refreshPartTable.addActionListener(ev ->{
-
-            int row = orderId.getSelectedRow();
-            int id = (int) orderId.getModel().getValueAt(row, 0);
-            partsDtos.clear();
-            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
-
-
-            serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
-            tableDataParts();
-
-            System.out.println(partsDtos.toString());
-
-
-
-        });
+    private void initClosePartOrder(){
+        closePartOrder = new JButton("close part order");
+        closePartOrder.setBounds(545,450,400,40);
+        transparentPanel.add(closePartOrder);
 
 
     }
+
+//    private void refreshPartTable(){
+//        refreshPartTable = new JButton("refresh part table");
+//        refreshPartTable.setBounds(30,400,190,30);
+//        transparentPanel.add(refreshPartTable);
+//
+//
+//
+//    }
 
 
 
@@ -186,11 +210,11 @@ public class PartPage extends JLabel {
         List<Integer> totalCount = new ArrayList<>();
         partDto.setPartName(partField.getText());
 
-
-        int row = orderId.getSelectedRow();
-        int id = (int) orderId.getModel().getValueAt(row, 0);
-
-        ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+//
+//        int row = orderId.getSelectedRow();
+//        int id = (int) orderId.getModel().getValueAt(row, 0);
+//
+            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
 
 
 
@@ -200,6 +224,8 @@ public class PartPage extends JLabel {
 
             partDto.setPrice(Double.parseDouble(priceField.getText()));
             partDto.setCount(Integer.parseInt(countField.getText()));
+
+            serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
             partDto.setServiceOrderDto(serviceOrderDto);
 
 
@@ -208,7 +234,8 @@ public class PartPage extends JLabel {
             //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
             try {
                 if (!PartController.getInstance().createPart(partDto)) {
-                    JOptionPane.showMessageDialog(null, "Part was added to warehouse");
+                    JOptionPane.showMessageDialog(null, "Part added to order");
+                    refreshPartTable(id);
                 }
 
             }catch(IllegalArgumentException e){
@@ -254,9 +281,9 @@ public class PartPage extends JLabel {
 
 
         orderId = new JTable(orderModel);
-        orderId.setBounds(300,50,100,450);
+        orderId.setBounds(540,50,100,350);
         scrollPaneOrder = new JScrollPane(orderId);
-        scrollPaneOrder.setBounds(300,50,100,450);
+        scrollPaneOrder.setBounds(540,50,100,350);
         transparentPanel.add(scrollPaneOrder);
         orderId.setRowHeight(20);
         orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
@@ -321,7 +348,6 @@ public class PartPage extends JLabel {
 
 
 
-
         Object [] row = new Object [4];
 
 
@@ -332,19 +358,49 @@ public class PartPage extends JLabel {
             row[3] = partDto.getPrice();
             tableModel.addRow(row);
         }
+    }
+
+    private void selectOrdersWithMouse(){
+
+        orderId.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = orderId.rowAtPoint(e.getPoint());
+                int col = orderId.columnAtPoint(e.getPoint());
+                id = (int) orderId.getModel().getValueAt(row, col);
+
+                if(id != 0 && e.getClickCount() == 1){
+
+                    refreshPartTable(id);
+
+                }
+            }
+        });
+    }
 
 
-//        for(int i = 0; i < partsDtos.size(); i++){
-//            row [0] = partsDtos.get(i).getId();
-//            row [1] = partsDtos.get(i).getPartName();
-//            row [2] = countPartDtos.get(i).getCountPartDto();
-//            row [3] = partsDtos.get(i).getPrice();
-//            tableModel.addRow(row);
-//
-//        }
+    private void refreshPartTable(int id){
+        partsDtos.clear();
+        ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+
+        //++++++++++++++++++++aici treubuioe bagata++++++++++++++++++++++++++++++++++++
+        serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
+        tableDataParts();
+
+        double x =  partsDtos.stream()
+                .map(s ->totalSum(s))
+                .reduce(0.0, Double::sum);
+
+
+        String c = String.format("%.2f",x);
+
+        finalPrice.setText(c);
 
     }
 
+    private double totalSum(PartDto partDto){
+        return partDto.getCount() * partDto.getPrice();
+    }
 
 
 

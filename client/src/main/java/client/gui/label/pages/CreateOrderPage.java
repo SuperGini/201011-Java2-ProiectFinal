@@ -263,7 +263,7 @@ public class CreateOrderPage extends JLabel {
         for(int i = 0; i < partsDtos.size(); i++){
             row [0] = partsDtos.get(i).getId();
             row [1] = partsDtos.get(i).getPartName();
-            row [2] = countPartDtos.get(i).getCountPartDto();
+            row [2] = partsDtos.get(i).getCount();
             row [3] = partsDtos.get(i).getPrice();
             tableModel.addRow(row);
         }

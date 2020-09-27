@@ -1,7 +1,9 @@
 package server.service.autovehicle;
 
+import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.service.ServiceOrderService;
+import server.convert.autovehicle.PartConvertor;
 import server.convert.autovehicle.ServiceOrderConvertor;
 import server.dao.*;
 import server.dao.impl.autovehicle.*;
@@ -114,12 +116,26 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
 
     }
 
-
+    //de sters
     @Override
     public List<Object[]> findOrdersByIds(int id) throws RemoteException{
 //         serviceOrderDao.findOrdersByIds(id).stream()
 //                .map(s -> Arrays.stream(s))
 //                 .map(s ->s.)
         return null;
+    }
+
+
+
+    @Override
+    public List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId)throws RemoteException{
+
+        Object x = serviceOrderDao.initInfoOnPartPageAndCreateOrderPage(orderId);
+              ServiceOrder y = (ServiceOrder)  x;
+               return y.getParts().stream().map(PartConvertor::convert)
+                       .collect(Collectors.toList());
+
+
+
     }
 }
