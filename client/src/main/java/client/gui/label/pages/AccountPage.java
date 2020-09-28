@@ -1,5 +1,6 @@
 package client.gui.label.pages;
 
+import client.controller.user.UserController;
 import client.gui.panel.TransparentPanel;
 import lib.dto.user.UserDto;
 
@@ -12,9 +13,9 @@ public class AccountPage extends JLabel {
 
     private JPanel transparentPanel;
     private JLabel credentialLabel;
-    private JTextField changeCredentials;
-    private JPasswordField newPassword;
-    private JPasswordField oldPasswod;
+    private JTextField changeCredentialsField;
+    private JPasswordField newPasswordField;
+    private JPasswordField verifyPasswodField;
     private JButton usernameButton;
     private JButton emailButton;
     private JButton phone1Button;
@@ -39,8 +40,8 @@ public class AccountPage extends JLabel {
     public AccountPage(int x, int y, int width, int height) {
         this.setBounds(x, y, width, height);
         initTransparentPanel();
-        initUsernameButton();
-        initEmailButton();
+//        initUsernameButton();
+//        initEmailButton();
         initPhone1Button();
         initPhoneNumber2();
         changePasswordButton();
@@ -63,22 +64,26 @@ public class AccountPage extends JLabel {
     }
 
 
-    private void initUsernameButton(){
-        usernameButton = new JButton(change);
-        usernameButton.setBounds(30,100, 200, 30);
-        usernameButton.setBackground(color);
-        usernameButton.setFocusable(false);
-        transparentPanel.add(usernameButton);
+//    private void initUsernameButton() {
+//        usernameButton = new JButton(change);
+//        usernameButton.setBounds(30, 100, 200, 30);
+//        usernameButton.setBackground(color);
+//        usernameButton.setFocusable(false);
+//        transparentPanel.add(usernameButton);
+//
+//    }
 
-    }
 
-    private void initEmailButton(){
-        emailButton = new JButton(change);
-        emailButton.setBounds(30,150, 200, 30);
-        emailButton.setBackground(color);
-        emailButton.setFocusable(false);
-        transparentPanel.add(emailButton);
-    }
+
+
+
+//    private void initEmailButton(){
+//        emailButton = new JButton(change);
+//        emailButton.setBounds(30,150, 200, 30);
+//        emailButton.setBackground(color);
+//        emailButton.setFocusable(false);
+//        transparentPanel.add(emailButton);
+//    }
 
     private void initPhone1Button(){
         phone1Button = new JButton(change);
@@ -102,27 +107,53 @@ public class AccountPage extends JLabel {
         changePasswordButton.setBackground(color);
         changePasswordButton.setFocusable(false);
         transparentPanel.add(changePasswordButton);
+
+        changePasswordButton.addActionListener(ev->{
+
+            if(new String(newPasswordField.getPassword()).equals(new String(verifyPasswodField.getPassword()))){
+
+                int updatePassword =  UserController.getInstance()
+                        .updatePassword(new String(newPasswordField.getPassword()),userDto.getUserId().getUserName());
+
+                if(updatePassword > 0){
+
+                    JOptionPane.showMessageDialog(null, "Password updated");
+
+                }
+
+                if(updatePassword == 0){
+                    JOptionPane.showMessageDialog(null, "Password was not updated");
+                }
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Passwords do not match");
+            }
+
+
+
+
+        });
     }
 
     private void initChangeCredentialField(){
-        changeCredentials  = new JTextField();
-        changeCredentials.setBounds(250,100, 200, 30);
-        transparentPanel.add(changeCredentials);
+        changeCredentialsField = new JTextField();
+        changeCredentialsField.setBounds(250,100, 200, 30);
+        transparentPanel.add(changeCredentialsField);
     }
 
     private void initOldPAssword(){
-        oldPasswod = new JPasswordField();
-        oldPasswod.setBounds(250,300, 200, 30);
-        transparentPanel.add(oldPasswod);
+        verifyPasswodField = new JPasswordField();
+        verifyPasswodField.setBounds(250,300, 200, 30);
+        transparentPanel.add(verifyPasswodField);
     }
 
 
 
     private void initNewPassword(){
-        newPassword = new JPasswordField();
-        newPassword.setBounds(250,350, 200, 30);
-        newPassword.setVisible(true);
-        transparentPanel.add(newPassword);
+        newPasswordField = new JPasswordField();
+        newPasswordField.setBounds(250,350, 200, 30);
+        newPasswordField.setVisible(true);
+        transparentPanel.add(newPasswordField);
     }
 
     private void initGenericalLabels(){

@@ -4,6 +4,7 @@ import server.dao.UserDao;
 import server.model.user.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -49,17 +50,20 @@ public class UserDaoImpl implements UserDao {
         return namedQuery.getResultList();
     }
 
-//    @Override
-//    public List<User> findByEmailAdress2(String emailAdress){
-//
-//        TypedQuery<User> namedQuery = entityManager.createNamedQuery("User.findByEmail", User.class);
-//        namedQuery.setParameter("emailAdress", emailAdress );
-//        return namedQuery.getResultList();
-//    }
+    @Override
+    public int updatePassword(String newPassword, String userName){
+        String jpql ="UPDATE User u SET u.password = :password WHERE u.userId.userName = :userName";
 
+        entityManager.getTransaction().begin();
 
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("password", newPassword);
+        query.setParameter("userName",userName );
+        int row = query.executeUpdate();
 
+        entityManager.getTransaction().commit();
 
-    
+        return row;
+    }
 
 }

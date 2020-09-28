@@ -62,6 +62,12 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
 
     }
 
+    @Override
+    public int updatePassword(String newPassword, String userName) throws RemoteException{
+       return userDao.updatePassword(newPassword, userName);
+
+    }
+
 
 
 }

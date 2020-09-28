@@ -268,7 +268,7 @@ public class CreateOrderPage extends JLabel {
 //
 //
 //    }
-
+        //:todo: scrie toate obliectele pe o linie -> de vazut cum fac sa le scrie una sub alta pe mai multe linii
     private void initBillButton(){
         billButton = new JButton("Bill");
         billButton.setBounds(645,500,300,30);

@@ -66,6 +66,18 @@ public class UserController implements UserService{
         }
     }
 
+    @Override
+    public int updatePassword(String newPassword, String userName){
+        try {
+            return userService.updatePassword(newPassword, userName);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     private static final class SingletonHolder{
         public static final UserController INSTANCE = new UserController();
     }

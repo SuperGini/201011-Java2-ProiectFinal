@@ -14,5 +14,8 @@ public interface UserDao {
 
     List<User> findByName2(String userName);
 
-   // List<User> findByEmailAdress2(String emailAdress);
+
+
+    int updatePassword(String newPassword, String userName);
+
 }

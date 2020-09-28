@@ -15,4 +15,8 @@ public interface UserService extends Remote {
 
 
     UserDto loginWithUsername2(String userName, String password) throws RemoteException;
+
+    int updatePassword(String newPassword, String userName) throws RemoteException;
+
+
 }
