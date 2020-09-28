@@ -2,7 +2,6 @@ package server.dao;
 
 import server.model.user.User;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
@@ -12,10 +11,13 @@ public interface UserDao {
 
     Optional<User> findByEmailAdress(String emailAdress);
 
-    List<User> findByName2(String userName);
+//    List<User> findByName2(String userName);
 
 
 
-    int updatePassword(String newPassword, String userName);
+    int updatePassword(String newPassword, User user);
 
+    boolean addPhoneNumber(User u, String phoneNumber);
+
+    boolean updatePhoneNumber(User u);
 }

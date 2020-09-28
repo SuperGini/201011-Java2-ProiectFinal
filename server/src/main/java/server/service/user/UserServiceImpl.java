@@ -33,14 +33,14 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
 
 
     //todo: de sters la final ca nu o mai folosesc
-    @Override
-    public boolean loginWithUsername(String userName, String password) throws RemoteException {
-        Optional<User> user = userDao.findByName(userName);
-
-        return user.filter(u -> u.getPassword().equals(password))
-                .isPresent();
-
-    }
+//    @Override
+//    public boolean loginWithUsername(String userName, String password) throws RemoteException {
+//        Optional<User> user = userDao.findByName(userName);
+//
+//        return user.filter(u -> u.getPassword().equals(password))
+//                .isPresent();
+//
+//    }
     //todo: de sters la final ca nu o mai folosesc
     @Override
     public UserDto loginWithEmailAdress(String emailAdress, String password) throws RemoteException {
@@ -63,8 +63,28 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
     }
 
     @Override
-    public int updatePassword(String newPassword, String userName) throws RemoteException{
-       return userDao.updatePassword(newPassword, userName);
+    public int updatePassword(String newPassword, UserDto userDto) throws RemoteException{
+
+        User user = UserConvertor.convert(userDto);
+
+
+       return userDao.updatePassword(newPassword, user);
+
+    }
+
+    @Override
+    public boolean addPhoneNumber(UserDto userDto, String phoneNumber) throws RemoteException{
+        User user = UserConvertor.convert(userDto);
+
+       return userDao.addPhoneNumber(user, phoneNumber);
+
+    }
+
+    @Override
+    public boolean updatePhoneNumber(UserDto userDto) throws RemoteException{
+        User user = UserConvertor.convert(userDto);
+
+       return userDao.updatePhoneNumber(user);
 
     }
 

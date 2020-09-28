@@ -17,7 +17,7 @@ public class AccountPage extends JLabel {
     private JPasswordField newPasswordField;
     private JPasswordField verifyPasswodField;
     private JButton usernameButton;
-    private JButton emailButton;
+    private JButton addPhone2;
     private JButton phone1Button;
     private JButton phone2Button;
     private JButton changePasswordButton;
@@ -40,6 +40,7 @@ public class AccountPage extends JLabel {
     public AccountPage(int x, int y, int width, int height) {
         this.setBounds(x, y, width, height);
         initTransparentPanel();
+        initAddPhone2();
 //        initUsernameButton();
 //        initEmailButton();
         initPhone1Button();
@@ -77,13 +78,48 @@ public class AccountPage extends JLabel {
 
 
 
-//    private void initEmailButton(){
-//        emailButton = new JButton(change);
-//        emailButton.setBounds(30,150, 200, 30);
-//        emailButton.setBackground(color);
-//        emailButton.setFocusable(false);
-//        transparentPanel.add(emailButton);
-//    }
+    private void initAddPhone2(){
+        addPhone2 = new JButton("Add Phone");
+        addPhone2.setBounds(30,150, 200, 30);
+        addPhone2.setBackground(color);
+        addPhone2.setFocusable(false);
+        transparentPanel.add(addPhone2);
+
+        addPhone2.addActionListener(ev ->{
+
+            if(userDto.getPhoneNumber().size() < 2){
+
+                System.out.println(userDto.getPhoneNumber().toString());
+                if(changeCredentialsField.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Enter phoneNumber");
+                    return;
+                }
+
+
+                if(!userDto.getPhoneNumber().contains(changeCredentialsField.getText())){
+
+                    boolean addPhone = !UserController.getInstance().addPhoneNumber(userDto, changeCredentialsField.getText());
+
+                   if(addPhone){
+
+                       JOptionPane.showMessageDialog(null, "Second phone number added");
+                       userDto.getPhoneNumber().add(changeCredentialsField.getText());
+                       phone2Label.setText(changeCredentialsField.getText());
+                       changeCredentialsField.setText("");
+                   }
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "You allready have this phone number. Add another number");
+                }
+
+
+            }else{
+                JOptionPane.showMessageDialog(null,"You can't add any phone numbers. Limit is 2 phone numbers");
+            }
+
+
+        });
+    }
 
     private void initPhone1Button(){
         phone1Button = new JButton(change);
@@ -99,6 +135,46 @@ public class AccountPage extends JLabel {
         phone2Button.setBackground(color);
         phone2Button.setFocusable(false);
         transparentPanel.add(phone2Button);
+
+        phone2Button.addActionListener(ev ->{
+
+            changeCredentialsField.setVisible(true);
+
+
+            if(!changeCredentialsField.getText().equals("")){
+
+
+
+                List<String> phoneNumbers = userDto.getPhoneNumber();
+
+                int index = phoneNumbers.indexOf(phone2Label.getText());
+                phoneNumbers.set(index,changeCredentialsField.getText());
+
+                userDto.setPhoneNumber(phoneNumbers);
+
+                System.out.println(userDto.getPhoneNumber().toString());
+
+
+                if(!UserController.getInstance().updatePhoneNumber(userDto)){
+                    JOptionPane.showMessageDialog(null,"Phone number changed");
+                    return;
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+           JOptionPane.showMessageDialog(null, "Error");
+
+
+
+        });
     }
 
     private void changePasswordButton(){
@@ -110,40 +186,70 @@ public class AccountPage extends JLabel {
 
         changePasswordButton.addActionListener(ev->{
 
+            if(!newPasswordField.isVisible()){
+                newPasswordField.setVisible(true);
+                verifyPasswodField.setVisible(true);
+                return;
+            }
+
+
+            if(String.valueOf(newPasswordField.getPassword()).equals("")){
+                JOptionPane.showMessageDialog(null, "EnterPassword");
+                return;
+            }
+
             if(new String(newPasswordField.getPassword()).equals(new String(verifyPasswodField.getPassword()))){
 
                 int updatePassword =  UserController.getInstance()
-                        .updatePassword(new String(newPasswordField.getPassword()),userDto.getUserId().getUserName());
+                        .updatePassword(new String(newPasswordField.getPassword()),userDto);
+
+              //  userDto.setPassword(new String(newPasswordField.getPassword()));
+
+              //  UserController.getInstance().updatePhoneNumber(userDto); -> merge dar face mult insert
+
 
                 if(updatePassword > 0){
 
-                    JOptionPane.showMessageDialog(null, "Password updated");
+                    System.out.println(userDto.getPassword());
 
+
+
+                    JOptionPane.showMessageDialog(null, "Password updated");
+                    newPasswordField.setVisible(false);
+                    verifyPasswodField.setVisible(false);
+                    resetPasswordFields();
                 }
 
                 if(updatePassword == 0){
                     JOptionPane.showMessageDialog(null, "Password was not updated");
+                    resetPasswordFields();
                 }
 
             }else{
                 JOptionPane.showMessageDialog(null, "Passwords do not match");
+                resetPasswordFields();
             }
-
-
-
 
         });
     }
 
+    private void resetPasswordFields(){
+        newPasswordField.setText("");
+        verifyPasswodField.setText("");
+    }
+
+
     private void initChangeCredentialField(){
         changeCredentialsField = new JTextField();
         changeCredentialsField.setBounds(250,100, 200, 30);
+        changeCredentialsField.setVisible(false);
         transparentPanel.add(changeCredentialsField);
     }
 
     private void initOldPAssword(){
         verifyPasswodField = new JPasswordField();
         verifyPasswodField.setBounds(250,300, 200, 30);
+        verifyPasswodField.setVisible(false);
         transparentPanel.add(verifyPasswodField);
     }
 
@@ -152,7 +258,7 @@ public class AccountPage extends JLabel {
     private void initNewPassword(){
         newPasswordField = new JPasswordField();
         newPasswordField.setBounds(250,350, 200, 30);
-        newPasswordField.setVisible(true);
+        newPasswordField.setVisible(false);
         transparentPanel.add(newPasswordField);
     }
 

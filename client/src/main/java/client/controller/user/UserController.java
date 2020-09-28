@@ -67,15 +67,34 @@ public class UserController implements UserService{
     }
 
     @Override
-    public int updatePassword(String newPassword, String userName){
+    public int updatePassword(String newPassword, UserDto userDto){
         try {
-            return userService.updatePassword(newPassword, userName);
+            return userService.updatePassword(newPassword, userDto);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
+    @Override
+    public boolean addPhoneNumber(UserDto userDto, String phoneNumber){
+        try {
+           return userService.addPhoneNumber(userDto, phoneNumber);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean updatePhoneNumber(UserDto userDto){
+        try {
+           return userService.updatePhoneNumber(userDto);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
 
     private static final class SingletonHolder{

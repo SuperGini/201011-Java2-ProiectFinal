@@ -60,12 +60,12 @@ public class User {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(List<String> phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getPassword() {
         return password;
+    }
+
+    public void setPhoneNumber(List<String> phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setPassword(String password) {
@@ -83,7 +83,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId.getUserName() +
+                "userId=" + userId.getUserName() + " " +getPhoneNumber().toString() +
                 '}';
     }
 }
