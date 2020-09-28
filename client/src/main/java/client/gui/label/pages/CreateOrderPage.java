@@ -15,6 +15,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,14 +32,7 @@ public class CreateOrderPage extends JLabel {
     private JTable orderId;
     private JTextArea carProblemArea;
     private JTable partsArea;
-  //  private JList partList;
-    private JLabel countLabel;
-    private JTextField countField;
-    private JTextArea findPartArea;
-
-  //  private JTable findPartArea;
     private JTextField addProblemField;
-    private JTextField findPartField;
     private JButton addProblemButton;
     private JButton findPartButton;
     private JButton addPartToOrderButton;
@@ -43,22 +42,17 @@ public class CreateOrderPage extends JLabel {
     private JButton getSelectedORderButton;
     private JButton findCarButton;
     private JButton createOrderButton;
-    private JButton closeOrderButton;
-    private JButton orderReadyButton;
+    private JButton billButton;
     private JTextField findField;
     private int id;
-
+    private int i = 0;
 
 
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
 
-
-
-
     private JScrollPane scrollPane;
     private JScrollPane scrollPaneOrder;
-
 
 
     private List<JLabel> genericLabels = new ArrayList<>();
@@ -91,30 +85,18 @@ public class CreateOrderPage extends JLabel {
         initPartsArea();
         initTableDataOrderId();
         initTableServiceOrder();
-
         tableDataParts();
-
-
         intiCarProblemArea();
         initAddProblemField();
         initAddProblemButton();
         initPartsArea();
-
- //       findPartButton();
- //       initAddPartToOrderButton();
-
         initGenerilLabels();
         initOrderPartsLabel();
- //       initGetSelectedOrder();
         initFindCarButton();
         initFindField();
-
         initCreateOrder();
         initMiniLabels();
-  //      initCloseOrderButton();
-  //      initCount();
-//        initFindPartArea();
-        initOrderReadyButton();
+        initBillButton();
         selectOrdersWithMouse();
 
 
@@ -190,7 +172,7 @@ public class CreateOrderPage extends JLabel {
         addProblemField.setBounds(115,460,300,30);
         transparentPanel.add(addProblemField);
     }
-    int i =0;
+
     private void initAddProblemButton(){
 
         addProblemButton = new JButton("add problem");
@@ -287,49 +269,54 @@ public class CreateOrderPage extends JLabel {
 //
 //    }
 
-    private void initOrderReadyButton(){
-        orderReadyButton = new JButton("Bill");
-        orderReadyButton.setBounds(645,500,300,30);
-        transparentPanel.add(orderReadyButton);
+    private void initBillButton(){
+        billButton = new JButton("Bill");
+        billButton.setBounds(645,500,300,30);
+        transparentPanel.add(billButton);
 
 
-        orderReadyButton.addActionListener(ev -> {
+        billButton.addActionListener(ev -> {
 
-//
-//            var idOfParts = partsDtos.stream()
-//                                     .map(PartDto::getId)
-//                                     .collect(Collectors.toList());
-//
-//
-//                try{
-//                    serviceOrderDto.setPartsIds(new CopyOnWriteArrayList<>(idOfParts));
-//
-//                    System.out.println("id la piese");
-//                    System.out.println(serviceOrderDto.getPartsIds().stream().map(s->s.toString()).collect(Collectors.joining(", ")));
-//                   // serviceOrderDto.setCountPartDtos(countPartDtos);
-//
-//                }catch(NullPointerException e){
-//                    e.printStackTrace();
-//
-//                    JOptionPane.showMessageDialog(null, "Select order first" );
-//                }
-//
-//
-//
-//
-//           if(!ServiceOrderController.getInstance().updateServiceOrder(serviceOrderDto)){
-//               partsDtos.clear();
-//
-//               tableDataParts();
-//               findField.setText("");
-//               JOptionPane.showMessageDialog(null, "Parts added to order");
-//           }else{
-//               JOptionPane.showMessageDialog(null, "Parts are noit added to order");
-//           }
-//
-//
+
+              String billNumber = String.valueOf(id);
+              String x = "./server/src/main/resources/bill/" + billNumber + ".txt";
+            Path billPath = Paths.get("./server/src/main/resources/bill/" + billNumber + ".txt");
+
+
+            try {
+
+                 Files.createFile(billPath);
+
+                 partsDtos.stream()
+                        .forEach(s->makeBill(s,x));
+
+
+                if(Files.exists(billPath)){
+                    JOptionPane.showMessageDialog(null,"Bill created!");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Bill error!");
+            }
 
         });
+    }
+
+    private void makeBill(PartDto partDto, String x){
+            String writeLine = partDto.toString() + "\n";
+        PrintStream ps = null;
+        try {
+            ps = new PrintStream(x);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        ps.println(writeLine);
+
+
+
+
     }
 
 
@@ -646,7 +633,6 @@ public class CreateOrderPage extends JLabel {
         tableDataParts();
         addProblemField.setText("");
         carProblemArea.setText("");
-        findPartArea.setText("");
     }
 
 
