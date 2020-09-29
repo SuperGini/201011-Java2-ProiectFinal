@@ -42,7 +42,7 @@ public class MainServer {
             registry.rebind("serviceOrder", new ServiceOrderServiceImpl());
             registry.rebind("clientService", new ClientServiceImpl());
             registry.rebind("CountPartService", new CountPartImpl());
-            registry.rebind("SoundService", new SoundServiceImpl());
+            registry.rebind("soundService", new SoundServiceImpl());
 
         } catch (RemoteException e) {
             e.printStackTrace();

@@ -32,7 +32,7 @@ public class SoundServiceImpl extends UnicastRemoteObject implements lib.service
 
     }
 
-
+    //method 1
     public void sendSoundToDatabase(){
 
         try {
@@ -45,7 +45,6 @@ public class SoundServiceImpl extends UnicastRemoteObject implements lib.service
                     e.printStackTrace();
                 }
 
-
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -54,7 +53,7 @@ public class SoundServiceImpl extends UnicastRemoteObject implements lib.service
 
 
     }
-
+    //mothod 2
     private void sendSound(Path path){
         Sound sound = new Sound();
         soundDao.sendSoundToDatabase(sound, path);

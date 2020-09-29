@@ -18,7 +18,7 @@ public class MainServer2 {
         Path y = Paths.get("./server/src/main/resources/sounds/sound4.wav");
         Sound sound = new Sound();
 
-       
+
     }
 
 
