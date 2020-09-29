@@ -1,4 +1,4 @@
-package server.dao;
+package server.dao.interfaces;
 
 import server.model.picture.Picture;
 

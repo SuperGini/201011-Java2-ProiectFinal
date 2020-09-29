@@ -3,9 +3,8 @@ package server.service.client;
 import lib.dto.client.ClientDto;
 import lib.service.ClientService;
 import server.convert.client.CleintConvertor;
-import server.dao.ClientDao;
+import server.dao.interfaces.ClientDao;
 import server.dao.impl.client.ClientDaoImpl;
-import server.model.client.Client;
 
 import javax.persistence.Persistence;
 import java.rmi.RemoteException;

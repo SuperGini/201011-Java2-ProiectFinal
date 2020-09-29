@@ -3,7 +3,7 @@ package server.service.client;
 import lib.dto.client.PersonDto;
 import server.convert.autovehicle.VehicleConvetor;
 import server.convert.client.PersonConvertor;
-import server.dao.PersonDao;
+import server.dao.interfaces.PersonDao;
 import server.dao.impl.client.PersonDaoImpl;
 import server.model.autovehicle.Vehicle;
 import server.model.client.Person;

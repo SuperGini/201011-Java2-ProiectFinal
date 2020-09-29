@@ -2,9 +2,9 @@ package server.service.autovehicle;
 
 import lib.dto.autovehicle.VehicleDto;
 import server.convert.autovehicle.VehicleConvetor;
-import server.dao.CompanyDao;
-import server.dao.PersonDao;
-import server.dao.VehicleDao;
+import server.dao.interfaces.CompanyDao;
+import server.dao.interfaces.PersonDao;
+import server.dao.interfaces.VehicleDao;
 import server.dao.impl.autovehicle.VehicleDaoImpl;
 import server.dao.impl.client.CompanyDaoImpl;
 import server.dao.impl.client.PersonDaoImpl;

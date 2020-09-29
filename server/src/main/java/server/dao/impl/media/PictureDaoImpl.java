@@ -1,6 +1,6 @@
 package server.dao.impl.media;
 
-import server.dao.PictureDao;
+import server.dao.interfaces.PictureDao;
 import server.model.picture.Picture;
 
 import javax.persistence.EntityManager;

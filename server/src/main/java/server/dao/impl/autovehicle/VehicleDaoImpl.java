@@ -1,6 +1,6 @@
 package server.dao.impl.autovehicle;
 
-import server.dao.VehicleDao;
+import server.dao.interfaces.VehicleDao;
 import server.model.autovehicle.Vehicle;
 
 import javax.persistence.EntityManager;

@@ -1,6 +1,6 @@
 package server.dao.impl.user;
 
-import server.dao.UserDao;
+import server.dao.interfaces.UserDao;
 import server.model.user.User;
 
 import javax.persistence.EntityManager;

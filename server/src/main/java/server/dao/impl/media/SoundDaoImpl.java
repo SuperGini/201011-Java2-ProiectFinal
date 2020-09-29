@@ -1,5 +1,6 @@
 package server.dao.impl.media;
 
+import server.dao.interfaces.SoundDao;
 import server.model.sound.Sound;
 
 import javax.persistence.EntityManager;
@@ -8,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class SoundDaoImpl implements server.dao.SoundDao {
+public class SoundDaoImpl implements SoundDao {
 
     private EntityManager entityManager;
 

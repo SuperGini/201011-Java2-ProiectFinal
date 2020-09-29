@@ -1,6 +1,6 @@
 package server.dao.impl.client;
 
-import server.dao.CompanyDao;
+import server.dao.interfaces.CompanyDao;
 import server.model.client.Company;
 
 import javax.persistence.EntityManager;

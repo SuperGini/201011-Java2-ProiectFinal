@@ -1,12 +1,13 @@
 package server.dao.impl.client;
 
+import server.dao.interfaces.ClientDao;
 import server.model.client.Client;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
-public class ClientDaoImpl implements server.dao.ClientDao {
+public class ClientDaoImpl implements ClientDao {
 
     private EntityManager entityManager;
 

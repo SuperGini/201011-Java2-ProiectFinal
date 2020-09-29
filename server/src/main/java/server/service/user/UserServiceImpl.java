@@ -3,7 +3,7 @@ package server.service.user;
 import lib.dto.user.UserDto;
 import lib.service.UserService;
 import server.convert.user.UserConvertor;
-import server.dao.UserDao;
+import server.dao.interfaces.UserDao;
 import server.dao.impl.user.UserDaoImpl;
 import server.model.user.User;
 
