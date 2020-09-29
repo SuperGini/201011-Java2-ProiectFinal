@@ -23,6 +23,8 @@ public class PictureDaoImpl implements PictureDao {
 
         try {
 
+            String x = path.getFileName().toString();
+            System.out.println(path.toString() + x);
 
             backgroundImage.setPicture(Files.readAllBytes(path)); //might cause OutOfMemoryError -> for big pictures
 

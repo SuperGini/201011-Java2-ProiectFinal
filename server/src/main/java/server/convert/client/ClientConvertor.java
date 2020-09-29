@@ -3,9 +3,9 @@ package server.convert.client;
 import lib.dto.client.ClientDto;
 import server.model.client.Client;
 
-public class CleintConvertor {
+public class ClientConvertor {
 
-    private CleintConvertor() {
+    private ClientConvertor() {
     }
 
 

@@ -5,7 +5,7 @@ import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
 import lib.dto.user.UserDto;
-import server.convert.client.CleintConvertor;
+import server.convert.client.ClientConvertor;
 import server.convert.user.UserConvertor;
 import server.model.autovehicle.ServiceOrder;
 import server.model.autovehicle.Vehicle;
@@ -24,7 +24,7 @@ public class ServiceOrderConvertor {
     public static ServiceOrderDto convert(ServiceOrder serviceOrder){
 
         VehicleDto vehicleDto = VehicleConvetor.convert(serviceOrder.getVehicle());
-        ClientDto clientDto = CleintConvertor.convert(serviceOrder.getClient());
+        ClientDto clientDto = ClientConvertor.convert(serviceOrder.getClient());
         UserDto userDto = UserConvertor.convert(serviceOrder.getUser());
         Collection<PartDto> partsDto = serviceOrder.getParts()
                                     .stream()
@@ -63,7 +63,7 @@ public class ServiceOrderConvertor {
         serviceOrder.setCarProblems(serviceOrderDto.getCarProblems());
 
 
-        Client client = CleintConvertor.convert(serviceOrderDto.getClientDto());
+        Client client = ClientConvertor.convert(serviceOrderDto.getClientDto());
         Vehicle vehicle = VehicleConvetor.convert(serviceOrderDto.getVehicleDtos());
         User user = UserConvertor.convert(serviceOrderDto.getUserDto());
 

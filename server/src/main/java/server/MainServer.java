@@ -8,6 +8,7 @@ import server.service.client.ClientServiceImpl;
 import server.service.client.CompanyServiceImpl;
 import server.service.client.PersonServiceImpl;
 import server.service.media.PictureServiceImpl;
+import server.service.media.SoundServiceImpl;
 import server.service.user.UserServiceImpl;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class MainServer {
             registry.rebind("serviceOrder", new ServiceOrderServiceImpl());
             registry.rebind("clientService", new ClientServiceImpl());
             registry.rebind("CountPartService", new CountPartImpl());
+            registry.rebind("SoundService", new SoundServiceImpl());
 
         } catch (RemoteException e) {
             e.printStackTrace();

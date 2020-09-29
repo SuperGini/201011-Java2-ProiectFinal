@@ -22,6 +22,7 @@ public class SoundDaoImpl implements SoundDao {
 
         try {
 
+
             sound.setSoundWave(Files.readAllBytes(path));
             sound.setSoundName(path.getFileName().toString());
 
@@ -39,7 +40,7 @@ public class SoundDaoImpl implements SoundDao {
 
     @Override
     public List<Sound> findAllSounds(){
-        var query = entityManager.createNamedQuery("findAllSounds", Sound.class);
+        var query = entityManager.createNamedQuery("Sound.findAllSounds", Sound.class);
 
         return query.getResultList();
     }

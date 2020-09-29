@@ -2,7 +2,7 @@ package server.service.client;
 
 import lib.dto.client.ClientDto;
 import lib.service.ClientService;
-import server.convert.client.CleintConvertor;
+import server.convert.client.ClientConvertor;
 import server.dao.interfaces.ClientDao;
 import server.dao.impl.client.ClientDaoImpl;
 
@@ -26,7 +26,7 @@ public class ClientServiceImpl extends UnicastRemoteObject implements ClientServ
     public ClientDto findClientByName(String name) throws RemoteException{
 
        return clientDao.findByName(name)
-                    .map(CleintConvertor::convert)
+                    .map(ClientConvertor::convert)
                     .orElseThrow(NoSuchElementException::new);
     }
 
