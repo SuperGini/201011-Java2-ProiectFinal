@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@NamedQuery(name= "Sound.findAllSounds", query = "SELECT s FROM Sound s")
 public class Sound {
 
     @Id
