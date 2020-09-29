@@ -5,6 +5,7 @@ import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
+import client.util.SoundConvertor;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
 
@@ -47,10 +48,11 @@ public class MainFrame extends JFrame {
 
     private ClientDto clientDto;
     private VehicleDto vehicleDto;
+    private SoundConvertor soundConvertor;
 
 
     private MainFrame(){
-
+        soundConvertor = new SoundConvertor();
         initFrame();
         initBackgroundLabel();
         mouseListener();

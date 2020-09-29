@@ -1,6 +1,8 @@
 package lib.dto.sound;
 
-public class SoundDto {
+import java.io.Serializable;
+
+public class SoundDto implements Serializable {
 
     private int id;
 
