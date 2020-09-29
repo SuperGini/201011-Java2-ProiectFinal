@@ -15,9 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -278,54 +276,34 @@ public class CreateOrderPage extends JLabel {
         billButton.addActionListener(ev -> {
 
 
+            
               String billNumber = String.valueOf(id);
-              String x = "./server/src/main/resources/bill/" + billNumber + ".txt";
-            Path billPath = Paths.get("./server/src/main/resources/bill/" + billNumber + ".txt");
 
+              Path billPath = Paths.get("./server/src/main/resources/bill/" + billNumber + ".txt");
 
-            try {
+              makeBill(billPath);
 
-                 Files.createFile(billPath);
-
-                 partsDtos.stream()
-                        .forEach(s->makeBill(s,x));
-
-
-                if(Files.exists(billPath)){
-                    JOptionPane.showMessageDialog(null,"Bill created!");
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null,"Bill error!");
-            }
 
         });
     }
 
-    private void makeBill(PartDto partDto, String x){
+    private void makeBill(Path billPath){
 
-        //todo: de inchis streamul ->autoclosabele
-            String writeLine = partDto.toString() + "\n";
+        try(PrintStream ps = new PrintStream(billPath.toString())) {
+            Files.createFile(billPath);
 
-        try {
-
-            try (PrintStream ps = new PrintStream(x)) {
-
-                ps.println(writeLine + System.lineSeparator());
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            for (PartDto part : partsDtos) {
+                ps.println(part.toString());
             }
-        }finally {
 
+            if(Files.exists(billPath)){
+                JOptionPane.showMessageDialog(null,"Bill created!");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Bill error!");
         }
-
-
-
-
-
     }
 
 

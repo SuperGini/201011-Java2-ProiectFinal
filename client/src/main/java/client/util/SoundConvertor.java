@@ -27,9 +27,11 @@ public class SoundConvertor {
 
     //transform data de tip byte[] -> wav file
     private void convertSoundDataToFile(SoundDto soundDto){
+
         String soundPath = "./client/src/main/resources/sounds/" + soundDto.getNameSound();
 
         Path verifyPath = Paths.get(soundPath);
+        System.out.println(verifyPath);
 
         if(!Files.exists(verifyPath)){
 

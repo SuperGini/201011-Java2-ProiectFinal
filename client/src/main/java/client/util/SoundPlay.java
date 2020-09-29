@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SoundPlay {
 
-   private Set<Clip> clips = new HashSet<>();
+   private List<Clip> clips = new ArrayList<>();
    private final Path path = Paths.get("./client/src/main/resources/sounds/");
 
     public SoundPlay() {
@@ -51,7 +51,7 @@ public class SoundPlay {
         }
     }
 
-    public Set<Clip> getClips() {
+    public List<Clip> getClips() {
         return clips;
     }
 }

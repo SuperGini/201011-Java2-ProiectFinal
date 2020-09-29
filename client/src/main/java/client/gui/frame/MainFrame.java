@@ -6,6 +6,7 @@ import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
 import client.util.SoundConvertor;
+import client.util.SoundPlay;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
 
@@ -41,6 +42,7 @@ public class MainFrame extends JFrame {
 
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
     private static AnimationClass slideEfect = new AnimationClass();
+    private static SoundPlay soundPlay = new SoundPlay();
 
     private List<JLabel> pages;
 

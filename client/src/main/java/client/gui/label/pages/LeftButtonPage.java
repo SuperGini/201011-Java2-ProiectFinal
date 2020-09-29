@@ -2,6 +2,7 @@ package client.gui.label.pages;
 
 import client.gui.button.TransparentButton;
 import client.gui.panel.TransparentPanel;
+import client.util.SoundPlay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,7 @@ public class LeftButtonPage extends JLabel {
 
     private String [] buttonName = {"Create Order", "Create client & vehicle", "Parts", "Statistics", "Account" };
     private List<JButton> buttons = new ArrayList<>();
+    private static SoundPlay soundPlay = new SoundPlay();
 
 
     public LeftButtonPage(int x, int y, int width, int height) {
@@ -68,10 +70,13 @@ public class LeftButtonPage extends JLabel {
                         if(b.getForeground().equals(Color.BLACK)){
                             b.setForeground(Color.WHITE);
                             b.setBackground(new Color(0,0,0,0));
+                          //  soundPlay.getClips().get(1).stop();
+                            soundPlay.getClips().get(2).setMicrosecondPosition(0);
                         }
                         if(b == but){
                             but.setForeground(Color.BLACK);
                             but.setBackground(new Color(200,200,200,200));
+                            soundPlay.getClips().get(2).start();
                         }
                     }
 
@@ -80,6 +85,7 @@ public class LeftButtonPage extends JLabel {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
+                   // soundPlay.getClips().get(2).start();
                     Component but = e.getComponent();
                     if(but.getForeground().equals(Color.BLACK)){
                         but.setBackground(new Color(200,200,200,250));
@@ -90,6 +96,7 @@ public class LeftButtonPage extends JLabel {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
+                 //   soundPlay.getClips().get(2).setMicrosecondPosition(0);
                     Component but = e.getComponent();
                     if(but.getForeground().equals(Color.BLACK)){
                         but.setBackground(new Color(200,200,200,200));
