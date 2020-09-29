@@ -304,15 +304,24 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void makeBill(PartDto partDto, String x){
+
+        //todo: de inchis streamul ->autoclosabele
             String writeLine = partDto.toString() + "\n";
-        PrintStream ps = null;
+
         try {
-            ps = new PrintStream(x);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+            try (PrintStream ps = new PrintStream(x)) {
+
+                ps.println(writeLine + System.lineSeparator());
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }finally {
+
         }
-        
-        ps.println(writeLine);
+
 
 
 

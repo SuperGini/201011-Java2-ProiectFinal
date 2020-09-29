@@ -23,7 +23,7 @@ public class BlurrImage {
 
         int size = 25;
         float number = 1.0f / (size*size);
-        float [] data = new float[size*size];
+        float [] data = new float[size*size]; //-> efect de blurr
 
         for(int i = 1; i< data.length; i++){
             data[i] = number;
