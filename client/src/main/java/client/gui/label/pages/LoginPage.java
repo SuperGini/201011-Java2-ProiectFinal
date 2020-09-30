@@ -134,11 +134,10 @@ public class LoginPage extends JLabel {
         accoutPage.getUserLabel().setText(userDto.getUserId().getUserName());
         accoutPage.getEmailLabel().setText(userDto.getUserId().getEmailAdress());
         accoutPage.getPhone1Label().setText(userDto.getPhoneNumber().get(0));
-        accoutPage.getPhone2Label().setText(userDto.getPhoneNumber().get(1));
         accoutPage.getCategoryLabel().setText(userDto.getCategory().toString());
 
         if(userDto.getPhoneNumber().size() == 2){
-            accoutPage.getPhone1Label().setText(userDto.getPhoneNumber().get(1));
+            accoutPage.getPhone2Label().setText(userDto.getPhoneNumber().get(1));
         }
 
         MainFrame.getInstance().getCreateOrderPage().getUserLabel().setText(userDto.getUserId().getUserName());

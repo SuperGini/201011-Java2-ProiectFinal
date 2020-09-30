@@ -2,6 +2,7 @@ package client.gui.label.pages;
 
 import client.controller.user.UserController;
 import client.gui.panel.TransparentPanel;
+import client.util.MouseAdapterButtons;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ public class AccountPage extends JLabel {
 
     private JPanel transparentPanel;
     private JLabel credentialLabel;
-    private JTextField changeCredentialsField;
+    private JTextField changeField;
     private JPasswordField newPasswordField;
     private JPasswordField verifyPasswodField;
     private JButton usernameButton;
@@ -32,9 +33,11 @@ public class AccountPage extends JLabel {
 
     private Color color = new Color(173, 53, 22, 255);
     private String change = "Change";
-    private String [] genericLabel = {"user:", "email:", "phone 1:", "phone 2:", "category:", "password:     **********"};
+    private String [] genericLabel = {"user:", "email:", "phone 1:", "phone 2:", "password:     **********", "category:"};
     private List<JLabel> genericLabels = new ArrayList<>();
     private List<String> userfields = new ArrayList<>();
+
+    Color colorOrange = new Color(167,32,7);
 
 
     public AccountPage(int x, int y, int width, int height) {
@@ -46,7 +49,7 @@ public class AccountPage extends JLabel {
         initPhone1Button();
         initPhoneNumber2();
         changePasswordButton();
-        initChangeCredentialField();
+        initChangeField();
         initOldPAssword();
         initNewPassword();
         initGenericalLabels();
@@ -60,52 +63,40 @@ public class AccountPage extends JLabel {
         transparentPanel = new TransparentPanel(250,125,950,550);
         this.add(transparentPanel);
 
-
-
     }
-
-
-//    private void initUsernameButton() {
-//        usernameButton = new JButton(change);
-//        usernameButton.setBounds(30, 100, 200, 30);
-//        usernameButton.setBackground(color);
-//        usernameButton.setFocusable(false);
-//        transparentPanel.add(usernameButton);
-//
-//    }
-
-
-
-
 
     private void initAddPhone2(){
         addPhone2 = new JButton("Add Phone");
         addPhone2.setBounds(30,150, 200, 30);
-        addPhone2.setBackground(color);
+        addPhone2.setBackground(Color.WHITE);
         addPhone2.setFocusable(false);
+        addPhone2.setForeground(colorOrange);
+        addPhone2.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(addPhone2);
+
+        addPhone2.addMouseListener(new MouseAdapterButtons(addPhone2));
 
         addPhone2.addActionListener(ev ->{
 
             if(userDto.getPhoneNumber().size() < 2){
 
                 System.out.println(userDto.getPhoneNumber().toString());
-                if(changeCredentialsField.getText().equals("")){
+                if(changeField.getText().equals("")){
                     JOptionPane.showMessageDialog(null,"Enter phoneNumber");
                     return;
                 }
 
 
-                if(!userDto.getPhoneNumber().contains(changeCredentialsField.getText())){
+                if(!userDto.getPhoneNumber().contains(changeField.getText())){
 
-                    boolean addPhone = !UserController.getInstance().addPhoneNumber(userDto, changeCredentialsField.getText());
+                    boolean addPhone = !UserController.getInstance().addPhoneNumber(userDto, changeField.getText());
 
                    if(addPhone){
 
                        JOptionPane.showMessageDialog(null, "Second phone number added");
-                       userDto.getPhoneNumber().add(changeCredentialsField.getText());
-                       phone2Label.setText(changeCredentialsField.getText());
-                       changeCredentialsField.setText("");
+                       userDto.getPhoneNumber().add(changeField.getText());
+                       phone2Label.setText(changeField.getText());
+                       changeField.setText("");
                    }
 
                 }else{
@@ -124,65 +115,104 @@ public class AccountPage extends JLabel {
     private void initPhone1Button(){
         phone1Button = new JButton(change);
         phone1Button.setBounds(30,200, 200, 30);
-        phone1Button.setBackground(color);
+        phone1Button.setBackground(Color.WHITE);
         phone1Button.setFocusable(false);
+        phone1Button.setForeground(colorOrange);
+        phone1Button.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(phone1Button);
+
+        phone1Button.addMouseListener(new MouseAdapterButtons(phone1Button));
+
+        phone1Button.addActionListener(ev->{
+            changePhoneNumber(phone1Label, phone1Button);
+        });
+
     }
 
     private void initPhoneNumber2(){
         phone2Button = new JButton(change);
         phone2Button.setBounds(30,250, 200, 30);
-        phone2Button.setBackground(color);
+        phone2Button.setBackground(Color.WHITE);
         phone2Button.setFocusable(false);
+        phone2Button.setForeground(colorOrange);
+        phone2Button.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(phone2Button);
 
+        phone2Button.addMouseListener(new MouseAdapterButtons(phone2Button));
+
         phone2Button.addActionListener(ev ->{
+            changePhoneNumber(phone2Label, phone2Button);
 
-            changeCredentialsField.setVisible(true);
-
-
-            if(!changeCredentialsField.getText().equals("")){
-
+        });
+    }
 
 
-                List<String> phoneNumbers = userDto.getPhoneNumber();
-
-                int index = phoneNumbers.indexOf(phone2Label.getText());
-                phoneNumbers.set(index,changeCredentialsField.getText());
-
-                userDto.setPhoneNumber(phoneNumbers);
-
-                System.out.println(userDto.getPhoneNumber().toString());
 
 
-                if(!UserController.getInstance().updatePhoneNumber(userDto)){
-                    JOptionPane.showMessageDialog(null,"Phone number changed");
-                    return;
-                }
+
+
+    private void changePhoneNumber(JLabel label, JButton button){
+
+        if(!changeField.isVisible()){
+
+            if(button == phone2Button && changeField.getY() != 250){
+                changeField.setBounds(250,250, 200, 30);
 
             }
 
+            if(button == phone1Button && changeField.getY() != 200){
+                changeField.setBounds(250,200, 200, 30);
+
+            }
+
+            changeField.setVisible(true);
+            return;
+        }
+
+        if(changeField.getY() != button.getY()){
+            changeField.setBounds(250,button.getY(), 200, 30);
+            changeField.setText("");
+            return;
+        }
 
 
+        if(!changeField.getText().equals("") && changeField.getY() == label.getY()){
 
+            List<String> phoneNumbers = userDto.getPhoneNumber();
 
+            int index = phoneNumbers.indexOf(label.getText());
+            if(!phoneNumbers.contains(changeField.getText())){
+                phoneNumbers.set(index, changeField.getText());
+            }else{
+                JOptionPane.showMessageDialog(null,"Duplicate phone number");
+                changeField.setText("");
+                return;
+            }
 
+            userDto.setPhoneNumber(phoneNumbers);
 
+            if(!UserController.getInstance().updatePhoneNumber(userDto)){
+                JOptionPane.showMessageDialog(null,"Phone number changed!");
+                label.setText(changeField.getText());
+                changeField.setText("");
+                changeField.setVisible(false);
+            }
 
-
-           JOptionPane.showMessageDialog(null, "Error");
-
-
-
-        });
+        }else{
+            JOptionPane.showMessageDialog(null, "Enter phone number!");
+        }
     }
 
     private void changePasswordButton(){
         changePasswordButton = new JButton(change);
         changePasswordButton.setBounds(30,300, 200, 30);
-        changePasswordButton.setBackground(color);
+        changePasswordButton.setBackground(Color.WHITE);
         changePasswordButton.setFocusable(false);
+        changePasswordButton.setForeground(colorOrange);
+        changePasswordButton.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(changePasswordButton);
+
+        changePasswordButton.addMouseListener(new MouseAdapterButtons(changePasswordButton));
 
         changePasswordButton.addActionListener(ev->{
 
@@ -202,10 +232,6 @@ public class AccountPage extends JLabel {
 
                 int updatePassword =  UserController.getInstance()
                         .updatePassword(new String(newPasswordField.getPassword()),userDto);
-
-              //  userDto.setPassword(new String(newPasswordField.getPassword()));
-
-              //  UserController.getInstance().updatePhoneNumber(userDto); -> merge dar face mult insert
 
 
                 if(updatePassword > 0){
@@ -239,17 +265,19 @@ public class AccountPage extends JLabel {
     }
 
 
-    private void initChangeCredentialField(){
-        changeCredentialsField = new JTextField();
-        changeCredentialsField.setBounds(250,100, 200, 30);
-        changeCredentialsField.setVisible(false);
-        transparentPanel.add(changeCredentialsField);
+    private void initChangeField(){
+        changeField = new JTextField();
+        changeField.setBounds(250,100, 200, 30);
+        changeField.setVisible(false);
+        changeField.setBorder(BorderFactory.createLineBorder(colorOrange));
+        transparentPanel.add(changeField);
     }
 
     private void initOldPAssword(){
         verifyPasswodField = new JPasswordField();
         verifyPasswodField.setBounds(250,300, 200, 30);
         verifyPasswodField.setVisible(false);
+        verifyPasswodField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(verifyPasswodField);
     }
 
@@ -259,13 +287,14 @@ public class AccountPage extends JLabel {
         newPasswordField = new JPasswordField();
         newPasswordField.setBounds(250,350, 200, 30);
         newPasswordField.setVisible(false);
+        newPasswordField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(newPasswordField);
     }
 
     private void initGenericalLabels(){
         for(int i = 0 ; i < 6; i++){
             credentialLabel = new JLabel(genericLabel[i]);
-            credentialLabel.setBounds(600,100 + (i*50), 200, 30);
+            credentialLabel.setBounds(470,100 + (i*50), 200, 30);
             genericLabels.add(credentialLabel);
             transparentPanel.add(credentialLabel);
 
@@ -275,24 +304,24 @@ public class AccountPage extends JLabel {
 
     private void initUserLabels(){
          userLabel = new JLabel("");
-         userLabel.setBounds( 660, 100, 200, 30);
+         userLabel.setBounds( 530, 100, 200, 30);
          transparentPanel.add(userLabel);
 
          emailLabel = new JLabel("");
-         emailLabel.setBounds(660, 150, 200, 30);
+         emailLabel.setBounds(530, 150, 200, 30);
          transparentPanel.add(emailLabel);
 
          phone1Label = new JLabel("");
-         phone1Label.setBounds(660, 200, 200, 30);
+         phone1Label.setBounds(530, 200, 200, 30);
          transparentPanel.add(phone1Label);
 
          phone2Label = new JLabel("");
-         phone2Label.setBounds(660, 250, 200, 30);
+         phone2Label.setBounds(530, 250, 200, 30);
          transparentPanel.add(phone2Label);
 
 
          categoryLabel = new JLabel("");
-         categoryLabel.setBounds(660, 300, 200, 30);
+         categoryLabel.setBounds(530, 350, 200, 30);
          transparentPanel.add(categoryLabel);
 
 
