@@ -8,10 +8,8 @@ import java.awt.event.MouseEvent;
 public class MouseAdapterButtons extends MouseAdapter {
 
    private Color colorOrange = new Color(167,32,7);
-   private Color colorWhite = new Color(255,255,255);
 
-
-   private JButton buttonx;
+   private final JButton buttonx;
 
     public MouseAdapterButtons(JButton buttonx) {
         this.buttonx = buttonx;
@@ -36,9 +34,7 @@ public class MouseAdapterButtons extends MouseAdapter {
     public void mouseExited(MouseEvent e) {
         Component button = e.getComponent();
         button.setForeground(colorOrange);
-        button.setBackground(Color.white);
-
-
+        button.setBackground(Color.WHITE);
     }
 
     @Override
@@ -50,22 +46,6 @@ public class MouseAdapterButtons extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         buttonx.setForeground(Color.BLACK);
 
-    }
-
-    public Color getColorOrange() {
-        return colorOrange;
-    }
-
-    public void setColorOrange(Color colorOrange) {
-        this.colorOrange = colorOrange;
-    }
-
-    public Color getColorWhite() {
-        return colorWhite;
-    }
-
-    public void setColorWhite(Color colorWhite) {
-        this.colorWhite = colorWhite;
     }
 
 }
