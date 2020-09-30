@@ -276,7 +276,7 @@ public class CreateOrderPage extends JLabel {
         billButton.addActionListener(ev -> {
 
 
-            
+
               String billNumber = String.valueOf(id);
 
               Path billPath = Paths.get("./server/src/main/resources/bill/" + billNumber + ".txt");
