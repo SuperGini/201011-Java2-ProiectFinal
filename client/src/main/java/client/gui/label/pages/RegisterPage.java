@@ -7,7 +7,9 @@ import lib.dto.user.UserDto;
 import lib.dto.user.UserIdDto;
 
 import javax.swing.*;
-import java.util.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterPage extends JLabel {
 
@@ -116,8 +118,13 @@ public class RegisterPage extends JLabel {
     }
 
     private void initLoginButton(){
-        loginButton = new JButton("To login page");
+        loginButton = new JButton("Go to login page!");
         loginButton.setBounds(50, 550, 300, 30);
+        loginButton.setOpaque(false);
+        loginButton.setBorderPainted(false);
+        loginButton.setContentAreaFilled(false);
+        loginButton.setFocusable(false);
+        loginButton.setFont(new Font("Dialog", Font.BOLD, 13));
         transparentPanel.add(loginButton);
 
     }

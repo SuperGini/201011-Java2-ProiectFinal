@@ -72,9 +72,14 @@ public class LoginPage extends JLabel {
     }
 
     private void initRegisterButton(){
-        registerButton = new JButton("GO TO REGISTER PAGE!");
-        registerButton.setBackground(Color.RED);
+        registerButton = new JButton("Go to register page!");
         registerButton.setBounds(50, 550, 300, 30);
+        registerButton.setOpaque(false);
+        registerButton.setBorderPainted(false);
+        registerButton.setContentAreaFilled(false);
+        registerButton.setFocusable(false);
+
+        registerButton.setFont(new Font("Dialog", Font.BOLD, 13));
         transparentPanel.add(registerButton);
     }
 

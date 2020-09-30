@@ -5,6 +5,7 @@ import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
+import client.util.MouseAdapterLogAndRegister;
 import client.util.SoundConvertor;
 import client.util.SoundPlay;
 import lib.dto.autovehicle.VehicleDto;
@@ -104,7 +105,7 @@ public class MainFrame extends JFrame {
 
         loginPage.getLoginButton().addActionListener(ev ->{
             if(loginPage.validCredentials()){
-            //:todo de miscat leberuile
+
 
                 moveLoginPageRaightAndLeftButtonPageRaight();
             }
@@ -114,6 +115,8 @@ public class MainFrame extends JFrame {
             moveLabesLeftAndRaight(registerPage);
 
         });
+
+        loginPage.getRegisterButton().addMouseListener(new MouseAdapterLogAndRegister());
     }
 
     private void initRegisterPage(){
@@ -130,6 +133,11 @@ public class MainFrame extends JFrame {
         registerPage.getLoginButton().addActionListener(ev -> {
             moveLabesLeftAndRaight(loginPage);
         });
+
+        registerPage.getLoginButton().addMouseListener(new MouseAdapterLogAndRegister());
+
+
+
     }
 
     //method 1
