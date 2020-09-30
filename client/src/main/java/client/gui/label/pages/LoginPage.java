@@ -48,6 +48,7 @@ public class LoginPage extends JLabel {
     private void initUsernameField(){
         usernameField = new JTextField();
         usernameField.setBounds(50,275,300,30);
+        usernameField.setBorder(BorderFactory.createLineBorder(Color.RED));
         transparentPanel.add(usernameField);
     }
 
@@ -61,12 +62,16 @@ public class LoginPage extends JLabel {
     private void initPasswordField(){
         passwordField = new JPasswordField();
         passwordField.setBounds(50,335,300,30);
+        passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
         transparentPanel.add(passwordField);
     }
 
     private void initLoginButton(){
-        loginButton = new JButton("LOGIN");
-        loginButton.setBackground(Color.RED);
+        loginButton = new JButton("login");
+//        loginButton.setBackground(Color.WHITE);
+//        loginButton.setForeground(Color.RED);
+//        loginButton.setFocusable(false);
+//        loginButton.setBorder(BorderFactory.createLineBorder(Color.RED));
         loginButton.setBounds(50, 395, 300, 30);
         transparentPanel.add(loginButton);
     }

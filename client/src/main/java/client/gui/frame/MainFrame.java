@@ -5,6 +5,7 @@ import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
+import client.util.MouseAdapterButtons;
 import client.util.MouseAdapterLogAndRegister;
 import client.util.SoundConvertor;
 import client.util.SoundPlay;
@@ -48,6 +49,7 @@ public class MainFrame extends JFrame {
     private List<JLabel> pages;
 
     private int poitX = 1800;
+    private Color colorOrange = new Color(167,32,7);
 
     private ClientDto clientDto;
     private VehicleDto vehicleDto;
@@ -105,17 +107,13 @@ public class MainFrame extends JFrame {
 
         loginPage.getLoginButton().addActionListener(ev ->{
             if(loginPage.validCredentials()){
-
-
                 moveLoginPageRaightAndLeftButtonPageRaight();
             }
         });
+        loginPage.getLoginButton().addMouseListener(new MouseAdapterButtons(loginPage.getLoginButton()));
 
-        loginPage.getRegisterButton().addActionListener(ev -> {
-            moveLabesLeftAndRaight(registerPage);
 
-        });
-
+        loginPage.getRegisterButton().addActionListener(ev -> moveLabesLeftAndRaight(registerPage));
         loginPage.getRegisterButton().addMouseListener(new MouseAdapterLogAndRegister());
     }
 
@@ -130,9 +128,9 @@ public class MainFrame extends JFrame {
 
         });
 
-        registerPage.getLoginButton().addActionListener(ev -> {
-            moveLabesLeftAndRaight(loginPage);
-        });
+        registerPage.getRegisterButton().addMouseListener(new MouseAdapterButtons(registerPage.getRegisterButton()));
+
+        registerPage.getLoginButton().addActionListener(ev -> moveLabesLeftAndRaight(loginPage));
 
         registerPage.getLoginButton().addMouseListener(new MouseAdapterLogAndRegister());
 

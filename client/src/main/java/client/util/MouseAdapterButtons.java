@@ -15,6 +15,10 @@ public class MouseAdapterButtons extends MouseAdapter {
 
     public MouseAdapterButtons(JButton buttonx) {
         this.buttonx = buttonx;
+        buttonx.setBackground(Color.WHITE);
+        buttonx.setFocusable(false);
+        buttonx.setForeground(colorOrange);
+        buttonx.setBorder(BorderFactory.createLineBorder(colorOrange));
     }
 
     @Override

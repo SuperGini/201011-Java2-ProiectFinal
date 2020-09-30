@@ -25,7 +25,7 @@ public class RegisterPage extends JLabel {
     private JRadioButton radioButton;
     private JLabel radioButtonLabel;
     private ButtonGroup buttonGroup;
-
+    private Color colorOrange = new Color(167,32,7);
 
 
 
@@ -58,30 +58,35 @@ public class RegisterPage extends JLabel {
     private void initUsernameField(){
         usernameField = new JTextField();
         usernameField.setBounds(50,95,300,30);
+        usernameField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(usernameField);
     }
 
     private void initEmailField(){
         emailFiled = new JTextField();
         emailFiled.setBounds(50,155,300,30);
+        emailFiled.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(emailFiled);
     }
 
     private void initPasswordField(){
         passwordField = new JPasswordField();
         passwordField.setBounds(50,215,300,30);
+        passwordField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(passwordField);
     }
 
     private void initConfirmPasswordField(){
         confirmPasswordField = new JPasswordField();
         confirmPasswordField.setBounds(50,275,300,30);
+        confirmPasswordField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(confirmPasswordField);
     }
 
     private void initPhoneNumberField(){
         phoneNumberField = new JTextField();
         phoneNumberField.setBounds(50,335,300,30);
+        phoneNumberField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(phoneNumberField);
     }
 
@@ -112,7 +117,7 @@ public class RegisterPage extends JLabel {
     }
 
     private void initRegisterButton(){
-        registerButton = new JButton("REGISTER");
+        registerButton = new JButton("Register");
         registerButton.setBounds(50, 475,300,30);
         transparentPanel.add(registerButton);
     }

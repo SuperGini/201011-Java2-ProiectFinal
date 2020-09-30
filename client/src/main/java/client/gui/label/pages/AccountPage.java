@@ -44,8 +44,6 @@ public class AccountPage extends JLabel {
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initAddPhone2();
-//        initUsernameButton();
-//        initEmailButton();
         initPhone1Button();
         initPhoneNumber2();
         changePasswordButton();
@@ -68,10 +66,6 @@ public class AccountPage extends JLabel {
     private void initAddPhone2(){
         addPhone2 = new JButton("Add Phone");
         addPhone2.setBounds(30,150, 200, 30);
-        addPhone2.setBackground(Color.WHITE);
-        addPhone2.setFocusable(false);
-        addPhone2.setForeground(colorOrange);
-        addPhone2.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(addPhone2);
 
         addPhone2.addMouseListener(new MouseAdapterButtons(addPhone2));
@@ -115,10 +109,6 @@ public class AccountPage extends JLabel {
     private void initPhone1Button(){
         phone1Button = new JButton(change);
         phone1Button.setBounds(30,200, 200, 30);
-        phone1Button.setBackground(Color.WHITE);
-        phone1Button.setFocusable(false);
-        phone1Button.setForeground(colorOrange);
-        phone1Button.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(phone1Button);
 
         phone1Button.addMouseListener(new MouseAdapterButtons(phone1Button));
@@ -132,10 +122,6 @@ public class AccountPage extends JLabel {
     private void initPhoneNumber2(){
         phone2Button = new JButton(change);
         phone2Button.setBounds(30,250, 200, 30);
-        phone2Button.setBackground(Color.WHITE);
-        phone2Button.setFocusable(false);
-        phone2Button.setForeground(colorOrange);
-        phone2Button.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(phone2Button);
 
         phone2Button.addMouseListener(new MouseAdapterButtons(phone2Button));
@@ -206,10 +192,6 @@ public class AccountPage extends JLabel {
     private void changePasswordButton(){
         changePasswordButton = new JButton(change);
         changePasswordButton.setBounds(30,300, 200, 30);
-        changePasswordButton.setBackground(Color.WHITE);
-        changePasswordButton.setFocusable(false);
-        changePasswordButton.setForeground(colorOrange);
-        changePasswordButton.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(changePasswordButton);
 
         changePasswordButton.addMouseListener(new MouseAdapterButtons(changePasswordButton));
