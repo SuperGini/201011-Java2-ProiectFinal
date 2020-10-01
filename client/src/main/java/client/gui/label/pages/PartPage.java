@@ -3,6 +3,7 @@ package client.gui.label.pages;
 import client.controller.autovehicle.PartController;
 import client.controller.autovehicle.ServiceOrderController;
 import client.gui.panel.TransparentPanel;
+import client.util.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 
@@ -22,19 +23,19 @@ public class PartPage extends JLabel {
     private JTextField partField;
     private JTextField priceField;
     private JTextField countField;
-    private JButton updatePartCount;
-    private JButton addPartToOrder;
+    private JTextArea totalArea;
     private JTable orderId;
     private JTable partsArea;
     private JButton refreshListButton;
     private JButton refreshPartTable;
     private JButton closePartOrder;
-    private JLabel totalLabel;
+  //  private JLabel totalLabel;
     private JLabel finalPrice;
     private JLabel genericLabel;
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
     private int id;
+    private double total;
 
     private JPanel transparentPanel;
 
@@ -64,14 +65,13 @@ public class PartPage extends JLabel {
         initCountField();
         initPartLabels();
         createPartButton();
-        initUpdatePartCountButton();
-        initAddPArtToOrderButton();
+        totalArea();
         initRefreshListButton();
         initGenerilLabels();
         initMiniLabels();
 
 
-        initTotalLabel();
+        //initTotalLabel();
         initFinalPriceLabel();
         initClosePartOrder();
 
@@ -95,18 +95,21 @@ public class PartPage extends JLabel {
     private void initPartField(){
         partField = new JTextField();
         partField.setBounds(70,50, 150,30);
+        partField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(partField);
     }
 
     private void initPriceField(){
         priceField = new JTextField();
         priceField.setBounds(70,100,150,30);
+        priceField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(priceField);
     }
 
     private void initCountField(){
         countField = new JTextField();
         countField.setBounds(70,150,150,30);
+        countField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(countField);
     }
 
@@ -125,39 +128,40 @@ public class PartPage extends JLabel {
     private void createPartButton(){
         createPartButton = new JButton("Add Part");
         createPartButton.setBounds(30,200,190,30);
+        createPartButton.addMouseListener(new MouseAdapterButton(createPartButton));
         transparentPanel.add(createPartButton);
 
         createPartButton.addActionListener(ev -> createPart());
     }
 
-    private void initUpdatePartCountButton(){
-        updatePartCount = new JButton("Update count number");
-        updatePartCount.setBounds(30,250,190,30);
-        transparentPanel.add(updatePartCount);
+//    private void initUpdatePartCountButton(){
+//        updatePartCount = new JButton("Update count number");
+//        updatePartCount.setBounds(30,250,190,30);
+//        transparentPanel.add(updatePartCount);
+//
+//        updatePartCount.addActionListener(ev ->updatePartNumber());
+//    }
 
-        updatePartCount.addActionListener(ev ->updatePartNumber());
-    }
+//    private void initAddPArtToOrderButton(){
+//        addPartToOrder = new JButton("Add part to order");
+//        addPartToOrder.setBounds(30,300,190,30);
+//        transparentPanel.add(addPartToOrder);
+//        addPartToOrder.addActionListener(ev -> {
+//
+//            //:todo -> de aici arunc piesa in comanda dupa ce a fost bagata in contextul de persistenta
+//            PartDto part = PartController.getInstance().findPartByName(partField.getText());
+//            System.out.println(part);
+//
+//        });
+//
+//    }
 
-    private void initAddPArtToOrderButton(){
-        addPartToOrder = new JButton("Add part to order");
-        addPartToOrder.setBounds(30,300,190,30);
-        transparentPanel.add(addPartToOrder);
-        addPartToOrder.addActionListener(ev -> {
-
-            //:todo -> de aici arunc piesa in comanda dupa ce a fost bagata in contextul de persistenta
-            PartDto part = PartController.getInstance().findPartByName(partField.getText());
-            System.out.println(part);
-
-        });
-
-    }
-
-    private void initTotalLabel(){
-        totalLabel = new JLabel("Total:................................................................");
-        totalLabel.setFont(new Font("Dialog",Font.BOLD, 16));
-        totalLabel.setBounds(645,400,200,30);
-        transparentPanel.add(totalLabel);
-    }
+//    private void initTotalLabel(){
+//        totalLabel = new JLabel("Total:................................................................");
+//        totalLabel.setFont(new Font("Dialog",Font.BOLD, 16));
+//        totalLabel.setBounds(645,400,200,30);
+//        transparentPanel.add(totalLabel);
+//    }
 
 
     private void initFinalPriceLabel(){
@@ -171,8 +175,10 @@ public class PartPage extends JLabel {
 
     private void initRefreshListButton(){
         refreshListButton = new JButton("refresh");
-        refreshListButton.setBounds(30,350,190,30);
+        refreshListButton.setBounds(540,410,100,50);
+        refreshListButton.setFont(new Font("Dialog",Font.BOLD, 15));
         transparentPanel.add(refreshListButton);
+        refreshListButton.addMouseListener(new MouseAdapterButton(refreshListButton));
         refreshListButton.addActionListener(ev ->{
             orderIds.clear();
             orderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIds()));
@@ -183,20 +189,29 @@ public class PartPage extends JLabel {
 
     }
 
+    private void totalArea(){
+        totalArea = new JTextArea();
+        totalArea.setBounds(645, 410, 300, 50);
+        totalArea.setFont(new Font("Dialog", Font.BOLD, 15));
+        totalArea.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
+        transparentPanel.add(totalArea);
+    }
+
 
     private void initClosePartOrder(){
         closePartOrder = new JButton("close part order");
-        closePartOrder.setBounds(545,450,400,40);
+        closePartOrder.setBounds(540,470,405,40);
+        closePartOrder.addMouseListener(new MouseAdapterButton(closePartOrder));
         transparentPanel.add(closePartOrder);
 
         closePartOrder.addActionListener(ev ->{
 
-            double totalPrice = Double.parseDouble(finalPrice.getText());
+          //  double totalPrice = Double.parseDouble(total);
 
-            int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id,totalPrice);
+            int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id,total);
 
             if(updatePrice > 0){
-                JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + finalPrice.getText());
+                JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
             }
 
 
@@ -252,7 +267,7 @@ public class PartPage extends JLabel {
 
     private void createPart(){
         PartDto partDto = new PartDto();
-        List<Integer> totalCount = new ArrayList<>();
+    //    List<Integer> totalCount = new ArrayList<>();
         partDto.setPartName(partField.getText());
 
 //
@@ -265,7 +280,7 @@ public class PartPage extends JLabel {
 
         try{
 
-            totalCount.add(Integer.parseInt(countField.getText()));
+          //  totalCount.add(Integer.parseInt(countField.getText()));
 
             partDto.setPrice(Double.parseDouble(priceField.getText()));
             partDto.setCount(Integer.parseInt(countField.getText()));
@@ -281,6 +296,7 @@ public class PartPage extends JLabel {
                 if (!PartController.getInstance().createPart(partDto)) {
                     JOptionPane.showMessageDialog(null, "Part added to order");
                     refreshPartTable(id);
+                    resetFields();
                 }
 
             }catch(IllegalArgumentException e){
@@ -325,6 +341,7 @@ public class PartPage extends JLabel {
         orderId = new JTable(orderModel);
         orderId.setBounds(540,50,100,350);
         scrollPaneOrder = new JScrollPane(orderId);
+        scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         scrollPaneOrder.setBounds(540,50,100,350);
         transparentPanel.add(scrollPaneOrder);
         orderId.setRowHeight(20);
@@ -362,6 +379,7 @@ public class PartPage extends JLabel {
         partsArea.setBounds(645,50,300,350);
         scrollPane = new JScrollPane(partsArea);
         scrollPane.setBounds(645,50,300,350);
+        scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(scrollPane);
         partsArea.setRowHeight(20);
         partsArea.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
@@ -430,14 +448,15 @@ public class PartPage extends JLabel {
         serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
         tableDataParts();
 
-        double x =  partsDtos.stream()
-                .map(s ->totalSum(s))
+             total =  partsDtos.stream()
+                .map(this::totalSum)
                 .reduce(0.0, Double::sum);
 
 
-        String c = String.format("%.2f",x);
+        String c = String.format("%.2f",total);
 
-        finalPrice.setText(c);
+        totalArea.setText("Total:..................................................." + c);
+
 
     }
 
@@ -451,6 +470,13 @@ public class PartPage extends JLabel {
 
     private double totalSum(PartDto partDto){
         return partDto.getCount() * partDto.getPrice();
+    }
+
+    private void resetFields(){
+        partField.setText("");
+        priceField.setText("");
+        countField.setText("");
+
     }
 
 

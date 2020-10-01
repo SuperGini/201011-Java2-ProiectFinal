@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 public class MouseAdapterButton extends MouseAdapter {
 
-   private Color colorOrange = new Color(167,32,7);
+   private static Color colorOrange = new Color(167,32,7);
 
    private final JButton buttonx;
 
@@ -48,4 +48,7 @@ public class MouseAdapterButton extends MouseAdapter {
 
     }
 
+    public static Color getColorOrange() {
+        return colorOrange;
+    }
 }

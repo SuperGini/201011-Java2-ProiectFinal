@@ -3,12 +3,11 @@ package server.service.autovehicle;
 import lib.dto.autovehicle.PartDto;
 import lib.service.PartService;
 import server.convert.autovehicle.PartConvertor;
-import server.dao.interfaces.PartDao;
-import server.dao.interfaces.ServiceOrderDao;
 import server.dao.impl.autovehicle.PartDaoImpl;
 import server.dao.impl.autovehicle.ServiceOrderDaoImpl;
+import server.dao.interfaces.PartDao;
+import server.dao.interfaces.ServiceOrderDao;
 import server.model.autovehicle.Part;
-import server.model.autovehicle.ServiceOrder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,7 +16,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PartServiceImpl extends UnicastRemoteObject implements PartService {
@@ -36,17 +34,17 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
     public boolean createPart(PartDto partDto) throws RemoteException{
         Part part = PartConvertor.convert(partDto);
 
-        ServiceOrder serviceOrder = serviceOrderDao.findById(partDto.getServiceOrderDto().getId());
+    //    ServiceOrder serviceOrder = serviceOrderDao.findById(partDto.getServiceOrderDto().getId());
 
-        Optional<Part> findPart = partDao.findPartByName(part.getPartName());
-            part.setOrders(serviceOrder);
+//        Optional<Part> findPart = partDao.findPartByName(part.getPartName());
+//            part.setOrders(serviceOrder);
 
-        if(findPart.isEmpty()){
+//        if(findPart.isEmpty()){
 
         return partDao.createPart(part);
 
-        }
-        throw new IllegalArgumentException();
+    //    }
+     //   throw new IllegalArgumentException();
     }
 
     @Override

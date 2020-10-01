@@ -100,7 +100,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
     @Override
     public int setTotalPriceToOrder(int orderId, double totalPrice){
-        String jpql ="UPDATE ServiceOrder s SET s.total = s.total + :increment WHERE s.id = :id";
+        String jpql ="UPDATE ServiceOrder s SET s.total = :increment WHERE s.id = :id";
         entityManager.getTransaction().begin();
 
         Query query = entityManager.createQuery(jpql);
