@@ -266,21 +266,12 @@ public class PartPage extends JLabel {
 
 
     private void createPart(){
-        PartDto partDto = new PartDto();
-    //    List<Integer> totalCount = new ArrayList<>();
-        partDto.setPartName(partField.getText());
-
-//
-//        int row = orderId.getSelectedRow();
-//        int id = (int) orderId.getModel().getValueAt(row, 0);
-//
-            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
-
-
 
         try{
+            PartDto partDto = new PartDto();
+            partDto.setPartName(partField.getText());
+            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
 
-          //  totalCount.add(Integer.parseInt(countField.getText()));
 
             partDto.setPrice(Double.parseDouble(priceField.getText()));
             partDto.setCount(Integer.parseInt(countField.getText()));
@@ -288,25 +279,19 @@ public class PartPage extends JLabel {
             serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
             partDto.setServiceOrderDto(serviceOrderDto);
 
-
-
-
             //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
-            try {
                 if (!PartController.getInstance().createPart(partDto)) {
                     JOptionPane.showMessageDialog(null, "Part added to order");
                     refreshPartTable(id);
                     resetFields();
                 }
 
-            }catch(IllegalArgumentException e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "The part is allreary in the warehouse");
-            }
-
         }catch(NumberFormatException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Wrong format for the price or count");
+        }catch(IllegalArgumentException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Select a order befor adding a part");
         }
     }
 

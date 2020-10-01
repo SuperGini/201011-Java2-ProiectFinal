@@ -62,9 +62,8 @@ public class PartDto implements Serializable {
 
     @Override
     public String toString() {
-        return  "Part:........................" + partName + "\n" +
-                "price:......................." + price + "\n" +
-                "count:......................." + count;
+        return  partName + "                                        " + count + "                                       " + price ;
+
     }
 
     public ServiceOrderDto getServiceOrderDto() {

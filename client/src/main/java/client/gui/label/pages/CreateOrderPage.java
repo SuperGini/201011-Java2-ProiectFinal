@@ -9,7 +9,9 @@ import lib.dto.autovehicle.CountPartDto;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.VehicleDto;
+import lib.dto.bill.BillDto;
 import lib.dto.client.ClientDto;
+import lib.dto.bill.TotalPriceDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +48,7 @@ public class CreateOrderPage extends JLabel {
     private JTextField findField;
     private int id;
     private int i = 0;
+    private double total;
 
 
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
@@ -73,6 +76,7 @@ public class CreateOrderPage extends JLabel {
     private VehicleDto vehicleDto = new VehicleDto();
     private PartDto partDto;
     private ServiceOrderDto serviceOrderDto;
+    private BillDto billDto = new BillDto();
 
 
     public CreateOrderPage(int x, int y, int width, int height) {
@@ -289,26 +293,40 @@ public class CreateOrderPage extends JLabel {
 
               String billNumber = String.valueOf(id);
 
-              Path billPath = Paths.get("./server/src/main/resources/bill/" + billNumber + ".txt");
+              Path billPath = Paths.get("./client/src/main/resources/bill/" + billNumber + ".txt");
 
-              makeBill(billPath);
+             makeBill(billPath);
 
 
         });
     }
 
-    private void makeBill(Path billPath){
+    private void makeBill(Path path){
 
-        try(PrintStream ps = new PrintStream(billPath.toString())) {
-            Files.createFile(billPath);
+        billDto.setBrand(clientLabel.getText());
+        billDto.setOrderId(orderLabel.getText());
+        billDto.setClientName(clientLabel.getText());
+        billDto.setSerialNumber(serialLabel.getText());
+        TotalPriceDto totalPriceDto = new TotalPriceDto(String.valueOf(total));
+
+
+
+
+        try(PrintStream ps = new PrintStream(path.toString())) {
+
+            ps.println(billDto);
 
             for (PartDto part : partsDtos) {
                 ps.println(part.toString());
             }
 
-            if(Files.exists(billPath)){
-                JOptionPane.showMessageDialog(null,"Bill created!");
+            ps.println(totalPriceDto);
+
+
+            if(Files.exists(path)){
+                JOptionPane.showMessageDialog(null,"Bill created");
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -496,7 +514,13 @@ public class CreateOrderPage extends JLabel {
         serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
         tableDataParts();
 
+        total =  partsDtos.stream()
+                .map(this::totalSum)
+                .reduce(0.0, Double::sum);
+    }
 
+    private double totalSum(PartDto partDto){
+        return partDto.getCount() * partDto.getPrice();
     }
 
     private void setGenericLabels( ServiceOrderDto serviceOrderDto){
