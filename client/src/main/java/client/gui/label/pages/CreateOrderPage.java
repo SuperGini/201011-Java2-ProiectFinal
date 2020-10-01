@@ -10,19 +10,14 @@ import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.bill.BillDto;
-import lib.dto.client.ClientDto;
 import lib.dto.bill.TotalPriceDto;
+import lib.dto.client.ClientDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,7 +63,6 @@ public class CreateOrderPage extends JLabel {
 
 
 
-
     private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
 
 
@@ -102,8 +96,6 @@ public class CreateOrderPage extends JLabel {
         initMiniLabels();
         initBillButton();
         selectOrdersWithMouse();
-
-
     }
 
 
@@ -158,9 +150,7 @@ public class CreateOrderPage extends JLabel {
             row[0] = integer;
 
             orderModel.addRow(row);
-
         }
-
     }
 
     private void intiCarProblemArea(){
@@ -198,15 +188,6 @@ public class CreateOrderPage extends JLabel {
 
     }
 
-//    private void initPartList(){
-//        partList = new JList(listPartModel);
-//        partList.setBounds(645,50,300,350);
-//        transparentPanel.add(partList);
-//    }
-
-
-
-
 
     private void initPartsArea(){
         partsArea = new JTable(tableModel);
@@ -224,10 +205,6 @@ public class CreateOrderPage extends JLabel {
         partsArea.setShowVerticalLines(false);
         partsArea.setSelectionBackground(new Color (232,57,95));
 
-
-
-
-
     }
 
 
@@ -240,9 +217,6 @@ public class CreateOrderPage extends JLabel {
 
         tableModel.setColumnIdentifiers(columns);
 
-
-
-
         Object [] row = new Object [4];
 
         for(int i = 0; i < partsDtos.size(); i++){
@@ -254,32 +228,6 @@ public class CreateOrderPage extends JLabel {
         }
     }
 
-
-
-
-
-//
-//    private void initCount(){
-//        countField = new JTextField();
-//        countField.setBounds(900,460,30,30);
-//        transparentPanel.add(countField);
-//
-//        countLabel = new JLabel("count");
-//        countLabel.setBounds(850,460,50,30);
-//        transparentPanel.add(countLabel);
-//
-//
-//    }
-
-
-//    private void initFindPartArea(){
-//        findPartArea = new JTextArea();
-//        findPartArea.setBounds(645,405,300,50);
-//        transparentPanel.add(findPartArea);
-//
-//
-//    }
-        //:todo: scrie toate obliectele pe o linie -> de vazut cum fac sa le scrie una sub alta pe mai multe linii
     private void initBillButton(){
         billButton = new JButton("Bill");
         billButton.setBounds(645,500,300,30);
@@ -287,51 +235,23 @@ public class CreateOrderPage extends JLabel {
         billButton.addMouseListener(new MouseAdapterButton(billButton));
 
 
-        billButton.addActionListener(ev -> {
-
-
-
-              String billNumber = String.valueOf(id);
-
-              Path billPath = Paths.get("./client/src/main/resources/bill/" + billNumber + ".txt");
-
-             makeBill(billPath);
-
-
-        });
+        billButton.addActionListener(ev ->  makeBill());
     }
 
-    private void makeBill(Path path){
 
+
+    private void makeBill(){
+
+        String billNumber = String.valueOf(id);
+        String path = "./client/src/main/resources/bill/" + billNumber + ".txt";
         billDto.setBrand(clientLabel.getText());
         billDto.setOrderId(orderLabel.getText());
         billDto.setClientName(clientLabel.getText());
         billDto.setSerialNumber(serialLabel.getText());
         TotalPriceDto totalPriceDto = new TotalPriceDto(String.valueOf(total));
 
+        ServiceOrderController.getInstance().makeBill(partsDtos, path, billDto, totalPriceDto);
 
-
-
-        try(PrintStream ps = new PrintStream(path.toString())) {
-
-            ps.println(billDto);
-
-            for (PartDto part : partsDtos) {
-                ps.println(part.toString());
-            }
-
-            ps.println(totalPriceDto);
-
-
-            if(Files.exists(path)){
-                JOptionPane.showMessageDialog(null,"Bill created");
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null,"Bill error!");
-        }
     }
 
 
@@ -544,16 +464,7 @@ public class CreateOrderPage extends JLabel {
         addProblemField.setText("");
         carProblemArea.setText("");
     }
-
-
-
-
-//    private void initCloseOrderButton(){
-//        closeOrderButton = new JButton("close order");
-//        closeOrderButton.setBounds(430,500,200,30);
-//        transparentPanel.add(closeOrderButton);
-//    }
-
+    
     public JLabel getOrderLabel() {
         return orderLabel;
     }

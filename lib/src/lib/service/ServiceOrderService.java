@@ -2,6 +2,8 @@ package lib.service;
 
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.bill.BillDto;
+import lib.dto.bill.TotalPriceDto;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -27,4 +29,6 @@ public interface ServiceOrderService extends Remote {
     List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId) throws RemoteException;
 
     int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException;
+
+    void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto) throws RemoteException;
 }

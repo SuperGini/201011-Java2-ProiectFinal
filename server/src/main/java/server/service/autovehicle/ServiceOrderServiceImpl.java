@@ -2,6 +2,8 @@ package server.service.autovehicle;
 
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.bill.BillDto;
+import lib.dto.bill.TotalPriceDto;
 import lib.service.ServiceOrderService;
 import server.convert.autovehicle.PartConvertor;
 import server.convert.autovehicle.ServiceOrderConvertor;
@@ -15,6 +17,8 @@ import server.model.client.Client;
 import server.model.user.User;
 
 import javax.persistence.Persistence;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
@@ -140,5 +144,24 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     @Override
     public int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException{
         return serviceOrderDao.setTotalPriceToOrder(orderId, totalPrice);
+    }
+
+    @Override
+    public void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto) throws RemoteException{
+        try(PrintStream ps = new PrintStream(path)) {
+
+            ps.println(billDto);
+
+            for (PartDto part : partsDtos) {
+                ps.println(part.toString());
+            }
+
+            ps.println(totalPriceDto);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

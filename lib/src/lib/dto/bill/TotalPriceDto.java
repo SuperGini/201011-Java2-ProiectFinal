@@ -1,6 +1,8 @@
 package lib.dto.bill;
 
-public class TotalPriceDto {
+import java.io.Serializable;
+
+public class TotalPriceDto implements Serializable {
 
     private final String totalPrice;
 

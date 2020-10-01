@@ -1,6 +1,8 @@
 package lib.dto.bill;
 
-public class BillDto {
+import java.io.Serializable;
+
+public class BillDto implements Serializable {
 
     private String orderId;
 

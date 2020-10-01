@@ -2,6 +2,8 @@ package client.controller.autovehicle;
 
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.bill.BillDto;
+import lib.dto.bill.TotalPriceDto;
 import lib.service.ServiceOrderService;
 
 import java.rmi.NotBoundException;
@@ -20,11 +22,9 @@ public class ServiceOrderController implements ServiceOrderService {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", 4545);
             serviceOrderService = (ServiceOrderService) registry.lookup("serviceOrder");
-        } catch (RemoteException e) {
+        } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        } catch (NotBoundException e) {
-            e.printStackTrace();
         }
     }
 
@@ -112,6 +112,16 @@ public class ServiceOrderController implements ServiceOrderService {
     public int setTotalPriceToOrder(int orderId, double totalPrice){
         try {
             return serviceOrderService.setTotalPriceToOrder(orderId, totalPrice);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto){
+        try {
+            serviceOrderService.makeBill(partsDtos, path, billDto, totalPriceDto);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
