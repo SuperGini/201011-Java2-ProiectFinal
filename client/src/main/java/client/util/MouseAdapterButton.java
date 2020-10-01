@@ -5,13 +5,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MouseAdapterButtons extends MouseAdapter {
+public class MouseAdapterButton extends MouseAdapter {
 
    private Color colorOrange = new Color(167,32,7);
 
    private final JButton buttonx;
 
-    public MouseAdapterButtons(JButton buttonx) {
+    public MouseAdapterButton(JButton buttonx) {
         this.buttonx = buttonx;
         buttonx.setBackground(Color.WHITE);
         buttonx.setFocusable(false);

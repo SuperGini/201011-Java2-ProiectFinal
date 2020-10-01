@@ -69,7 +69,6 @@ public class VehicleServiceImpl extends UnicastRemoteObject implements lib.servi
             return vehicleDao.createVehicle(vehicle);
         }
 
-
         throw new IllegalArgumentException();
     }
 

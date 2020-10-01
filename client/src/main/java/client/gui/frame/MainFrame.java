@@ -5,7 +5,7 @@ import client.controller.media.PictureController;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
-import client.util.MouseAdapterButtons;
+import client.util.MouseAdapterButton;
 import client.util.MouseAdapterLogAndRegister;
 import client.util.SoundConvertor;
 import client.util.SoundPlay;
@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
                 moveLoginPageRaightAndLeftButtonPageRaight();
             }
         });
-        loginPage.getLoginButton().addMouseListener(new MouseAdapterButtons(loginPage.getLoginButton()));
+        loginPage.getLoginButton().addMouseListener(new MouseAdapterButton(loginPage.getLoginButton()));
 
 
         loginPage.getRegisterButton().addActionListener(ev -> moveLabesLeftAndRaight(registerPage));
@@ -128,7 +128,7 @@ public class MainFrame extends JFrame {
 
         });
 
-        registerPage.getRegisterButton().addMouseListener(new MouseAdapterButtons(registerPage.getRegisterButton()));
+        registerPage.getRegisterButton().addMouseListener(new MouseAdapterButton(registerPage.getRegisterButton()));
 
         registerPage.getLoginButton().addActionListener(ev -> moveLabesLeftAndRaight(loginPage));
 

@@ -2,7 +2,7 @@ package client.gui.label.pages;
 
 import client.controller.user.UserController;
 import client.gui.panel.TransparentPanel;
-import client.util.MouseAdapterButtons;
+import client.util.MouseAdapterButton;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;
@@ -68,7 +68,7 @@ public class AccountPage extends JLabel {
         addPhone2.setBounds(30,150, 200, 30);
         transparentPanel.add(addPhone2);
 
-        addPhone2.addMouseListener(new MouseAdapterButtons(addPhone2));
+        addPhone2.addMouseListener(new MouseAdapterButton(addPhone2));
 
         addPhone2.addActionListener(ev ->{
 
@@ -111,7 +111,7 @@ public class AccountPage extends JLabel {
         phone1Button.setBounds(30,200, 200, 30);
         transparentPanel.add(phone1Button);
 
-        phone1Button.addMouseListener(new MouseAdapterButtons(phone1Button));
+        phone1Button.addMouseListener(new MouseAdapterButton(phone1Button));
 
         phone1Button.addActionListener(ev->{
             changePhoneNumber(phone1Label, phone1Button);
@@ -124,7 +124,7 @@ public class AccountPage extends JLabel {
         phone2Button.setBounds(30,250, 200, 30);
         transparentPanel.add(phone2Button);
 
-        phone2Button.addMouseListener(new MouseAdapterButtons(phone2Button));
+        phone2Button.addMouseListener(new MouseAdapterButton(phone2Button));
 
         phone2Button.addActionListener(ev ->{
             changePhoneNumber(phone2Label, phone2Button);
@@ -194,7 +194,7 @@ public class AccountPage extends JLabel {
         changePasswordButton.setBounds(30,300, 200, 30);
         transparentPanel.add(changePasswordButton);
 
-        changePasswordButton.addMouseListener(new MouseAdapterButtons(changePasswordButton));
+        changePasswordButton.addMouseListener(new MouseAdapterButton(changePasswordButton));
 
         changePasswordButton.addActionListener(ev->{
 

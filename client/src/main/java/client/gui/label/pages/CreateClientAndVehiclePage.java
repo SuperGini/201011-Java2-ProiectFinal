@@ -4,6 +4,7 @@ import client.controller.autovehicle.VehicleController;
 import client.controller.client.CompanyController;
 import client.controller.client.PersonController;
 import client.gui.panel.TransparentPanel;
+import client.util.MouseAdapterButton;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.AdressDto;
 import lib.dto.client.CompanyDto;
@@ -48,6 +49,7 @@ public class CreateClientAndVehiclePage extends JLabel {
     private List<JLabel> clientLabels = new ArrayList<>();
     private List<JLabel> vehicleLabels = new ArrayList<>();
     private List<JRadioButton> radioButtons = new ArrayList<>();
+    private Color colorOrange = new Color(167,32,7);
 
 
     public CreateClientAndVehiclePage(int x, int y, int width, int height) {
@@ -92,25 +94,29 @@ public class CreateClientAndVehiclePage extends JLabel {
     private void initNameField(){
         nameField = new JTextField();
         nameField.setBounds(125,150,300,30);
+        nameField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(nameField);
     }
 
     private void initCuiAndCnpField(){
         cuiAndCnpField = new JTextField();
         cuiAndCnpField.setBounds(125, 200, 300, 30);
+        cuiAndCnpField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(cuiAndCnpField);
     }
 
 
     private void initStreetField(){
         streetField = new JTextField();
-        streetField.setBounds(125,250,300,30);
+        streetField.setBounds(125,300,300,30);
+        streetField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(streetField);
     }
 
     private void initNumberField(){
         numberField = new JTextField();
-        numberField.setBounds(125,300,300,30);
+        numberField.setBounds(125,350,300,30);
+        numberField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(numberField);
     }
 
@@ -132,7 +138,7 @@ public class CreateClientAndVehiclePage extends JLabel {
         for(int i = 0; i < 2; i++){
             clientRadioButton = new JRadioButton(clientType[i]);
             clientRadioButton.setActionCommand(clientType[i]);
-            clientRadioButton.setBounds(200 + (i*80),350,80,50);
+            clientRadioButton.setBounds(200 + (i*80),390,80,50);
             clientRadioButton.setOpaque(false);
 
             buttonGroup.add(clientRadioButton);
@@ -144,8 +150,8 @@ public class CreateClientAndVehiclePage extends JLabel {
     private void initCreateClientButton(){
         createClientButton = new JButton("Create client");
         createClientButton.setBounds(30,450,395,30);
-        createClientButton.setBackground(Color.CYAN);
         transparentPanel.add(createClientButton);
+        createClientButton.addMouseListener(new MouseAdapterButton(createClientButton));
 
         createClientButton.addActionListener(ev -> {
 
@@ -206,12 +212,14 @@ public class CreateClientAndVehiclePage extends JLabel {
     private void initBrandField(){
         brandField = new JTextField();
         brandField.setBounds(620,250,300,30);
+        brandField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(brandField);
     }
 
     private void initSerialNumberField(){
         serialNumberField = new JTextField();
         serialNumberField.setBounds(620,300,300,30);
+        serialNumberField.setBorder(BorderFactory.createLineBorder(colorOrange));
         transparentPanel.add(serialNumberField);
     }
 
@@ -233,65 +241,96 @@ public class CreateClientAndVehiclePage extends JLabel {
     private void createVehicleButton(){
         createVehicleButton = new JButton("Create Vehicle");
         createVehicleButton.setBounds(525,450,395,30);
-        createVehicleButton.setBackground(Color.CYAN);
         transparentPanel.add(createVehicleButton);
+        createVehicleButton.addMouseListener(new MouseAdapterButton(createVehicleButton));
 
         createVehicleButton.addActionListener(ev -> {
 
-            try {
 
-                VehicleDto vehicleDto = new VehicleDto();
-                vehicleDto.setVehicleName(brandField.getText());
-                vehicleDto.setSerialNumber(serialNumberField.getText());
-                Set<VehicleDto> vehicleDtos = new HashSet<>();
-                vehicleDtos.add(vehicleDto);
+            if(validCarFields()){
+                try {
 
+                    VehicleDto vehicleDto = new VehicleDto();
+                    vehicleDto.setVehicleName(brandField.getText());
+                    vehicleDto.setSerialNumber(serialNumberField.getText());
+                    Set<VehicleDto> vehicleDtos = new HashSet<>();
+                    vehicleDtos.add(vehicleDto);
 
-                for (JRadioButton button : radioButtons) {
-                    if (button.isSelected() && button.getActionCommand().equals(clientType[0])) {
-                        Optional.ofNullable(personDto)
-                                .ifPresentOrElse(s->s.setVehicleDtos(vehicleDtos),
-                                        this::task);
+//
+                    if (personDto != null && radioButtons.get(1).isSelected() && !personDto.getName().equals(nameField.getToolTipText())) {
+                        JOptionPane.showMessageDialog(null, "Select Person");
+                        return;
+                    }
+                    if (companyDto != null && radioButtons.get(0).isSelected() && !companyDto.getName().equals(nameField.getText())) {
+                        JOptionPane.showMessageDialog(null, "Select Company");
+                        return;
+                    }
+
+                    //lina de mai jos rezolva un bug: daca dau find dupa client si inainte sa bag masina in baza de date daca selectez Company
+                    // imi baga masina in baza de date fara id client
+                    if (radioButtons.get(0).isSelected() && nameField.getText().equals(personDto.getName())) {
+                        Optional.of(personDto)
+                                .ifPresentOrElse(s -> s.setVehicleDtos(vehicleDtos), NullPointerException::new);
                         vehicleDto.setClientDto(personDto);
+                        if(createVehicle(vehicleDto)){
+                            vehicleDtos.clear();
+                            resetFields();
+                            personDto = null;
+                        }
                     }
-                }
 
-                for (JRadioButton button : radioButtons) {
-                    if (button.isSelected() && button.getActionCommand().equals(clientType[1])) {
+
+                    //lina de mai jos rezolva un bug: daca dau find dupa client si inainte sa bag masina in baza de date daca selectez Person
+                    // imi baga masina in baza de date fara id client
+                    if (radioButtons.get(1).isSelected() && nameField.getText().equals(companyDto.getName())) {
                         Optional.ofNullable(companyDto)
-                                .ifPresentOrElse(s->s.setVehicleDtos(vehicleDtos),
-                                        this::task);
+                                .ifPresent(s -> s.setVehicleDtos(vehicleDtos));
                         vehicleDto.setClientDto(companyDto);
+                        if(createVehicle(vehicleDto)){
+                            vehicleDtos.clear();
+                            resetFields();
+                            companyDto = null;
+                        }
                     }
+//
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Find the client first in the database then create the vehicle");
                 }
 
-
-               if(!VehicleController.getInstance().createVehicle(vehicleDto)){
-                   JOptionPane.showMessageDialog(null, "Vehicle added to client");
-               }
-
-            }catch(IllegalArgumentException e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Serial number is allready in the database");
-            }
-            catch(NullPointerException e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Find the client first in the database then create the vehicle");
 
             }
 
         });
     }
 
-    public void task(){
-        throw new NullPointerException();
+    private boolean createVehicle(VehicleDto vehicleDto){
+
+
+        try {
+
+            if(!VehicleController.getInstance().createVehicle(vehicleDto)){
+                JOptionPane.showMessageDialog(null, "Vehicle added to client");
+                return true;
+            }
+
+        }catch(IllegalArgumentException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Serial number is allready in the database");
+        } catch(NullPointerException e){
+            e.printStackTrace();
+
+
+        }
+        return false;
+
     }
 
     private void initFindClientButton(){
         findClientButton = new JButton("Find Client");
-        findClientButton.setBounds(350,500,395,30);
-        findClientButton.setBackground(Color.CYAN);
+        findClientButton.setBounds(277,500,395,30);
         transparentPanel.add(findClientButton);
+        findClientButton.addMouseListener(new MouseAdapterButton(findClientButton));
 
         findClientButton.addActionListener(ev ->{
 
@@ -312,7 +351,7 @@ public class CreateClientAndVehiclePage extends JLabel {
                         cuiAndCnpField.setText(personDto.getCnp());
                         streetField.setText(personDto.getAdress().getStreet());
                         numberField.setText(personDto.getAdress().getNumber());
-                        System.out.println(personDto.getId());
+                        companyDto = null;
 
                     }catch(NoSuchElementException e){
                         JOptionPane.showMessageDialog(null, "Plese select Company to find");
@@ -331,7 +370,7 @@ public class CreateClientAndVehiclePage extends JLabel {
                         cuiAndCnpField.setText(companyDto.getCui());
                         streetField.setText(companyDto.getAdress().getStreet());
                         numberField.setText(companyDto.getAdress().getNumber());
-                        System.out.println(companyDto.getId());
+                        personDto = null;
 
                     }catch(NoSuchElementException e){
                         JOptionPane.showMessageDialog(null, "Plese select Person to find");
@@ -342,4 +381,60 @@ public class CreateClientAndVehiclePage extends JLabel {
             }
         });
     }
+
+    private boolean validClientFields(){
+
+        if(nameField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter client name");
+            return false;
+        }
+
+        if(cuiAndCnpField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter cui or cnp");
+            return false;
+        }
+
+        if(streetField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter street name");
+            return false;
+        }
+
+        if(numberField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter the number of the street");
+            return false;
+        }
+
+        if(!radioButtons.get(0).isSelected() && !radioButtons.get(1).isSelected()){
+            JOptionPane.showMessageDialog(null, "Select Person or Company");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validCarFields(){
+
+        if(validClientFields()){
+
+            if(brandField.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Enter brand name");
+                return false;
+            }
+
+            if(serialNumberField.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Enter serial number / VIN");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void resetFields(){
+          nameField.setText("");
+          streetField.setText("");
+          numberField.setText("");
+          brandField.setText("");
+          serialNumberField.setText("");
+          cuiAndCnpField.setText("");
+    }
+
 }
