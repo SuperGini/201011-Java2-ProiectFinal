@@ -41,6 +41,7 @@ public class ServiceOrderConvertor {
 
         serviceOrderDto.setParts(new ArrayList<>(partsDto));
         serviceOrderDto.setUserDto(userDto);
+        serviceOrderDto.setStatus(serviceOrder.getStatus());
         serviceOrderDto.setVehicleDtos(vehicleDto);
         serviceOrderDto.setClientDto(clientDto);
         serviceOrderDto.setCarProblems(new ArrayList<>(serviceOrder.getCarProblems()));
@@ -73,6 +74,7 @@ public class ServiceOrderConvertor {
         serviceOrder.setClient(client);
         serviceOrder.setVehicle(vehicle);
         serviceOrder.setUser(user);
+        serviceOrder.setStatus(serviceOrderDto.getStatus());
 
 
 
