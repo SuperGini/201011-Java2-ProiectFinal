@@ -67,11 +67,9 @@ public class LoginPage extends JLabel {
     }
 
     private void initLoginButton(){
+
         loginButton = new JButton("login");
-//        loginButton.setBackground(Color.WHITE);
-//        loginButton.setForeground(Color.RED);
-//        loginButton.setFocusable(false);
-//        loginButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+
         loginButton.setBounds(50, 395, 300, 30);
         transparentPanel.add(loginButton);
     }

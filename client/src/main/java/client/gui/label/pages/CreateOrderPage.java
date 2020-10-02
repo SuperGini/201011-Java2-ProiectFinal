@@ -5,7 +5,10 @@ import client.controller.autovehicle.VehicleController;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import client.util.MouseAdapterButton;
-import lib.dto.autovehicle.*;
+import lib.dto.autovehicle.PartDto;
+import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.autovehicle.Status;
+import lib.dto.autovehicle.VehicleDto;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 import lib.dto.client.ClientDto;
@@ -44,6 +47,7 @@ public class CreateOrderPage extends JLabel {
     private int id;
     private int i = 0;
     private double total;
+
 
 
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
@@ -147,15 +151,15 @@ public class CreateOrderPage extends JLabel {
             public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
                 Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
 
-                if( value.equals("OPEN")){
+                if( value.equals(Status.OPEN)){
                     c.setForeground(Color.GREEN);
                 }
 
-                if(value.equals("CLOSE")){
+                if(value.equals(Status.CLOSE)){
                     c.setForeground(Color.BLUE);
                 }
 
-                if(value.equals("READY")){
+                if(value.equals(Status.READY)){
                     c.setForeground(Color.YELLOW);
                 }
 
@@ -194,8 +198,8 @@ public class CreateOrderPage extends JLabel {
         Object [] row = new Object [2];
 
         for(Object [] obj : newOrderIds){
-            row[0] = (Integer)obj[0];
-            row[1] = obj[1].toString();
+            row[0] = obj[0];
+            row[1] = obj[1];
             orderModel.addRow(row);
 
         }
@@ -480,8 +484,9 @@ public class CreateOrderPage extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = orderId.rowAtPoint(e.getPoint());
-             //   int col = orderId.columnAtPoint(e.getPoint()); // stergerea liniei previne un bug cand selectam coloana de string in loc de int
+             //   Status col = orderId.columnAtPoint(e.getPoint()); // stergerea liniei previne un bug cand selectam coloana de string in loc de int
                 id = (int) orderId.getModel().getValueAt(row, 0);
+
 
                 if(id != 0 && e.getClickCount() == 1){
 

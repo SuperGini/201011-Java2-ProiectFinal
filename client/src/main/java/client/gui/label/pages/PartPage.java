@@ -9,6 +9,7 @@ import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -48,7 +49,8 @@ public class PartPage extends JLabel {
 
     private List<JLabel> genericLabels = new ArrayList<>();
 
-    private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
+  //  private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
+    private List<Object[]>  newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
     private List<PartDto> partsDtos = new CopyOnWriteArrayList<>();
 
 
@@ -56,9 +58,17 @@ public class PartPage extends JLabel {
 
     public PartPage(int x, int y, int width, int height) {
 
-        tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
-        orderModel = new DefaultTableModel();
+        orderModel = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initPartField();
@@ -135,36 +145,6 @@ public class PartPage extends JLabel {
         createPartButton.addActionListener(ev -> createPart());
     }
 
-//    private void initUpdatePartCountButton(){
-//        updatePartCount = new JButton("Update count number");
-//        updatePartCount.setBounds(30,250,190,30);
-//        transparentPanel.add(updatePartCount);
-//
-//        updatePartCount.addActionListener(ev ->updatePartNumber());
-//    }
-
-//    private void initAddPArtToOrderButton(){
-//        addPartToOrder = new JButton("Add part to order");
-//        addPartToOrder.setBounds(30,300,190,30);
-//        transparentPanel.add(addPartToOrder);
-//        addPartToOrder.addActionListener(ev -> {
-//
-//            //:todo -> de aici arunc piesa in comanda dupa ce a fost bagata in contextul de persistenta
-//            PartDto part = PartController.getInstance().findPartByName(partField.getText());
-//            System.out.println(part);
-//
-//        });
-//
-//    }
-
-//    private void initTotalLabel(){
-//        totalLabel = new JLabel("Total:................................................................");
-//        totalLabel.setFont(new Font("Dialog",Font.BOLD, 16));
-//        totalLabel.setBounds(645,400,200,30);
-//        transparentPanel.add(totalLabel);
-//    }
-
-
     private void initFinalPriceLabel(){
         finalPrice  = new JLabel("0");
         finalPrice.setFont(new Font("Dialog",Font.BOLD, 16));
@@ -181,8 +161,8 @@ public class PartPage extends JLabel {
         transparentPanel.add(refreshListButton);
         refreshListButton.addMouseListener(new MouseAdapterButton(refreshListButton));
         refreshListButton.addActionListener(ev ->{
-            orderIds.clear();
-            orderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIds()));
+            newOrderIds.clear();
+            newOrderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus()));
             initTableDataOrderId();
 
 
@@ -296,34 +276,58 @@ public class PartPage extends JLabel {
     }
 
 
-    private void updatePartNumber(){
-        try{
-
-            int count = Integer.parseInt(countField.getText());
-            String partName = partField.getText();
-
-            if(PartController.getInstance().increasePartCount(count, partName) > 0){
-                JOptionPane.showMessageDialog(null, "The count for this part was updated");
-                refreshPartTable(id);
-            }else{
-                JOptionPane.showMessageDialog(null, "This part does not exist in the warehouse");
-            }
-
-        }catch(NumberFormatException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Wrong format for count, it has to be of type int");
-        }
-    }
+//    private void updatePartNumber(){
+//        try{
+//
+//            int count = Integer.parseInt(countField.getText());
+//            String partName = partField.getText();
+//
+//            if(PartController.getInstance().increasePartCount(count, partName) > 0){
+//                JOptionPane.showMessageDialog(null, "The count for this part was updated");
+//                refreshPartTable(id);
+//            }else{
+//                JOptionPane.showMessageDialog(null, "This part does not exist in the warehouse");
+//            }
+//
+//        }catch(NumberFormatException e){
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(null, "Wrong format for count, it has to be of type int");
+//        }
+//    }
 
 
     private void initTableServiceOrder(){
 
+        orderId = new JTable(orderModel){
+            @Override
+            public Class<?> getColumnClass(int column) {
+                if(convertColumnIndexToModel(column)==1) return String.class;
+                return super.getColumnClass(column);
+            }
+        };
+
+        orderId.setDefaultRenderer(String.class, new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
+                Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+
+                if( value.equals(Status.OPEN)){
+                    c.setForeground(Color.GREEN);
+                }
+
+                if(value.equals(Status.CLOSE)){
+                    c.setForeground(Color.BLUE);
+                }
+
+                if(value.equals(Status.READY)){
+                    c.setForeground(Color.YELLOW);
+                }
+
+                return c;
+            }
+        });
 
 
-
-
-
-        orderId = new JTable(orderModel);
         orderId.setBounds(540,50,100,350);
         scrollPaneOrder = new JScrollPane(orderId);
         scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
@@ -336,6 +340,7 @@ public class PartPage extends JLabel {
         orderId.getTableHeader().setBackground(new Color(32,136,203));
         orderId.getTableHeader().setForeground(new Color(255,255,255));
         orderId.setShowVerticalLines(false);
+        orderId.setBackground(Color.LIGHT_GRAY);
         orderId.setSelectionBackground(new Color (232,57,95));
 
     }
@@ -344,15 +349,15 @@ public class PartPage extends JLabel {
     private void initTableDataOrderId(){
         orderModel.setRowCount(0);
 
-        String [] column = {"Order nr:"};
+        String [] column = {"Order nr:", "Status"};
 
         orderModel.setColumnIdentifiers(column);
 
-        Object [] row = new Object [1];
+        Object [] row = new Object [2];
 
-        for(Integer integer : orderIds){
-            row[0] = integer;
-
+        for(Object [] obj : newOrderIds){
+            row[0] = obj[0];
+            row[1] = obj[1];
             orderModel.addRow(row);
 
         }
@@ -411,8 +416,8 @@ public class PartPage extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = orderId.rowAtPoint(e.getPoint());
-                int col = orderId.columnAtPoint(e.getPoint());
-                id = (int) orderId.getModel().getValueAt(row, col);
+              //  int col = orderId.columnAtPoint(e.getPoint());
+                id = (int) orderId.getModel().getValueAt(row, 0);
 
                 if(id != 0 && e.getClickCount() == 1){
 
