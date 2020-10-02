@@ -168,4 +168,10 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     public int updateServiceOrderStatus(int orderId, Status status) throws RemoteException{
        return  serviceOrderDao.updateServiceOrderStatus(orderId, status);
     }
+
+    @Override
+    public List<Object[]> findAllServiceOrderIdAndStatus() throws RemoteException{
+        return serviceOrderDao.findAllServiceOrderIdAndStatus();
+
+    }
 }

@@ -51,16 +51,9 @@ public class ServiceOrder {
     @CollectionTable(name = "problems_of_the_car")
     private List<String> carProblems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "serviceOrder")
-    @Basic(fetch = FetchType.EAGER)
-    private List<CountPart> coutParts = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "orders")
-    @Basic(fetch = FetchType.EAGER)
     private List<Part> parts = new ArrayList<>();
-
-
 
 
     @ManyToOne
@@ -68,14 +61,6 @@ public class ServiceOrder {
 
     public Vehicle getVehicle() {
         return vehicle;
-    }
-
-    public List<CountPart> getCoutParts() {
-        return coutParts;
-    }
-
-    public void setCoutParts(List<CountPart> coutParts) {
-        this.coutParts = coutParts;
     }
 
     public void setVehicle(Vehicle vehicle) {

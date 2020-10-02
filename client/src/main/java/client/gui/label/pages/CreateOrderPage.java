@@ -11,10 +11,13 @@ import lib.dto.bill.TotalPriceDto;
 import lib.dto.client.ClientDto;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,25 +58,34 @@ public class CreateOrderPage extends JLabel {
     private DefaultTableModel orderModel;
 
     private List<PartDto> partsDtos = new ArrayList<>();
-    private List<CountPartDto> countPartDtos = new ArrayList<>();
+ //   private List<CountPartDto> countPartDtos = new ArrayList<>();
 
 
 
 
-    private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
-
+ //   private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
+    private List<Object[]>  newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
 
     private ClientDto clientDto = new ClientDto();
     private VehicleDto vehicleDto = new VehicleDto();
-    private PartDto partDto;
+ //   private PartDto partDto;
     private ServiceOrderDto serviceOrderDto;
     private BillDto billDto = new BillDto();
 
 
     public CreateOrderPage(int x, int y, int width, int height) {
-        tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
 
-        orderModel = new DefaultTableModel();
+        orderModel = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+
+        };
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initCarProblemLabel();
@@ -114,10 +126,46 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(orderPartsLable);
     }
 
+
+
+
+
+
     private void initTableServiceOrder(){
 
+        orderId = new JTable(orderModel){
+            @Override
+            public Class<?> getColumnClass(int column) {
+                if(convertColumnIndexToModel(column)==1) return String.class;
+                return super.getColumnClass(column);
+            }
+        };
 
-        orderId = new JTable(orderModel);
+
+        orderId.setDefaultRenderer(String.class, new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
+                Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+
+                if( value.equals("OPEN")){
+                    c.setForeground(Color.GREEN);
+                }
+
+                if(value.equals("CLOSE")){
+                    c.setForeground(Color.BLUE);
+                }
+
+                if(value.equals("READY")){
+                    c.setForeground(Color.YELLOW);
+                }
+
+                return c;
+            }
+        });
+
+
+
+
         orderId.setBounds(5,50,100,450);
         scrollPaneOrder = new JScrollPane(orderId);
         scrollPaneOrder.setBounds(5,50,100,450);
@@ -130,6 +178,7 @@ public class CreateOrderPage extends JLabel {
         orderId.getTableHeader().setBackground(new Color(32,136,203));
         orderId.getTableHeader().setForeground(new Color(255,255,255));
         orderId.setShowVerticalLines(false);
+        orderId.setBackground(Color.LIGHT_GRAY);
         orderId.setSelectionBackground(new Color (232,57,95));
 
     }
@@ -137,16 +186,18 @@ public class CreateOrderPage extends JLabel {
     private void initTableDataOrderId(){
         orderModel.setRowCount(0);
 
-        String [] column = {"Order nr:"};
+        String [] column = {"Order:", "Status"};
 
         orderModel.setColumnIdentifiers(column);
 
-        Object [] row = new Object [1];
 
-        for(Integer integer : orderIds){
-            row[0] = integer;
+        Object [] row = new Object [2];
 
+        for(Object [] obj : newOrderIds){
+            row[0] = (Integer)obj[0];
+            row[1] = obj[1].toString();
             orderModel.addRow(row);
+
         }
     }
 
@@ -247,7 +298,24 @@ public class CreateOrderPage extends JLabel {
         billDto.setSerialNumber(serialLabel.getText());
         TotalPriceDto totalPriceDto = new TotalPriceDto(String.valueOf(total));
 
-        ServiceOrderController.getInstance().makeBill(partsDtos, path, billDto, totalPriceDto);
+        int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.CLOSE);
+
+        if(!Files.exists(Paths.get(path))){
+
+            if(updateStatus > 0){
+                ServiceOrderController.getInstance().makeBill(partsDtos, path, billDto, totalPriceDto);
+                JOptionPane.showMessageDialog(null, "Bill created");
+            }
+
+            if(updateStatus == 0){
+                JOptionPane.showMessageDialog(null, "Bill was not created");
+            }
+
+        }else{
+            JOptionPane.showMessageDialog(null, "Bill allready exists");
+        }
+
+
 
     }
 
@@ -392,9 +460,12 @@ public class CreateOrderPage extends JLabel {
 
                     //aici++++++++++++++++++++++++++++++++++++++++++++++++
 
-                    orderIds.clear();
-                    orderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIds()));
-                    System.out.println(orderIds.toString() + "++++++");
+//                    orderIds.clear();
+//                    orderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIds()));
+//                    System.out.println(orderIds.toString() + "++++++");
+                    newOrderIds.clear();
+                    newOrderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus()));
+                    System.out.println(newOrderIds.toString() + "++++++");
                     initTableDataOrderId();
                     System.out.println(serviceOrderDto.getId());
                 }else{
@@ -409,8 +480,8 @@ public class CreateOrderPage extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = orderId.rowAtPoint(e.getPoint());
-                int col = orderId.columnAtPoint(e.getPoint());
-                id = (int) orderId.getModel().getValueAt(row, col);
+             //   int col = orderId.columnAtPoint(e.getPoint()); // stergerea liniei previne un bug cand selectam coloana de string in loc de int
+                id = (int) orderId.getModel().getValueAt(row, 0);
 
                 if(id != 0 && e.getClickCount() == 1){
 

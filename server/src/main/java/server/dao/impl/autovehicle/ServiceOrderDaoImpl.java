@@ -126,5 +126,16 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
         return row;
     }
+
+    @Override
+    public List<Object[]> findAllServiceOrderIdAndStatus(){
+        String jpql = "SELECT s.id, s.status FROM ServiceOrder AS s";
+
+        TypedQuery<Object[]> query = entityManager.createQuery(jpql, Object[].class);
+
+        return query.getResultList();
+
+    }
+
 }
 

@@ -34,4 +34,6 @@ public interface ServiceOrderService extends Remote {
     void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto) throws RemoteException;
 
     int updateServiceOrderStatus(int orderId, Status status) throws RemoteException;
+
+    List<Object[]> findAllServiceOrderIdAndStatus() throws RemoteException;
 }

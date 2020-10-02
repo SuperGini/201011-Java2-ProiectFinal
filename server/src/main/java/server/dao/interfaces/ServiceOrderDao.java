@@ -27,4 +27,6 @@ public interface ServiceOrderDao {
     int setTotalPriceToOrder(int orderId, double totalPrice);
 
     int updateServiceOrderStatus(int orderId, Status status);
+
+    List<Object[]> findAllServiceOrderIdAndStatus();
 }

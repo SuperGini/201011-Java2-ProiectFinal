@@ -216,8 +216,6 @@ public class PartPage extends JLabel {
                 JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
             }
 
-
-
         });
 
 
