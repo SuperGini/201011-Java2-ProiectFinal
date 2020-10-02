@@ -6,6 +6,7 @@ import client.gui.panel.TransparentPanel;
 import client.util.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.autovehicle.Status;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -206,12 +207,13 @@ public class PartPage extends JLabel {
 
         closePartOrder.addActionListener(ev ->{
 
-          //  double totalPrice = Double.parseDouble(total);
-
             int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id,total);
+            int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id,Status.READY);
 
-            if(updatePrice > 0){
+            if(updatePrice > 0 && updateStatus > 0){
                 JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
+            }else{
+                JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
             }
 
 
