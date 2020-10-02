@@ -2,6 +2,7 @@ package lib.service;
 
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.autovehicle.Status;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 
@@ -31,4 +32,6 @@ public interface ServiceOrderService extends Remote {
     int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException;
 
     void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto) throws RemoteException;
+
+    int updateServiceOrderStatus(int orderId, Status status) throws RemoteException;
 }

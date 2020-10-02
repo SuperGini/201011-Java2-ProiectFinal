@@ -1,5 +1,6 @@
 package server.dao.interfaces;
 
+import lib.dto.autovehicle.Status;
 import server.model.autovehicle.ServiceOrder;
 
 import java.util.Collection;
@@ -24,4 +25,6 @@ public interface ServiceOrderDao {
     Object initInfoOnPartPageAndCreateOrderPage(int orderId);
 
     int setTotalPriceToOrder(int orderId, double totalPrice);
+
+    int updateServiceOrderStatus(int orderId, Status status);
 }

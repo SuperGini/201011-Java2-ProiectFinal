@@ -2,6 +2,7 @@ package server.service.autovehicle;
 
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.autovehicle.Status;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 import lib.service.ServiceOrderService;
@@ -161,7 +162,10 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-
+    @Override
+    public int updateServiceOrderStatus(int orderId, Status status) throws RemoteException{
+       return  serviceOrderDao.updateServiceOrderStatus(orderId, status);
     }
 }

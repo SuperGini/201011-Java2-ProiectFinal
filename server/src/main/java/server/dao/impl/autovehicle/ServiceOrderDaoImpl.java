@@ -113,7 +113,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return rows;
     }
 
-    
+    @Override
     public int updateServiceOrderStatus(int orderId, Status status){
         String jpql = "UPDATE ServiceOrder s SET s.status = :status WHERE s.id = :id";
 

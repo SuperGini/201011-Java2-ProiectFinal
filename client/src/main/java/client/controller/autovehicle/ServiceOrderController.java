@@ -2,6 +2,7 @@ package client.controller.autovehicle;
 
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
+import lib.dto.autovehicle.Status;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 import lib.service.ServiceOrderService;
@@ -122,6 +123,16 @@ public class ServiceOrderController implements ServiceOrderService {
     public void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto){
         try {
             serviceOrderService.makeBill(partsDtos, path, billDto, totalPriceDto);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int updateServiceOrderStatus(int orderId, Status status){
+        try {
+           return serviceOrderService.updateServiceOrderStatus(orderId, status);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
