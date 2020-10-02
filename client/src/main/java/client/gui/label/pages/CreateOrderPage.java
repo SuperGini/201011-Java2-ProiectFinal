@@ -464,7 +464,7 @@ public class CreateOrderPage extends JLabel {
         addProblemField.setText("");
         carProblemArea.setText("");
     }
-    
+
     public JLabel getOrderLabel() {
         return orderLabel;
     }

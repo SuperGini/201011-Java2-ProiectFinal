@@ -18,6 +18,8 @@ public class ServiceOrderDto implements Serializable {
 
     private ClientDto clientDto;
 
+    private Status status;
+
 
     private List<String> carProblems = new ArrayList<>();
 
@@ -112,4 +114,11 @@ public class ServiceOrderDto implements Serializable {
         this.parts = parts;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

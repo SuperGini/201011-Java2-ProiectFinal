@@ -1,5 +1,6 @@
 package server.model.autovehicle;
 
+import lib.dto.autovehicle.Status;
 import server.model.client.Client;
 import server.model.user.User;
 
@@ -41,6 +42,9 @@ public class ServiceOrder {
 
     @ManyToOne
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 
     @ElementCollection
@@ -128,6 +132,13 @@ public class ServiceOrder {
         this.user = user;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {
