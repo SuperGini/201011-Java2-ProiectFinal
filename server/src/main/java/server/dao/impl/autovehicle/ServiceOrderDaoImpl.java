@@ -1,5 +1,6 @@
 package server.dao.impl.autovehicle;
 
+import lib.dto.autovehicle.Status;
 import server.dao.interfaces.ServiceOrderDao;
 import server.model.autovehicle.ServiceOrder;
 
@@ -109,14 +110,21 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         int rows = query.executeUpdate();
 
         entityManager.getTransaction().commit();
-
-        //detach la instanta
-      //  entityManager.detach(findById(orderId));
         return rows;
-
     }
 
+    
+    public int updateServiceOrderStatus(int orderId, Status status){
+        String jpql = "UPDATE ServiceOrder s SET s.status = :status WHERE s.id = :id";
 
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("status", status);
+        query.setParameter("id", orderId);
+        int row = query.executeUpdate();
+        entityManager.getTransaction().commit();
 
+        return row;
+    }
 }
 

@@ -5,10 +5,7 @@ import client.controller.autovehicle.VehicleController;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import client.util.MouseAdapterButton;
-import lib.dto.autovehicle.CountPartDto;
-import lib.dto.autovehicle.PartDto;
-import lib.dto.autovehicle.ServiceOrderDto;
-import lib.dto.autovehicle.VehicleDto;
+import lib.dto.autovehicle.*;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 import lib.dto.client.ClientDto;
@@ -376,6 +373,7 @@ public class CreateOrderPage extends JLabel {
         serviceOrderDto = new ServiceOrderDto();
         serviceOrderDto.setClientDto(clientDto);
         serviceOrderDto.setVehicleDtos(vehicleDto);
+        serviceOrderDto.setStatus(Status.OPEN);
 
 
         serviceOrderDto.setUserDto(MainFrame.getInstance().getAccountPage().getUserDto());
