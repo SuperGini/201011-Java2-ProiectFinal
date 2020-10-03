@@ -30,24 +30,32 @@ public class HorizontalTransparentPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
 
+        Graphics2D g2 = (Graphics2D) g;
+
         if (!isOpaque() && getBackground().getAlpha() < 255) {
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getWidth(), getHeight());
+            g2.setColor(getBackground());
+            g2.fillRect(0, 0, getWidth(), getHeight());
 
         }
+
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
         if(flag){
-            g.drawPolygon(trapez);
-            g.setColor(color1);
-            g.fillPolygon(trapez);
+            g2.drawPolygon(trapez);
+            g2.setColor(color1);
+            g2.fillPolygon(trapez);
         }else{
-            g.drawPolygon(trapez2);
-            g.setColor(color1);
-            g.fillPolygon(trapez2);
+            g2.drawPolygon(trapez2);
+            g2.setColor(color1);
+            g2.fillPolygon(trapez2);
 
         }
 
 
-        super.paintComponent(g);
+        super.paintComponent(g2);
     }
 
     public Polygon getTrapez() {

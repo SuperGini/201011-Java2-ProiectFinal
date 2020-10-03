@@ -167,7 +167,6 @@ public class PartPage extends JLabel {
             newOrderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus()));
             initTableDataOrderId();
 
-
         });
 
     }
