@@ -2,6 +2,7 @@ package client.gui.frame;
 
 import AppPackage.AnimationClass;
 import client.controller.media.PictureController;
+import client.controller.notification.NotificationController;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
@@ -9,8 +10,10 @@ import client.util.MouseAdapterButton;
 import client.util.MouseAdapterLogAndRegister;
 import client.util.SoundConvertor;
 import client.util.SoundPlay;
+import lib.dto.autovehicle.Status;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
+import lib.dto.user.UserDto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +23,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,16 +38,19 @@ public class MainFrame extends JFrame {
     private LoginPage loginPage;
     private RegisterPage registerPage;
     private JLabel clientAndVehiclePage;
-    private JLabel partPage;
-    private JLabel notificationPage;
+    private PartPage partPage;
+    private NotificationPage notificationPage;
     private AccountPage accountPage;
     private CreateOrderPage createOrderPage;
     private JLabel statisticPage;
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
+    private Timer notificationTimer;
+    private int timer;
 
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
+    private ScheduledExecutorService notifyExecutor = Executors.newSingleThreadScheduledExecutor();
     private static AnimationClass slideEfect = new AnimationClass();
     private static SoundPlay soundPlay = new SoundPlay();
 
@@ -52,6 +59,8 @@ public class MainFrame extends JFrame {
     private int poitX = 1800;
     private Color colorOrange = new Color(167,32,7);
 
+
+    private UserDto userDto;
     private ClientDto clientDto;
     private VehicleDto vehicleDto;
     private SoundConvertor soundConvertor;
@@ -76,6 +85,7 @@ public class MainFrame extends JFrame {
         moveLAbelLeft();
         initUpperLabelAndPanel();
         initLowerLabelAndPanel();
+        startNotifyExecutor();
 
 
         changeFocus();
@@ -198,7 +208,7 @@ public class MainFrame extends JFrame {
 
 
     private void initNotificationPage(){
-        notificationPage = new NotificationPage(950,680,250,120);
+        notificationPage = new NotificationPage(1200,680,250,120);
         backgroundLabel.add(notificationPage);
     }
 
@@ -210,7 +220,59 @@ public class MainFrame extends JFrame {
     private void initPartPage(){
         partPage = new PartPage(poitX,0,1200,800);
         backgroundLabel.add(partPage);
+
+
     }
+    //todo: de inchis executorul
+    //method 1
+    private void startNotifyExecutor(){
+        notifyExecutor.scheduleWithFixedDelay(this::task1,20,20,TimeUnit.SECONDS);
+    }
+
+    //method 2
+    private void task1(){
+        Optional.ofNullable(userDto)
+                .ifPresentOrElse(this::task2,
+                        ()->userDto = MainFrame.getInstance().getAccountPage().getUserDto());
+    }
+
+    //method 3
+    private void task2(UserDto userDto){
+        var nofity = NotificationController.getInstance().getNotification(userDto);
+        if(!nofity.isEmpty()) {
+            System.out.println(nofity.toString());
+            notificationPage.getOrderNumberLabel().setText(nofity.toString());
+            notificationPage.getCategoryLabel().setText(Status.OPEN.toString());
+            getNotificationTimer().start();
+        }
+    }
+
+
+
+    private Timer getNotificationTimer(){
+        notificationTimer = new Timer(20, event -> notificationTask());
+        return notificationTimer;
+    }
+
+
+    private void notificationTask(){
+        timer++;
+        if(timer == 1){
+            slideEfect.jLabelXLeft(1200,950,1,2,notificationPage);
+        }
+
+        if(timer == 300){
+            slideEfect.jLabelXRight(950,1200,1,2,notificationPage);
+            timer = 0;
+            notificationTimer.stop();
+        }
+
+
+    }
+
+
+
+
 
 
     private void initAccountPage(){
@@ -358,14 +420,13 @@ public class MainFrame extends JFrame {
         this.clientAndVehiclePage = clientAndVehiclePage;
     }
 
-    public JLabel getPartPage() {
+    public PartPage getPartPage() {
         return partPage;
     }
 
-    public void setPartPage(JLabel partPage) {
+    public void setPartPage(PartPage partPage) {
         this.partPage = partPage;
     }
-
 
     public AccountPage getAccountPage() {
         return accountPage;

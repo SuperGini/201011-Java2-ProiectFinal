@@ -18,8 +18,6 @@ public class Notification implements Serializable {
 
     @Override
     public String toString() {
-        return "Notification{" +
-                "message='" + message + '\'' +
-                '}';
+        return message;
     }
 }
