@@ -43,6 +43,7 @@ public class PartPage extends JLabel {
 
     private int id;
     private double total;
+    private Status status;
 
     private JPanel transparentPanel;
 
@@ -189,18 +190,24 @@ public class PartPage extends JLabel {
 
         closePartOrder.addActionListener(ev ->{
 
-            int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id,total);
-            int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id,Status.READY);
+            if(!status.equals(Status.CLOSE)) {
 
-            if(updatePrice > 0 && updateStatus > 0){
+                int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id, total);
+                int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.READY);
 
-                Notification notification = new Notification(orderLabel.getText(), Status.READY);
+                if (updatePrice > 0 && updateStatus > 0) {
 
-                //trimite notiifcare catre user body si mechanical
-                NotificationController.getInstance().sendNotificationToUser(userLabel.getText(),notification);
-                JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
+                    Notification notification = new Notification(orderLabel.getText(), Status.READY);
+
+                    //trimite notiifcare catre user body si mechanical
+                    NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
+                    JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
+                }
+
             }else{
-                JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
+                JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE);
             }
 
         });
@@ -253,43 +260,56 @@ public class PartPage extends JLabel {
 
 
     private void createPart(){
-
-        try{
-            PartDto partDto = new PartDto();
-            partDto.setPartName(partField.getText());
-            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+        if(!status.equals(Status.CLOSE)){
+            try{
 
 
-            partDto.setPrice(Double.parseDouble(priceField.getText()));
-            partDto.setCount(Integer.parseInt(countField.getText()));
 
-            serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
-            partDto.setServiceOrderDto(serviceOrderDto);
+                PartDto partDto = new PartDto();
+                partDto.setPartName(partField.getText());
+                ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
 
-            if(Double.parseDouble(priceField.getText()) < 0){
-                JOptionPane.showMessageDialog(null, "Price must be grater than 0");
-                return;
-            }
 
-            if(Integer.parseInt(countField.getText()) < 1){
-                JOptionPane.showMessageDialog(null , "Must add at least 1 part");
-                return;
-            }
+                partDto.setPrice(Double.parseDouble(priceField.getText()));
+                partDto.setCount(Integer.parseInt(countField.getText()));
 
-            //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
+                serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
+                partDto.setServiceOrderDto(serviceOrderDto);
+
+                if(Double.parseDouble(priceField.getText()) < 0){
+                    JOptionPane.showMessageDialog(null, "Price must be grater than 0");
+                    return;
+                }
+
+                if(Integer.parseInt(countField.getText()) < 1){
+                    JOptionPane.showMessageDialog(null , "Must add at least 1 part");
+                    return;
+                }
+
+                //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
                 if (!PartController.getInstance().createPart(partDto)) {
                     JOptionPane.showMessageDialog(null, "Part added to order");
                     refreshPartTable(id);
                     resetFields();
                 }
 
-        }catch(NumberFormatException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Wrong format for the price or count");
-        }catch(IllegalArgumentException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Select a order befor adding a part");
+            }catch(NumberFormatException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Wrong format for the price or count");
+            }catch(IllegalArgumentException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Select a order befor adding a part");
+            }
+
+
+
+
+        }else{
+            JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE.toString() + " \n" +
+                    "you can't add any more parts to it");
         }
+
+
     }
 
 
@@ -415,9 +435,10 @@ public class PartPage extends JLabel {
                 int row = orderId.rowAtPoint(e.getPoint());
               //  int col = orderId.columnAtPoint(e.getPoint());
                 id = (int) orderId.getModel().getValueAt(row, 0);
+               status = (Status) orderId.getModel().getValueAt(row, 1);
 
                 if(id != 0 && e.getClickCount() == 1){
-
+                    System.out.println(status);
                     refreshPartTable(id);
 
                 }
