@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
     private RegisterPage registerPage;
     private JLabel clientAndVehiclePage;
     private JLabel partPage;
+    private JLabel notificationPage;
     private AccountPage accountPage;
     private CreateOrderPage createOrderPage;
     private JLabel statisticPage;
@@ -67,6 +68,7 @@ public class MainFrame extends JFrame {
         initLeftButtonPage();
         initCreateClientAndVehiclePage();
         initPartPage();
+        initNotificationPage();
 
         initCreateOrderPage();
         initStatisticPage();
@@ -100,6 +102,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(backgroundLabel);
 
     }
+
 
     private void initLoginPage(){
         loginPage = new LoginPage(1200,0,1200,800);
@@ -191,6 +194,12 @@ public class MainFrame extends JFrame {
             leftButtonPage.getButtons().get(4)
                     .addActionListener( ev -> movePagesLeftAndRaight(accountPage));
 
+    }
+
+
+    private void initNotificationPage(){
+        notificationPage = new NotificationPage(950,680,250,120);
+        backgroundLabel.add(notificationPage);
     }
 
     private void initCreateClientAndVehiclePage(){
