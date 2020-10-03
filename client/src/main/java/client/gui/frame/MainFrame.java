@@ -10,9 +10,9 @@ import client.util.MouseAdapterButton;
 import client.util.MouseAdapterLogAndRegister;
 import client.util.SoundConvertor;
 import client.util.SoundPlay;
-import lib.dto.autovehicle.Status;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
+import lib.dto.notification.Notification;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;
@@ -238,13 +238,20 @@ public class MainFrame extends JFrame {
 
     //method 3
     private void task2(UserDto userDto){
-        var nofity = NotificationController.getInstance().getNotification(userDto);
-        if(!nofity.isEmpty()) {
-            System.out.println(nofity.toString());
-            notificationPage.getOrderNumberLabel().setText(nofity.toString());
-            notificationPage.getCategoryLabel().setText(Status.OPEN.toString());
+        var notify = NotificationController.getInstance().getNotification(userDto);
+        if(!notify.isEmpty()) {
+            System.out.println(notify.toString());
+            notificationPage.getOrderNumberLabel().setText(notify.toString());
+
+            notify.forEach(this::setNofificationStatus);
+
             getNotificationTimer().start();
         }
+    }
+
+    //method 4
+    private void setNofificationStatus(Notification notification){
+        notificationPage.getCategoryLabel().setText(notification.getStatus().toString());
     }
 
 

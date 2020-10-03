@@ -51,7 +51,7 @@ public class CreateOrderPage extends JLabel {
     private int i = 0;
     private double total;
 
-    private JButton notificationButton;
+
 
 
 
@@ -114,16 +114,6 @@ public class CreateOrderPage extends JLabel {
         initMiniLabels();
         initBillButton();
         selectOrdersWithMouse();
-
-
-        setNotificationButton();
-    }
-
-
-    private void setNotificationButton(){
-        notificationButton = new JButton("notif");
-        notificationButton.setBounds(800, 450, 50,50);
-        transparentPanel.add(notificationButton);
 
     }
 
@@ -492,9 +482,9 @@ public class CreateOrderPage extends JLabel {
                     int x = (Integer) obj[0];
 
 
-                    Notification notification = new Notification(String.valueOf(x));
+                    Notification notification = new Notification(String.valueOf(x), Status.OPEN);
                     //setez notificarea
-                    NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification );
+                    NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
 //                    System.out.println(newOrderIds.toString() + "++++++");
                     initTableDataOrderId();
                     System.out.println(serviceOrderDto.getId());

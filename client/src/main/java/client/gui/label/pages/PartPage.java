@@ -2,11 +2,13 @@ package client.gui.label.pages;
 
 import client.controller.autovehicle.PartController;
 import client.controller.autovehicle.ServiceOrderController;
+import client.controller.notification.NotificationController;
 import client.gui.panel.TransparentPanel;
 import client.util.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
+import lib.dto.notification.Notification;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -36,7 +38,7 @@ public class PartPage extends JLabel {
     private JLabel genericLabel;
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
-    private JButton notificationButton;
+
 
 
     private int id;
@@ -95,24 +97,6 @@ public class PartPage extends JLabel {
         initPartsArea();
 
         selectOrdersWithMouse();
-
-
-        initNotificationButton();
-
-    }
-
-    private void initNotificationButton(){
-        notificationButton = new JButton("notify");
-        notificationButton.setBounds(50,450,100, 50);
-        transparentPanel.add(notificationButton);
-        notificationButton.addActionListener(ev ->{
-
-//            UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
-//            //TODO: execution thread
-//            List<Notification> nofity =NotificationController.getInstance().getNotification(userDto);
-//            System.out.println(nofity.toString());
-
-        });
 
     }
 
@@ -209,6 +193,11 @@ public class PartPage extends JLabel {
             int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id,Status.READY);
 
             if(updatePrice > 0 && updateStatus > 0){
+
+                Notification notification = new Notification(orderLabel.getText(), Status.READY);
+
+                //trimite notiifcare catre user body si mechanical
+                NotificationController.getInstance().sendNotificationToUser(userLabel.getText(),notification);
                 JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
             }else{
                 JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
@@ -487,11 +476,4 @@ public class PartPage extends JLabel {
 
     }
 
-    public JButton getNotificationButton() {
-        return notificationButton;
-    }
-
-    public void setNotificationButton(JButton notificationButton) {
-        this.notificationButton = notificationButton;
-    }
 }
