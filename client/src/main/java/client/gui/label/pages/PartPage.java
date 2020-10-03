@@ -266,6 +266,16 @@ public class PartPage extends JLabel {
             serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
             partDto.setServiceOrderDto(serviceOrderDto);
 
+            if(Double.parseDouble(priceField.getText()) < 0){
+                JOptionPane.showMessageDialog(null, "Price must be grater than 0");
+                return;
+            }
+
+            if(Integer.parseInt(countField.getText()) < 1){
+                JOptionPane.showMessageDialog(null , "Must add at least 1 part");
+                return;
+            }
+
             //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
                 if (!PartController.getInstance().createPart(partDto)) {
                     JOptionPane.showMessageDialog(null, "Part added to order");
@@ -281,26 +291,6 @@ public class PartPage extends JLabel {
             JOptionPane.showMessageDialog(null, "Select a order befor adding a part");
         }
     }
-
-
-//    private void updatePartNumber(){
-//        try{
-//
-//            int count = Integer.parseInt(countField.getText());
-//            String partName = partField.getText();
-//
-//            if(PartController.getInstance().increasePartCount(count, partName) > 0){
-//                JOptionPane.showMessageDialog(null, "The count for this part was updated");
-//                refreshPartTable(id);
-//            }else{
-//                JOptionPane.showMessageDialog(null, "This part does not exist in the warehouse");
-//            }
-//
-//        }catch(NumberFormatException e){
-//            e.printStackTrace();
-//            JOptionPane.showMessageDialog(null, "Wrong format for count, it has to be of type int");
-//        }
-//    }
 
 
     private void initTableServiceOrder(){
