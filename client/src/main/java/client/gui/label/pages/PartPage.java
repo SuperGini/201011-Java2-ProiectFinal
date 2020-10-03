@@ -112,7 +112,7 @@ public class PartPage extends JLabel {
         notificationButton.addActionListener(ev ->{
 
             UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
-            //aici de facut un executioner (thread)
+            //TODO: execution thread
             List<Notification> nofity =NotificationController.getInstance().getNotification(userDto);
             System.out.println(nofity.toString());
 
