@@ -9,6 +9,7 @@ import server.service.client.CompanyServiceImpl;
 import server.service.client.PersonServiceImpl;
 import server.service.media.PictureServiceImpl;
 import server.service.media.SoundServiceImpl;
+import server.service.notification.NotificationServiceImpl;
 import server.service.user.UserServiceImpl;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class MainServer {
             registry.rebind("clientService", new ClientServiceImpl());
             registry.rebind("CountPartService", new CountPartImpl());
             registry.rebind("soundService", new SoundServiceImpl());
+            registry.rebind("notificationService", new NotificationServiceImpl());
 
         } catch (RemoteException e) {
             e.printStackTrace();

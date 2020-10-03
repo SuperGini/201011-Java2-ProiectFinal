@@ -1,5 +1,6 @@
 package client.gui.label.pages;
 
+import client.controller.notification.NotificationController;
 import client.controller.user.UserController;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
@@ -97,9 +98,8 @@ public class LoginPage extends JLabel {
 
                         if(Optional.ofNullable(userDto).isPresent()){
 
-                            JOptionPane.showMessageDialog(null, "Esti logat boss:D!!");
                             setUserAndLabelsInMyAccountPage(userDto);
-
+                            NotificationController.getInstance().addUserToNotificationList(userDto);
 
                             return true;
                         }
@@ -108,10 +108,10 @@ public class LoginPage extends JLabel {
 
                     UserDto userDto = UserController.getInstance()
                             .loginWithUsername2(usernameField.getText(), new String(passwordField.getPassword()));
-                    setUserAndLabelsInMyAccountPage(userDto);
+
                     if(Optional.ofNullable(userDto).isPresent()){
-
-
+                        setUserAndLabelsInMyAccountPage(userDto);
+                        NotificationController.getInstance().addUserToNotificationList(userDto);
 
                         return true;
                     }
@@ -138,6 +138,7 @@ public class LoginPage extends JLabel {
         accoutPage.getEmailLabel().setText(userDto.getUserId().getEmailAdress());
         accoutPage.getPhone1Label().setText(userDto.getPhoneNumber().get(0));
         accoutPage.getCategoryLabel().setText(userDto.getCategory().toString());
+
 
         if(userDto.getPhoneNumber().size() == 2){
             accoutPage.getPhone2Label().setText(userDto.getPhoneNumber().get(1));

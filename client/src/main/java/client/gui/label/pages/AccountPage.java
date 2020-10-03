@@ -74,7 +74,7 @@ public class AccountPage extends JLabel {
 
             if(userDto.getPhoneNumber().size() < 2){
 
-                System.out.println(userDto.getPhoneNumber().toString());
+              //  System.out.println(userDto.getPhoneNumber().toString());
                 if(changeField.getText().equals("")){
                     JOptionPane.showMessageDialog(null,"Enter phoneNumber");
                     return;
@@ -316,6 +316,8 @@ public class AccountPage extends JLabel {
         userfields.add(userDto.getCategory().toString());
 
     }
+
+
 
 
     public JLabel getUserLabel() {

@@ -2,6 +2,7 @@ package client.gui.label.pages;
 
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.autovehicle.VehicleController;
+import client.controller.notification.NotificationController;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import client.util.MouseAdapterButton;
@@ -12,6 +13,8 @@ import lib.dto.autovehicle.VehicleDto;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 import lib.dto.client.ClientDto;
+import lib.dto.notification.Notification;
+import lib.dto.user.Category;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -47,6 +50,8 @@ public class CreateOrderPage extends JLabel {
     private int id;
     private int i = 0;
     private double total;
+
+    private JButton notificationButton;
 
 
 
@@ -109,6 +114,17 @@ public class CreateOrderPage extends JLabel {
         initMiniLabels();
         initBillButton();
         selectOrdersWithMouse();
+
+
+        setNotificationButton();
+    }
+
+
+    private void setNotificationButton(){
+        notificationButton = new JButton("notif");
+        notificationButton.setBounds(800, 450, 50,50);
+        transparentPanel.add(notificationButton);
+
     }
 
 
@@ -462,6 +478,7 @@ public class CreateOrderPage extends JLabel {
                     JOptionPane.showMessageDialog(null, "Order created");
 
 
+
                     //aici++++++++++++++++++++++++++++++++++++++++++++++++
 
 //                    orderIds.clear();
@@ -469,7 +486,16 @@ public class CreateOrderPage extends JLabel {
 //                    System.out.println(orderIds.toString() + "++++++");
                     newOrderIds.clear();
                     newOrderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus()));
-                    System.out.println(newOrderIds.toString() + "++++++");
+
+
+                    Object [] obj = newOrderIds.get(newOrderIds.size() -1);
+                    int x = (Integer) obj[0];
+
+
+                    Notification notification = new Notification(String.valueOf(x));
+                    //setez notificarea
+                    NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification );
+//                    System.out.println(newOrderIds.toString() + "++++++");
                     initTableDataOrderId();
                     System.out.println(serviceOrderDto.getId());
                 }else{
