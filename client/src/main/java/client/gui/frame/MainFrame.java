@@ -226,7 +226,7 @@ public class MainFrame extends JFrame {
     //todo: de inchis executorul
     //method 1
     private void startNotifyExecutor(){
-        notifyExecutor.scheduleWithFixedDelay(this::task1,20,20,TimeUnit.SECONDS);
+        notifyExecutor.scheduleWithFixedDelay(this::task1,20,10,TimeUnit.SECONDS);
     }
 
     //method 2
@@ -266,12 +266,15 @@ public class MainFrame extends JFrame {
         timer++;
         if(timer == 1){
             slideEfect.jLabelXLeft(1200,950,1,2,notificationPage);
+            soundPlay.getClips().get(3).start();
         }
 
         if(timer == 300){
             slideEfect.jLabelXRight(950,1200,1,2,notificationPage);
             timer = 0;
             notificationTimer.stop();
+            soundPlay.getClips().get(3).stop();
+            soundPlay.getClips().get(3).setMicrosecondPosition(0);
         }
 
 

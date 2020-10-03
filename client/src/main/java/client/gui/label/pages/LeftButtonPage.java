@@ -82,7 +82,6 @@ public class LeftButtonPage extends JLabel {
 
                 }
 
-
                 @Override
                 public void mouseEntered(MouseEvent e) {
                    // soundPlay.getClips().get(2).start();

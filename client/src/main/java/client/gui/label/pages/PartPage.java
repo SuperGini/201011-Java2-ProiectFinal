@@ -29,11 +29,9 @@ public class PartPage extends JLabel {
     private JTextField countField;
     private JTextArea totalArea;
     private JTable orderId;
-    private JTable partsArea;
+    private JTable partsTable;
     private JButton refreshListButton;
-    private JButton refreshPartTable;
     private JButton closePartOrder;
-  //  private JLabel totalLabel;
     private JLabel finalPrice;
     private JLabel genericLabel;
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
@@ -55,7 +53,7 @@ public class PartPage extends JLabel {
 
     private List<JLabel> genericLabels = new ArrayList<>();
 
-  //  private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
+
     private List<Object[]>  newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
     private List<PartDto> partsDtos = new CopyOnWriteArrayList<>();
 
@@ -94,8 +92,9 @@ public class PartPage extends JLabel {
 
         initTableServiceOrder();
         initTableDataOrderId();
-        tableDataParts();
         initPartsArea();
+        tableDataParts();
+
 
         selectOrdersWithMouse();
 
@@ -159,7 +158,7 @@ public class PartPage extends JLabel {
 
     private void initRefreshListButton(){
         refreshListButton = new JButton("refresh");
-        refreshListButton.setBounds(540,410,100,50);
+        refreshListButton.setBounds(525,410,115,50);
         refreshListButton.setFont(new Font("Dialog",Font.BOLD, 15));
         transparentPanel.add(refreshListButton);
         refreshListButton.addMouseListener(new MouseAdapterButton(refreshListButton));
@@ -176,6 +175,7 @@ public class PartPage extends JLabel {
     private void totalArea(){
         totalArea = new JTextArea();
         totalArea.setBounds(645, 410, 300, 50);
+        totalArea.setEditable(false);
         totalArea.setFont(new Font("Dialog", Font.BOLD, 15));
         totalArea.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(totalArea);
@@ -184,7 +184,7 @@ public class PartPage extends JLabel {
 
     private void initClosePartOrder(){
         closePartOrder = new JButton("close part order");
-        closePartOrder.setBounds(540,470,405,40);
+        closePartOrder.setBounds(525,470,445,40);
         closePartOrder.addMouseListener(new MouseAdapterButton(closePartOrder));
         transparentPanel.add(closePartOrder);
 
@@ -220,7 +220,7 @@ public class PartPage extends JLabel {
 
         for( int i = 0; i < 5; i++){
             genericLabel = new JLabel(label[i]);
-            genericLabel.setBounds(420,50 + (i*30), 50,20);
+            genericLabel.setBounds(350,50 + (i*30), 50,20);
             genericLabels.add(genericLabel);
             transparentPanel.add(genericLabel);
         }
@@ -228,23 +228,23 @@ public class PartPage extends JLabel {
 
     private void initMiniLabels(){
         orderLabel = new JLabel("");
-        orderLabel.setBounds(460,50, 50,20);
+        orderLabel.setBounds(390,50, 50,20);
         transparentPanel.add(orderLabel);
 
         userLabel = new JLabel("");
-        userLabel.setBounds(460,80, 50,20);
+        userLabel.setBounds(390,80, 50,20);
         transparentPanel.add(userLabel);
 
         clientLabel = new JLabel("");
-        clientLabel.setBounds(460,110, 50,20);
+        clientLabel.setBounds(390,110, 50,20);
         transparentPanel.add(clientLabel);
 
         brandLabel = new JLabel("");
-        brandLabel.setBounds(460,140, 50,20);
+        brandLabel.setBounds(390,140, 50,20);
         transparentPanel.add(brandLabel);
 
         serialLabel = new JLabel("");
-        serialLabel.setBounds(460,170, 50,20);
+        serialLabel.setBounds(390,170, 50,20);
         transparentPanel.add(serialLabel);
     }
 
@@ -345,10 +345,10 @@ public class PartPage extends JLabel {
         });
 
 
-        orderId.setBounds(540,50,100,350);
+        orderId.setBounds(525,50,115,350);
         scrollPaneOrder = new JScrollPane(orderId);
         scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        scrollPaneOrder.setBounds(540,50,100,350);
+        scrollPaneOrder.setBounds(525,50,115,350);
         transparentPanel.add(scrollPaneOrder);
         orderId.setRowHeight(20);
         orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
@@ -366,7 +366,7 @@ public class PartPage extends JLabel {
     private void initTableDataOrderId(){
         orderModel.setRowCount(0);
 
-        String [] column = {"Order nr:", "Status"};
+        String [] column = {"Order", "Status"};
 
         orderModel.setColumnIdentifiers(column);
 
@@ -379,26 +379,30 @@ public class PartPage extends JLabel {
 
         }
 
+
+        for(int i = 0; i < 2; i++){
+            orderId.getColumnModel().getColumn(i).setMaxWidth(47);
+            orderId.getColumnModel().getColumn(i).setMinWidth(47);
+        }
+
+
     }
 
     private void initPartsArea(){
-        partsArea = new JTable(tableModel);
-        partsArea.setBounds(645,50,300,350);
-        scrollPane = new JScrollPane(partsArea);
+        partsTable = new JTable(tableModel);
+        partsTable.setBounds(645,50,300,350);
+        scrollPane = new JScrollPane(partsTable);
         scrollPane.setBounds(645,50,300,350);
         scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(scrollPane);
-        partsArea.setRowHeight(20);
-        partsArea.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        partsArea.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        partsArea.getTableHeader().setOpaque(false);
-        partsArea.getTableHeader().setBackground(new Color(32,136,203));
-        partsArea.getTableHeader().setForeground(new Color(255,255,255));
-        partsArea.setShowVerticalLines(false);
-        partsArea.setSelectionBackground(new Color (232,57,95));
-
-
-
+        partsTable.setRowHeight(20);
+        partsTable.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
+        partsTable.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        partsTable.getTableHeader().setOpaque(false);
+        partsTable.getTableHeader().setBackground(new Color(32,136,203));
+        partsTable.getTableHeader().setForeground(new Color(255,255,255));
+        partsTable.setShowVerticalLines(false);
+        partsTable.setSelectionBackground(new Color (232,57,95));
 
 
     }
@@ -424,6 +428,11 @@ public class PartPage extends JLabel {
             row[2] = partDto.getCount();
             row[3] = partDto.getPrice();
             tableModel.addRow(row);
+        }
+
+        for(int i = 0; i< 4; i++){
+            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
+            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
         }
     }
 

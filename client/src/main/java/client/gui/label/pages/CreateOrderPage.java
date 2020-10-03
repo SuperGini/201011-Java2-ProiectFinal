@@ -34,7 +34,7 @@ public class CreateOrderPage extends JLabel {
     private JPanel transparentPanel;
     private JTable orderId;
     private JTextArea carProblemArea;
-    private JTable partsArea;
+    private JTable partsTable;
     private JTextField addProblemField;
     private JButton addProblemButton;
     private JButton findPartButton;
@@ -93,15 +93,16 @@ public class CreateOrderPage extends JLabel {
             public boolean isCellEditable(int row, int column){
                 return false;
             }
-
         };
+
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initCarProblemLabel();
         initPartsArea();
-        initTableDataOrderId();
-        initTableServiceOrder();
         tableDataParts();
+        initTableServiceOrder();
+        initTableDataOrderId();
+
         intiCarProblemArea();
         initAddProblemField();
         initAddProblemButton();
@@ -176,9 +177,9 @@ public class CreateOrderPage extends JLabel {
 
 
 
-        orderId.setBounds(5,50,100,450);
+        orderId.setBounds(5,50,115,350);
         scrollPaneOrder = new JScrollPane(orderId);
-        scrollPaneOrder.setBounds(5,50,100,450);
+        scrollPaneOrder.setBounds(5,50,115,350);
         scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(scrollPaneOrder);
         orderId.setRowHeight(20);
@@ -196,7 +197,7 @@ public class CreateOrderPage extends JLabel {
     private void initTableDataOrderId(){
         orderModel.setRowCount(0);
 
-        String [] column = {"Order:", "Status"};
+        String [] column = {"Order", "Status"};
 
         orderModel.setColumnIdentifiers(column);
 
@@ -209,22 +210,28 @@ public class CreateOrderPage extends JLabel {
             orderModel.addRow(row);
 
         }
+
+            for(int i = 0; i < 2; i++){
+                orderId.getColumnModel().getColumn(i).setMaxWidth(47);
+                orderId.getColumnModel().getColumn(i).setMinWidth(47);
+            }
     }
 
     private void intiCarProblemArea(){
 
         carProblemArea = new JTextArea();
-        carProblemArea.setBounds(115,50,300,350);
+        carProblemArea.setBounds(125,50,290,350);
+        carProblemArea.setEnabled(false);
 
         JScrollPane scrollPane = new JScrollPane(carProblemArea);
-        scrollPane.setBounds(115,50,300,350);
+        scrollPane.setBounds(125,50,290,350);
         scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(scrollPane);
     }
 
     private void initAddProblemField(){
         addProblemField = new JTextField();
-        addProblemField.setBounds(115,460,300,30);
+        addProblemField.setBounds(125,460,300,30);
         addProblemField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(addProblemField);
 
@@ -233,7 +240,7 @@ public class CreateOrderPage extends JLabel {
     private void initAddProblemButton(){
 
         addProblemButton = new JButton("add problem");
-        addProblemButton.setBounds(115,500,300,30);
+        addProblemButton.setBounds(125,500,300,30);
         transparentPanel.add(addProblemButton);
         addProblemButton.addMouseListener(new MouseAdapterButton(addProblemButton));
 
@@ -248,20 +255,24 @@ public class CreateOrderPage extends JLabel {
 
 
     private void initPartsArea(){
-        partsArea = new JTable(tableModel);
-        partsArea.setBounds(645,50,300,350);
-        scrollPane = new JScrollPane(partsArea);
+        partsTable = new JTable(tableModel);
+        partsTable.setBounds(645,50,300,350);
+        scrollPane = new JScrollPane(partsTable);
         scrollPane.setBounds(645,50,300,350);
         scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
         transparentPanel.add(scrollPane);
-        partsArea.setRowHeight(20);
-        partsArea.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        partsArea.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        partsArea.getTableHeader().setOpaque(false);
-        partsArea.getTableHeader().setBackground(new Color(32,136,203));
-        partsArea.getTableHeader().setForeground(new Color(255,255,255));
-        partsArea.setShowVerticalLines(false);
-        partsArea.setSelectionBackground(new Color (232,57,95));
+        partsTable.setRowHeight(20);
+        partsTable.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
+        partsTable.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        partsTable.getTableHeader().setOpaque(false);
+        partsTable.getTableHeader().setBackground(new Color(32,136,203));
+        partsTable.getTableHeader().setForeground(new Color(255,255,255));
+        partsTable.setShowVerticalLines(false);
+        partsTable.setSelectionBackground(new Color (232,57,95));
+
+
+
+
 
     }
 
@@ -283,6 +294,11 @@ public class CreateOrderPage extends JLabel {
             row [2] = partsDtos.get(i).getCount();
             row [3] = partsDtos.get(i).getPrice();
             tableModel.addRow(row);
+        }
+
+        for(int i = 0; i< 4; i++){
+            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
+            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
         }
     }
 
@@ -456,7 +472,6 @@ public class CreateOrderPage extends JLabel {
 
         serviceOrderDto.setUserDto(MainFrame.getInstance().getAccountPage().getUserDto());
 
-
                 String text = carProblemArea.getText();
                 String [] textLines = text.split("\n");
                 List<String> lines = Arrays.asList(textLines);
@@ -467,31 +482,26 @@ public class CreateOrderPage extends JLabel {
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
 
-
-
-                    //aici++++++++++++++++++++++++++++++++++++++++++++++++
-
-//                    orderIds.clear();
-//                    orderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIds()));
-//                    System.out.println(orderIds.toString() + "++++++");
-                    newOrderIds.clear();
-                    newOrderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus()));
-
-
                     Object [] obj = newOrderIds.get(newOrderIds.size() -1);
                     int x = (Integer) obj[0];
-
 
                     Notification notification = new Notification(String.valueOf(x), Status.OPEN);
                     //setez notificarea
                     NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
-//                    System.out.println(newOrderIds.toString() + "++++++");
-                    initTableDataOrderId();
+
+                    refreshOrderTable();
+
                     System.out.println(serviceOrderDto.getId());
                 }else{
                     JOptionPane.showMessageDialog(null,"Order was not created");
 
                 }
+    }
+
+    private void refreshOrderTable(){
+        newOrderIds.clear();
+        newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
+        initTableDataOrderId();
     }
 
     private void selectOrdersWithMouse(){
