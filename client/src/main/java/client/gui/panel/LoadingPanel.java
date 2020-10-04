@@ -21,7 +21,7 @@ public class LoadingPanel extends JPanel {
     private java.util.List<Line2D> litleLines = new ArrayList<>();
 
     public LoadingPanel() {
-        this.setBounds(0,0,800,800);
+        this.setBounds(0,0,600,600);
         this.setLayout(null);
         this.setBackground(Color.BLACK);
         addLinesToList();
