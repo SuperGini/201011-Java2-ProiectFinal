@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.jogamp.glg2d:glg2d:0.3-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/glg2d/glg2d/0.3-SNAPSHOT/glg2d-0.3-20130517.133836-3.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/glg2d/glg2d/0.3-SNAPSHOT/glg2d-0.3-20130517.133836-3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/glg2d/glg2d/0.3-SNAPSHOT/glg2d-0.3-20130517.133836-3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
