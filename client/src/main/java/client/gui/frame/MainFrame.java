@@ -3,13 +3,11 @@ package client.gui.frame;
 import AppPackage.AnimationClass;
 import client.controller.media.PictureController;
 import client.controller.notification.NotificationController;
+import client.gui.button.MinimizeButton;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
-import client.util.MouseAdapterButton;
-import client.util.MouseAdapterLogAndRegister;
-import client.util.SoundConvertor;
-import client.util.SoundPlay;
+import client.util.*;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
 import lib.dto.notification.Notification;
@@ -46,6 +44,8 @@ public class MainFrame extends JFrame {
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
+    private MinimizeButton closeButton;
+    private MinimizeButton minimizeButton;
     private Timer notificationTimer;
     private int timer;
 
@@ -86,6 +86,8 @@ public class MainFrame extends JFrame {
         initUpperLabelAndPanel();
         initLowerLabelAndPanel();
         startNotifyExecutor();
+        initCloseButton();
+        initMinimizeButton();
 
 
         changeFocus();
@@ -168,11 +170,29 @@ public class MainFrame extends JFrame {
         return new ImageIcon(rescaleImage);
     }
 
+    private void initCloseButton(){
+        closeButton = new MinimizeButton(1176,0,24,24, true);
+        upperPanel.add(closeButton);
+        closeButton.addMouseListener(new MouseAdapterMiniButton());
+        closeButton.addActionListener( ev -> closeProgram());
+
+    }
+
+
+    private void initMinimizeButton(){
+        minimizeButton = new MinimizeButton(1152,0,24,24, false);
+        upperPanel.add(minimizeButton);
+        minimizeButton.addMouseListener(new MouseAdapterMiniButton());
+        minimizeButton.addActionListener( ev -> setExtendedState(JFrame.ICONIFIED));
+
+    }
+
     private void initUpperLabelAndPanel(){
         upperLabel = new MovingLabel(0,0,1200,75);
         backgroundLabel.add(upperLabel);
 
         upperPanel = new HorizontalTransparentPanel(0,0,1200,75, true);
+        upperPanel.setLayout(null);
         upperLabel.add(upperPanel);
     }
 
@@ -404,6 +424,16 @@ public class MainFrame extends JFrame {
                 lowerPanel.repaint();
             }
         });
+    }
+
+    private void closeProgram(){
+
+        try{
+            this.dispose();
+        }finally {
+            randomPicture.shutdownNow();
+            notifyExecutor.shutdownNow();
+        }
     }
 
     public LoginPage getLoginPage() {
