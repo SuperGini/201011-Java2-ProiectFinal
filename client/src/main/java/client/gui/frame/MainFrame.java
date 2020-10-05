@@ -48,14 +48,10 @@ public class MainFrame extends JFrame {
     private HorizontalTransparentPanel upperPanel, lowerPanel;
     private MinimizeButton closeButton;
     private MinimizeButton minimizeButton;
-    private Timer notificationTimer;
-    private int timer;
-
     private NotificationTask notificationTask;
 
 
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
-    private ScheduledExecutorService notifyExecutor = Executors.newSingleThreadScheduledExecutor();
     private static AnimationClass slideEfect = new AnimationClass();
     private static SoundPlay soundPlay = new SoundPlay();
 
@@ -384,7 +380,7 @@ public class MainFrame extends JFrame {
             this.dispose();
         }finally {
             randomPicture.shutdownNow();
-            notifyExecutor.shutdownNow();
+            notificationTask.getNotifyExecutor().shutdown();
         }
     }
 

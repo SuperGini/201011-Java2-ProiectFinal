@@ -30,6 +30,7 @@ public class NotificationTask {
 
     }
 
+    //method 1
     private void startNotifyExecutor(){
         notifyExecutor.scheduleWithFixedDelay(this::task1,20,10, TimeUnit.SECONDS);
     }
@@ -44,7 +45,6 @@ public class NotificationTask {
     //method 3
     private void task2(UserDto userDto){
         var notify = NotificationController.getInstance().getNotification(userDto);
-        System.out.println(notify.toString());
         if(!notify.isEmpty()) {
 
             notificationPage.getOrderNumberLabel().setText(notify.toString());
@@ -60,18 +60,18 @@ public class NotificationTask {
         notificationPage.getCategoryLabel().setText(notification.getStatus().toString());
     }
 
+    //metod 5
     private Timer getNotificationTimer(){
         notificationTimer = new Timer(10, event -> notificationTask());
         return notificationTimer;
     }
 
-
+    //metod 6
     private void notificationTask(){
         timer++;
         if(timer == 1){
             slideEfect.jLabelXLeft(1200,950,1,2,notificationPage);
             soundPlay.getClips().get(3).start();
-            System.out.println("xx");
         }
 
         if(timer == 300){
@@ -80,9 +80,10 @@ public class NotificationTask {
             notificationTimer.stop(); //daca bag getNotificationTimer().stop se duce naibii tot => spam fest
             soundPlay.getClips().get(3).stop();
             soundPlay.getClips().get(3).setMicrosecondPosition(0);
-            System.out.println("yyyy");
         }
     }
 
-
+    public ScheduledExecutorService getNotifyExecutor() {
+        return notifyExecutor;
+    }
 }
