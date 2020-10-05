@@ -37,7 +37,7 @@ public class MainFrame extends JFrame {
     private JLabel backgroundLabel;
     private LoginPage loginPage;
     private RegisterPage registerPage;
-    private JLabel clientAndVehiclePage;
+    private CreateClientAndVehiclePage clientAndVehiclePage;
     private PartPage partPage;
     private NotificationPage notificationPage;
     private AccountPage accountPage;
@@ -86,10 +86,10 @@ public class MainFrame extends JFrame {
         moveLAbelLeft();
         initUpperLabelAndPanel();
         initLowerLabelAndPanel();
-        //startNotifyExecutor();
         initCloseButton();
         initMinimizeButton();
         initNotificationTask();
+
 
         changeFocus();
         setVisible(true);
@@ -229,6 +229,15 @@ public class MainFrame extends JFrame {
     private void initCreateClientAndVehiclePage(){
         clientAndVehiclePage = new CreateClientAndVehiclePage(poitX,0,1200,800);
         backgroundLabel.add(clientAndVehiclePage);
+        
+        clientAndVehiclePage.getFindClientButton()
+                .addActionListener( ev -> clientAndVehiclePage.findClient());
+
+        clientAndVehiclePage.getCreateClientButton()
+                .addActionListener(ev -> clientAndVehiclePage.createClient());
+
+        clientAndVehiclePage.getCreateVehicleButton()
+                .addActionListener(ev -> clientAndVehiclePage.createVehicle());
     }
 
     private void initPartPage(){
@@ -269,7 +278,6 @@ public class MainFrame extends JFrame {
         }
     }
 
-
     private List<JLabel> getPages(){
         pages = new ArrayList<>();
         pages.add(createOrderPage);
@@ -293,8 +301,6 @@ public class MainFrame extends JFrame {
 
     private void movePagesLeftAndRaight(JLabel labelPage){
 
-
-
         for(JLabel page : pages){
             if(page.getX() == 0 && (page != labelPage)){
                 slideEfect.jLabelXRight(0,poitX,1,6,page);
@@ -303,32 +309,15 @@ public class MainFrame extends JFrame {
         }
     }
 
-
     private void moveLoginPageRaightAndLeftButtonPageRaight(){
         slideEfect.jLabelXRight(-200,0,2, 4,leftButtonPage);
         slideEfect.jLabelXRight(400,1200,2,4, loginPage);
         slideEfect.jLabelXLeft(poitX,0,1,6,createOrderPage);
     }
 
-
-
-
     private void moveLAbelLeft(){
         slideEfect.jLabelXLeft(1200,400,2,4,loginPage);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void mouseListener() {
         this.addMouseListener(new MouseAdapter() {
@@ -398,14 +387,6 @@ public class MainFrame extends JFrame {
 
     public void setRegisterPage(RegisterPage registerPage) {
         this.registerPage = registerPage;
-    }
-
-    public JLabel getClientAndVehiclePage() {
-        return clientAndVehiclePage;
-    }
-
-    public void setClientAndVehiclePage(JLabel clientAndVehiclePage) {
-        this.clientAndVehiclePage = clientAndVehiclePage;
     }
 
     public PartPage getPartPage() {

@@ -12,8 +12,8 @@ import lib.dto.client.PersonDto;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class CreateClientAndVehiclePage extends JLabel {
 
@@ -38,9 +38,6 @@ public class CreateClientAndVehiclePage extends JLabel {
     private PersonDto personDto;
     private CompanyDto companyDto;
 
-
-
-        //:todo de facut cerintele pe fileduri la sfarsit -> ca sa nu fie fileduri goale cand persist auto/client
 
     private String [] clientType = {"Person", "Company"};
     private String [] clientString = {"Name:", "Cui/cnp:", "Adress:", "Street:", "Number:"};
@@ -153,60 +150,8 @@ public class CreateClientAndVehiclePage extends JLabel {
         transparentPanel.add(createClientButton);
         createClientButton.addMouseListener(new MouseAdapterButton(createClientButton));
 
-        createClientButton.addActionListener(ev -> {
 
-            for(JRadioButton button : radioButtons){
-
-                AdressDto adressDto = new AdressDto(
-                        streetField.getText(),
-                        numberField.getText()
-                );
-
-                VehicleDto vehicleDto = new VehicleDto();
-                vehicleDto.setSerialNumber(serialNumberField.getText());
-                vehicleDto.setVehicleName(brandField.getText());
-
-
-
-                if(button.isSelected() && button.getActionCommand().equals(clientType[0])){
-
-
-                    PersonDto personDto = new PersonDto.Builder()
-                                        .setAdresaDto(adressDto)
-                                        .setCnpDto(cuiAndCnpField.getText())
-                                        .setNameDto(nameField.getText())
-                                        .build();
-                    //setez masina pe persoana -> ca s asocieze id-ul in baza de date
-                    personDto.setVehicleDtos(Set.of(vehicleDto));
-
-                   if(!PersonController.getInstance().createPerson(personDto)){
-
-                       JOptionPane.showMessageDialog(null, "Person created!");
-                   }else{
-                       JOptionPane.showMessageDialog(null, "Person is allready created!");
-                   }
-                }
-
-                if(button.isSelected() && button.getActionCommand().equals(clientType[1])){
-                    CompanyDto companyDto = new CompanyDto.Builder()
-                                            .setAdressDto(adressDto)
-                                            .setCuiDto(cuiAndCnpField.getText())
-                                            .setNameDto(nameField.getText())
-                                            .build();
-                    //setez masina pe companie -> ca sa asocieze id-ul ibaza de date
-                    companyDto.setVehicleDtos(Set.of(vehicleDto));
-
-                    if(!CompanyController.getInstance().ceateCompany(companyDto)){
-                        JOptionPane.showMessageDialog(null, "Company created!");
-
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Company is allready created");
-                    }
-                }
-            }
-        });
     }
-
 
     //init Vehicle side
     private void initBrandField(){
@@ -235,77 +180,183 @@ public class CreateClientAndVehiclePage extends JLabel {
     }
 
 
-
-
-
     private void createVehicleButton(){
         createVehicleButton = new JButton("Create Vehicle");
         createVehicleButton.setBounds(525,450,395,30);
         transparentPanel.add(createVehicleButton);
         createVehicleButton.addMouseListener(new MouseAdapterButton(createVehicleButton));
 
-        createVehicleButton.addActionListener(ev -> {
+    }
 
 
-            if(validCarFields()){
-                try {
+    private void initFindClientButton(){
+        findClientButton = new JButton("Find Client");
+        findClientButton.setBounds(277,500,395,30);
+        transparentPanel.add(findClientButton);
+        findClientButton.addMouseListener(new MouseAdapterButton(findClientButton));
 
-                    VehicleDto vehicleDto = new VehicleDto();
-                    vehicleDto.setVehicleName(brandField.getText());
-                    vehicleDto.setSerialNumber(serialNumberField.getText());
-                    Set<VehicleDto> vehicleDtos = new HashSet<>();
-                    vehicleDtos.add(vehicleDto);
+    }
 
-//
-                    if (personDto != null && radioButtons.get(1).isSelected() && !personDto.getName().equals(nameField.getToolTipText())) {
-                        JOptionPane.showMessageDialog(null, "Select Person");
-                        return;
-                    }
-                    if (companyDto != null && radioButtons.get(0).isSelected() && !companyDto.getName().equals(nameField.getText())) {
-                        JOptionPane.showMessageDialog(null, "Select Company");
-                        return;
-                    }
+    public void findClient(){
 
-                    //lina de mai jos rezolva un bug: daca dau find dupa client si inainte sa bag masina in baza de date daca selectez Company
-                    // imi baga masina in baza de date fara id client
-                    if (radioButtons.get(0).isSelected() && nameField.getText().equals(personDto.getName())) {
-                        Optional.of(personDto)
-                                .ifPresentOrElse(s -> s.setVehicleDtos(vehicleDtos), NullPointerException::new);
-                        vehicleDto.setClientDto(personDto);
-                        if(createVehicle(vehicleDto)){
-                            vehicleDtos.clear();
-                            resetFields();
-                            personDto = null;
-                        }
-                    }
+        if(!radioButtons.get(0).isSelected() && !radioButtons.get(1).isSelected() ){
+            JOptionPane.showMessageDialog(null, "Plese select Person or Company to find by");
+            return;
+        }
 
+        for(JRadioButton button : radioButtons){
 
-                    //lina de mai jos rezolva un bug: daca dau find dupa client si inainte sa bag masina in baza de date daca selectez Person
-                    // imi baga masina in baza de date fara id client
-                    if (radioButtons.get(1).isSelected() && nameField.getText().equals(companyDto.getName())) {
-                        Optional.ofNullable(companyDto)
-                                .ifPresent(s -> s.setVehicleDtos(vehicleDtos));
-                        vehicleDto.setClientDto(companyDto);
-                        if(createVehicle(vehicleDto)){
-                            vehicleDtos.clear();
-                            resetFields();
-                            companyDto = null;
-                        }
-                    }
-//
-                }catch(NullPointerException e){
+            if(button.isSelected() && button.getActionCommand().equals(clientType[0])){
+
+                try{
+
+                    personDto = PersonController.getInstance().findPersonByName(nameField.getText());
+
+                    nameField.setText(personDto.getName());
+                    cuiAndCnpField.setText(personDto.getCnp());
+                    streetField.setText(personDto.getAdress().getStreet());
+                    numberField.setText(personDto.getAdress().getNumber());
+                    companyDto = null;
+
+                }catch(NoSuchElementException e){
+                    JOptionPane.showMessageDialog(null, "Plese select Company to find");
                     e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Find the client first in the database then create the vehicle");
-                }
 
+                }
 
             }
 
-        });
+            if(button.isSelected() && button.getActionCommand().equals(clientType[1])) {
+
+                try{
+                    companyDto = CompanyController.getInstance().findCompanyByName(nameField.getText());
+
+                    nameField.setText(companyDto.getName());
+                    cuiAndCnpField.setText(companyDto.getCui());
+                    streetField.setText(companyDto.getAdress().getStreet());
+                    numberField.setText(companyDto.getAdress().getNumber());
+                    personDto = null;
+
+                }catch(NoSuchElementException e){
+                    JOptionPane.showMessageDialog(null, "Plese select Person to find");
+                    e.printStackTrace();
+
+                }
+            }
+        }
+    }
+
+    public void createClient(){
+
+        for(JRadioButton button : radioButtons){
+
+            AdressDto adressDto = new AdressDto(
+                    streetField.getText(),
+                    numberField.getText()
+            );
+
+            VehicleDto vehicleDto = new VehicleDto();
+            vehicleDto.setSerialNumber(serialNumberField.getText());
+            vehicleDto.setVehicleName(brandField.getText());
+
+
+
+            if(button.isSelected() && button.getActionCommand().equals(clientType[0])){
+
+
+                PersonDto personDto = new PersonDto.Builder()
+                                    .setAdresaDto(adressDto)
+                                    .setCnpDto(cuiAndCnpField.getText())
+                                    .setNameDto(nameField.getText())
+                                    .build();
+
+                //setez masina pe persoana -> ca s asocieze id-ul in baza de date
+                personDto.setVehicleDtos(Set.of(vehicleDto));
+
+                if(!PersonController.getInstance().createPerson(personDto)){
+
+                    JOptionPane.showMessageDialog(null, "Person created!");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Person is allready created!");
+                }
+            }
+
+            if(button.isSelected() && button.getActionCommand().equals(clientType[1])){
+                CompanyDto companyDto = new CompanyDto.Builder()
+                                    .setAdressDto(adressDto)
+                                    .setCuiDto(cuiAndCnpField.getText())
+                                    .setNameDto(nameField.getText())
+                                    .build();
+                //setez masina pe companie -> ca sa asocieze id-ul in baza de date
+                companyDto.setVehicleDtos(Set.of(vehicleDto));
+
+                if(!CompanyController.getInstance().ceateCompany(companyDto)){
+                    JOptionPane.showMessageDialog(null, "Company created!");
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "Company is allready created");
+                }
+            }
+        }
+    }
+
+    public void createVehicle(){
+
+        if(validCarFields()){
+            try {
+
+                VehicleDto vehicleDto = new VehicleDto();
+                vehicleDto.setVehicleName(brandField.getText());
+                vehicleDto.setSerialNumber(serialNumberField.getText());
+                Set<VehicleDto> vehicleDtos = new HashSet<>();
+                vehicleDtos.add(vehicleDto);
+
+//
+                if (personDto != null && radioButtons.get(1).isSelected() && !personDto.getName().equals(nameField.getToolTipText())) {
+                    JOptionPane.showMessageDialog(null, "Select Person");
+                    return;
+                }
+                if (companyDto != null && radioButtons.get(0).isSelected() && !companyDto.getName().equals(nameField.getText())) {
+                    JOptionPane.showMessageDialog(null, "Select Company");
+                    return;
+                }
+
+                //lina de mai jos rezolva un bug: daca dau find dupa client si inainte sa bag masina in baza de date daca selectez Company
+                // imi baga masina in baza de date fara id client
+                if (radioButtons.get(0).isSelected() && nameField.getText().equals(personDto.getName())) {
+                    Optional.of(personDto)
+                            .ifPresentOrElse(s -> s.setVehicleDtos(vehicleDtos), NullPointerException::new);
+                    vehicleDto.setClientDto(personDto);
+                    if(createVehicle(vehicleDto)){
+                        vehicleDtos.clear();
+                        resetFields();
+                        personDto = null;
+                    }
+                }
+
+
+                //lina de mai jos rezolva un bug: daca dau find dupa client si inainte sa bag masina in baza de date daca selectez Person
+                // imi baga masina in baza de date fara id client
+                if (radioButtons.get(1).isSelected() && nameField.getText().equals(companyDto.getName())) {
+                    Optional.ofNullable(companyDto)
+                            .ifPresent(s -> s.setVehicleDtos(vehicleDtos));
+                    vehicleDto.setClientDto(companyDto);
+
+                    if(createVehicle(vehicleDto)){
+                        vehicleDtos.clear();
+                        resetFields();
+                        companyDto = null;
+                    }
+                }
+//
+            }catch(NullPointerException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Find the client first in the database then create the vehicle");
+            }
+        }
     }
 
     private boolean createVehicle(VehicleDto vehicleDto){
-
 
         try {
 
@@ -323,64 +374,8 @@ public class CreateClientAndVehiclePage extends JLabel {
 
         }
         return false;
-
     }
 
-    private void initFindClientButton(){
-        findClientButton = new JButton("Find Client");
-        findClientButton.setBounds(277,500,395,30);
-        transparentPanel.add(findClientButton);
-        findClientButton.addMouseListener(new MouseAdapterButton(findClientButton));
-
-        findClientButton.addActionListener(ev ->{
-
-            if(!radioButtons.get(0).isSelected() && !radioButtons.get(1).isSelected() ){
-                JOptionPane.showMessageDialog(null, "Plese select Person or Company to find by");
-                return;
-            }
-
-            for(JRadioButton button : radioButtons){
-
-                if(button.isSelected() && button.getActionCommand().equals(clientType[0])){
-
-                    try{
-
-                        personDto = PersonController.getInstance().findPersonByName(nameField.getText());
-
-                        nameField.setText(personDto.getName());
-                        cuiAndCnpField.setText(personDto.getCnp());
-                        streetField.setText(personDto.getAdress().getStreet());
-                        numberField.setText(personDto.getAdress().getNumber());
-                        companyDto = null;
-
-                    }catch(NoSuchElementException e){
-                        JOptionPane.showMessageDialog(null, "Plese select Company to find");
-                        e.printStackTrace();
-
-                    }
-
-                }
-
-                if(button.isSelected() && button.getActionCommand().equals(clientType[1])) {
-
-                    try{
-                        companyDto = CompanyController.getInstance().findCompanyByName(nameField.getText());
-
-                        nameField.setText(companyDto.getName());
-                        cuiAndCnpField.setText(companyDto.getCui());
-                        streetField.setText(companyDto.getAdress().getStreet());
-                        numberField.setText(companyDto.getAdress().getNumber());
-                        personDto = null;
-
-                    }catch(NoSuchElementException e){
-                        JOptionPane.showMessageDialog(null, "Plese select Person to find");
-                        e.printStackTrace();
-
-                    }
-                }
-            }
-        });
-    }
 
     private boolean validClientFields(){
 
@@ -437,4 +432,15 @@ public class CreateClientAndVehiclePage extends JLabel {
           cuiAndCnpField.setText("");
     }
 
+    public JButton getCreateClientButton() {
+        return createClientButton;
+    }
+
+    public JButton getCreateVehicleButton() {
+        return createVehicleButton;
+    }
+
+    public JButton getFindClientButton() {
+        return findClientButton;
+    }
 }
