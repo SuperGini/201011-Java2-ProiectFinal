@@ -1,11 +1,11 @@
 package client.gui.frame;
 
 import AppPackage.AnimationClass;
-import client.controller.media.PictureController;
 import client.gui.button.MinimizeButton;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
+import client.util.image.ImageTask;
 import client.util.mouseAdaptors.MouseAdapterButton;
 import client.util.mouseAdaptors.MouseAdapterLogAndRegister;
 import client.util.mouseAdaptors.MouseAdapterMiniButton;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class MainFrame extends JFrame {
 
@@ -49,6 +48,7 @@ public class MainFrame extends JFrame {
     private MinimizeButton closeButton;
     private MinimizeButton minimizeButton;
     private NotificationTask notificationTask;
+    private ImageTask imageTask;
 
 
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
@@ -89,11 +89,20 @@ public class MainFrame extends JFrame {
         initCloseButton();
         initMinimizeButton();
         initNotificationTask();
+        initImageTask();
 
 
         changeFocus();
         setVisible(true);
 
+    }
+
+    private void initNotificationTask(){
+        notificationTask = new NotificationTask(notificationPage);
+    }
+
+    private void initImageTask(){
+        imageTask = new ImageTask(backgroundLabel);
     }
 
     private void initFrame(){
@@ -110,7 +119,6 @@ public class MainFrame extends JFrame {
     private void initBackgroundLabel(){
         backgroundLabel = new JLabel();
         backgroundLabel.setSize(width, height);
-        scheduleWithFixedDelay();
         mainPanel.add(backgroundLabel);
     }
 
@@ -147,22 +155,6 @@ public class MainFrame extends JFrame {
 
         registerPage.getRegisterButton()
                 .addActionListener(ev -> register());
-
-    }
-
-    //method 1
-    private void scheduleWithFixedDelay(){
-        Runnable task = () -> backgroundLabel.setIcon(getImageIcon());
-        randomPicture.scheduleWithFixedDelay(task,0,10, TimeUnit.SECONDS);
-    }
-
-    // method 2
-    private ImageIcon getImageIcon(){
-        byte [] image = PictureController.getInstance().getPicture().getPicture();
-
-        Image rescaleImage = new ImageIcon(image).getImage()
-                .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(rescaleImage);
     }
 
     private void initCloseButton(){
@@ -170,7 +162,6 @@ public class MainFrame extends JFrame {
         upperPanel.add(closeButton);
         closeButton.addMouseListener(new MouseAdapterMiniButton());
         closeButton.addActionListener( ev -> closeProgram());
-
     }
 
 
@@ -254,12 +245,6 @@ public class MainFrame extends JFrame {
                 .addActionListener(ev -> partPage.closePartOrder());
 
     }
-
-
-    private void initNotificationTask(){
-        notificationTask = new NotificationTask(notificationPage);
-    }
-
 
     private void initAccountPage(){
         accountPage = new AccountPage(poitX,0,1200,800);
@@ -390,6 +375,7 @@ public class MainFrame extends JFrame {
         }finally {
             randomPicture.shutdownNow();
             notificationTask.getNotifyExecutor().shutdown();
+            imageTask.getRandomPicture().shutdown();
         }
     }
 
@@ -457,4 +443,13 @@ public class MainFrame extends JFrame {
         return SingletonHolder.INSTANCE;
     }
 
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
 }

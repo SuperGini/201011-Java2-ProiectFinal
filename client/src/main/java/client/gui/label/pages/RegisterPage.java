@@ -153,7 +153,6 @@ public class RegisterPage extends JLabel {
 
                 if (validFields()) {
 
-
                     List<String> phoneNumber = new ArrayList<>();
                                     phoneNumber.add(phoneNumberField.getText());
 
@@ -267,9 +266,6 @@ public class RegisterPage extends JLabel {
         Pattern pat = Pattern.compile(emailRegex);
         return pat.matcher(emailAdress).matches();
     }
-
-
-
 
     public TransparentPanel getTransparentPanel() {
         return transparentPanel;
