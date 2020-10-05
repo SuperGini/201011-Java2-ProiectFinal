@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class RegisterPage extends JLabel {
 
@@ -144,22 +147,37 @@ public class RegisterPage extends JLabel {
         }
     }
 
-    public boolean addUser(){
-        List<String> phoneNumber = new ArrayList<>();
-        UserDto userDto = new UserDto();
-        UserIdDto userIdDto = new UserIdDto();
+    public void addUser(){
 
-        phoneNumber.add(phoneNumberField.getText());
+            try {
 
-        userIdDto.setUserName(usernameField.getText());
-        userIdDto.setEmailAdress(emailFiled.getText());
+                if (validFields()) {
 
-        userDto.setUserId(userIdDto);
-        userDto.setPassword(new String(passwordField.getPassword()));
-        userDto.setPhoneNumber(phoneNumber);
-        userDto.setCategory(getCategory());
 
-        return  UserController.getInstance().create(userDto);
+                    List<String> phoneNumber = new ArrayList<>();
+                                    phoneNumber.add(phoneNumberField.getText());
+
+                    UserIdDto userIdDto = new UserIdDto();
+                                    userIdDto.setUserName(usernameField.getText());
+                                    userIdDto.setEmailAdress(emailFiled.getText());
+
+                    UserDto userDto = new UserDto();
+                                    userDto.setUserId(userIdDto);
+                                    userDto.setPassword(new String(passwordField.getPassword()));
+                                    userDto.setPhoneNumber(phoneNumber);
+                                    userDto.setCategory(getCategory());
+
+                    if (!UserController.getInstance().create(userDto)) {
+                        JOptionPane.showMessageDialog(null, "User created");
+                        resetFileds();
+                    }
+                }
+
+            }catch(NoSuchElementException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "User allready exists");
+            }
+
     }
 
 
@@ -169,6 +187,85 @@ public class RegisterPage extends JLabel {
                 .map(e -> Category.valueOf(e.getActionCommand()))
                 .findFirst()
                 .orElseThrow();
+    }
+
+
+    private boolean validFields(){
+        if(usernameField.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Enter username");
+            return false;
+        }
+
+        if(usernameField.getText().length() < 3){
+            JOptionPane.showMessageDialog(null, "Username must have atleast 3 characters");
+            return false;
+        }
+
+        if(emailFiled.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter email adress");
+            return false;
+        }
+
+        if(!validEmailAdress(emailFiled.getText())){
+            JOptionPane.showMessageDialog(null, "Enter valid email adress");
+            return false;
+        }
+
+        if(String.valueOf(passwordField.getPassword()).equals("")){
+            JOptionPane.showMessageDialog(null, "Enter password");
+            return false;
+        }
+
+        if(String.valueOf(confirmPasswordField.getPassword()).equals("")){
+            JOptionPane.showMessageDialog(null, "Enter confirmation password");
+            return false;
+        }
+
+        if(!String.copyValueOf(passwordField.getPassword()).equals(String.valueOf(confirmPasswordField.getPassword()))){
+            JOptionPane.showMessageDialog(null, "Passwords don't match");
+            return false;
+        }
+
+        if(phoneNumberField.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Enter phone number");
+            return false;
+        }
+
+        if(!radioButtonIsSelected().isPresent()){
+           JOptionPane.showMessageDialog(null, "Select a category");
+           return false;
+        }
+
+        return true;
+    }
+
+    private Optional<JRadioButton> radioButtonIsSelected(){
+       return radioButtons.stream()
+                    .filter( s -> s.isSelected())
+                    .findAny();
+
+    }
+
+
+
+    private void resetFileds(){
+        usernameField.setText("");
+        emailFiled.setText("");
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+        phoneNumberField.setText("");
+        buttonGroup.clearSelection();
+
+    }
+
+    private boolean validEmailAdress(String emailAdress){
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        return pat.matcher(emailAdress).matches();
     }
 
 

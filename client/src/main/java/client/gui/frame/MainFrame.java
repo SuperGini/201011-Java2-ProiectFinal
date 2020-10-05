@@ -295,9 +295,7 @@ public class MainFrame extends JFrame {
     }
 
     private void register(){
-        if(!registerPage.addUser()){
-            JOptionPane.showMessageDialog(null, "User created");
-        }
+        registerPage.addUser();
     }
 
     private List<JLabel> getPages(){

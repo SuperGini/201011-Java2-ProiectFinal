@@ -118,7 +118,7 @@ public class LoginPage extends JLabel {
 
                 }catch(NoSuchElementException e){
                     e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Nu merge boss boss:D!!");
+                    JOptionPane.showMessageDialog(null, "Wrong username or password");
                 }
         }else{
             JOptionPane.showMessageDialog(null, "Enter credentials");

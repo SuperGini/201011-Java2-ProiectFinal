@@ -27,8 +27,16 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
 
     @Override
     public boolean create(UserDto userDto) throws RemoteException {
-        User user = UserConvertor.convert(userDto);
-       return userDao.create(user);
+
+        Optional<User> userUsername = userDao.findByName(userDto.getUserId().getUserName());
+        Optional<User> userEmail = userDao.findByEmailAdress(userDto.getUserId().getEmailAdress());
+
+        if(userUsername.isEmpty() && userEmail.isEmpty()){
+            User newUser = UserConvertor.convert(userDto);
+            return userDao.create(newUser);
+        }
+
+        throw new NoSuchElementException();
     }
 
 
