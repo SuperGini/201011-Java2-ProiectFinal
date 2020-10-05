@@ -111,7 +111,7 @@ public class CreateOrderPage extends JLabel {
         initOrderPartsLabel();
         initFindCarButton();
         initFindField();
-        initCreateOrder();
+        initCreateOrderButton();
         initMiniLabels();
         initBillButton();
         selectOrdersWithMouse();
@@ -238,19 +238,10 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void initAddProblemButton(){
-
         addProblemButton = new JButton("add problem");
         addProblemButton.setBounds(125,500,300,30);
         transparentPanel.add(addProblemButton);
         addProblemButton.addMouseListener(new MouseAdapterButton(addProblemButton));
-
-        addProblemButton.addActionListener(ev -> {
-           i++;
-            carProblemArea.append("\n" + i + "." + addProblemField.getText());
-            addProblemField.setText("");
-        });
-
-
     }
 
 
@@ -269,11 +260,6 @@ public class CreateOrderPage extends JLabel {
         partsTable.getTableHeader().setForeground(new Color(255,255,255));
         partsTable.setShowVerticalLines(false);
         partsTable.setSelectionBackground(new Color (232,57,95));
-
-
-
-
-
     }
 
 
@@ -302,19 +288,17 @@ public class CreateOrderPage extends JLabel {
         }
     }
 
-    private void initBillButton(){
+    public void initBillButton(){
         billButton = new JButton("Bill");
         billButton.setBounds(645,500,300,30);
         transparentPanel.add(billButton);
         billButton.addMouseListener(new MouseAdapterButton(billButton));
 
-
-        billButton.addActionListener(ev ->  makeBill());
     }
 
 
 
-    private void makeBill(){
+     public void makeBill(){
 
         String billNumber = String.valueOf(id);
         String path = "./client/src/main/resources/bill/" + billNumber + ".txt";
@@ -394,72 +378,44 @@ public class CreateOrderPage extends JLabel {
         findCarButton.setBounds(430,350,200,30);
         transparentPanel.add(findCarButton);
         findCarButton.addMouseListener(new MouseAdapterButton(findCarButton));
-
-        findCarButton.addActionListener( ev -> {
-
-            List<Object []> object = VehicleController.getInstance().findVehicleWithClient(findField.getText());
-
-            for(Object [] obj : object){
-
-                int vehicleId = (int) obj[0];
-                String brand = (String) obj[1];
-                String serialNumber = (String) obj[2];
-                int clientId = (int) obj[3];
-                String clientName = (String) obj[4];
-
-                brandLabel.setText(brand);
-                serialLabel.setText(serialNumber);
-                clientLabel.setText(clientName);
-
-                vehicleDto.setId(vehicleId);
-                clientDto.setId(clientId);
-
-
-            }
-
-        });
-
     }
 
-    private void initCreateOrder(){
+    private void initCreateOrderButton(){
         createOrderButton = new JButton("create order");
         createOrderButton.setBounds(430,500,200,30);
         transparentPanel.add(createOrderButton);
         createOrderButton.addMouseListener(new MouseAdapterButton(createOrderButton));
+    }
 
-        createOrderButton.addActionListener(ev ->{
+    public void createOrder(){
+        if(orderLabel.getText().equals("") && clientLabel.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Find a serial number before creating an order");
+        }
 
-            if(orderLabel.getText().equals("") && clientLabel.getText().equals("")){
-                JOptionPane.showMessageDialog(null, "Find a serial number before creating an order");
-            }
+        if(!orderLabel.getText().equals("") && !clientLabel.getText().equals("")) {
+            int option = JOptionPane.showConfirmDialog(
+                    null,"Create new Order?","confirm box",JOptionPane.YES_NO_OPTION);
 
-            if(!orderLabel.getText().equals("") && !clientLabel.getText().equals("")) {
-                int option = JOptionPane.showConfirmDialog(
-                        null,"Create new Order?","confirm box",JOptionPane.YES_NO_OPTION);
-
-                if(option == JOptionPane.YES_OPTION){
-                    resetFields();
-                }
-            }
-
-
-            if(!orderLabel.getText().equals("") && !clientLabel.getText().equals("")){
-
-                int option = JOptionPane.showConfirmDialog(
-                        null,"Create new Order?","confirm box",JOptionPane.YES_NO_OPTION);
-
-                if(option == JOptionPane.YES_OPTION){
-                    resetFields();
-                }
-            }
-
-            if(orderLabel.getText().equals("") && !clientLabel.getText().equals("")){
-                createNewOrder();
+            if(option == JOptionPane.YES_OPTION){
                 resetFields();
             }
+        }
 
 
-        });
+        if(!orderLabel.getText().equals("") && !clientLabel.getText().equals("")){
+
+            int option = JOptionPane.showConfirmDialog(
+                    null,"Create new Order?","confirm box",JOptionPane.YES_NO_OPTION);
+
+            if(option == JOptionPane.YES_OPTION){
+                resetFields();
+            }
+        }
+
+        if(orderLabel.getText().equals("") && !clientLabel.getText().equals("")){
+            createNewOrder();
+            resetFields();
+        }
     }
 
     private void createNewOrder(){
@@ -482,6 +438,7 @@ public class CreateOrderPage extends JLabel {
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
                     refreshOrderTable();
+
                     Object [] obj = newOrderIds.get(newOrderIds.size()-1);
                     int x = (Integer) obj[0];
 
@@ -489,8 +446,6 @@ public class CreateOrderPage extends JLabel {
                     System.out.println("creted order : " + x);
                     //setez notificarea
                     NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
-
-
 
                     System.out.println(serviceOrderDto.getId());
                 }else{
@@ -501,7 +456,6 @@ public class CreateOrderPage extends JLabel {
 
     private void refreshOrderTable(){
         newOrderIds.clear();
-
 
             newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
             initTableDataOrderId();
@@ -554,6 +508,31 @@ public class CreateOrderPage extends JLabel {
         brandLabel.setText(serviceOrderDto.getVehicleDtos().getVehicleName());
         serialLabel.setText(serviceOrderDto.getVehicleDtos().getSerialNumber());
         userLabel.setText(serviceOrderDto.getUserDto().getUserId().getUserName());
+    }
+
+    public void addCarProblems(){
+        i++;
+        carProblemArea.append("\n" + i + "." + addProblemField.getText());
+        addProblemField.setText("");
+    }
+
+    public void findCar(){
+        List<Object []> object = VehicleController.getInstance().findVehicleWithClient(findField.getText());
+
+        for(Object [] obj : object){
+
+            int vehicleId = (int) obj[0];
+            String brand = (String) obj[1];
+            String serialNumber = (String) obj[2];
+            int clientId = (int) obj[3];
+            String clientName = (String) obj[4];
+
+            brandLabel.setText(brand);
+            serialLabel.setText(serialNumber);
+            clientLabel.setText(clientName);
+            vehicleDto.setId(vehicleId);
+            clientDto.setId(clientId);
+        }
     }
 
 
@@ -652,6 +631,14 @@ public class CreateOrderPage extends JLabel {
 
     public JButton getCreateOrderButton() {
         return createOrderButton;
+    }
+
+    public JButton getBillButton() {
+        return billButton;
+    }
+
+    public void setBillButton(JButton billButton) {
+        this.billButton = billButton;
     }
 
     public void setCreateOrderButton(JButton createOrderButton) {

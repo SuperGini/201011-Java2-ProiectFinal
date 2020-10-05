@@ -229,7 +229,7 @@ public class MainFrame extends JFrame {
     private void initCreateClientAndVehiclePage(){
         clientAndVehiclePage = new CreateClientAndVehiclePage(poitX,0,1200,800);
         backgroundLabel.add(clientAndVehiclePage);
-        
+
         clientAndVehiclePage.getFindClientButton()
                 .addActionListener( ev -> clientAndVehiclePage.findClient());
 
@@ -243,6 +243,16 @@ public class MainFrame extends JFrame {
     private void initPartPage(){
         partPage = new PartPage(poitX,0,1200,800);
         backgroundLabel.add(partPage);
+
+        partPage.getCreatePartButton()
+                .addActionListener(ev ->partPage.createPart());
+
+        partPage.getRefreshOrdersButton()
+                .addActionListener(ev -> partPage.refreashOrdersTable());
+
+        partPage.getClosePartOrder()
+                .addActionListener(ev -> partPage.closePartOrder());
+
     }
 
 
@@ -259,6 +269,18 @@ public class MainFrame extends JFrame {
     private void initCreateOrderPage(){
         createOrderPage = new CreateOrderPage(poitX,0,1200,800);
         backgroundLabel.add(createOrderPage);
+
+        createOrderPage.getCreateOrderButton()
+                .addActionListener(ev -> createOrderPage.createOrder());
+
+        createOrderPage.getFindCarButton()
+                .addActionListener(ev -> createOrderPage.findCar());
+
+        createOrderPage.getBillButton()
+                .addActionListener(ev -> createOrderPage.makeBill());
+
+        createOrderPage.getAddProblemButton()
+                .addActionListener(ev -> createOrderPage.addCarProblems() );
     }
 
     private void initStatisticPage(){

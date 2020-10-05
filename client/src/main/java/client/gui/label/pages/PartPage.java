@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PartPage extends JLabel {
 
+    private JPanel transparentPanel;
     private JLabel partLabel;
     private JButton createPartButton;
     private JTextField partField;
@@ -30,34 +31,24 @@ public class PartPage extends JLabel {
     private JTextArea totalArea;
     private JTable orderId;
     private JTable partsTable;
-    private JButton refreshListButton;
+    private JButton refreshOrdersButton;
     private JButton closePartOrder;
     private JLabel finalPrice;
     private JLabel genericLabel;
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
 
-
-
     private int id;
     private double total;
     private Status status;
-
-    private JPanel transparentPanel;
-
     private DefaultTableModel tableModel;
     private DefaultTableModel orderModel;
-
     private JScrollPane scrollPane;
     private JScrollPane scrollPaneOrder;
 
     private List<JLabel> genericLabels = new ArrayList<>();
-
-
     private List<Object[]>  newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
     private List<PartDto> partsDtos = new CopyOnWriteArrayList<>();
-
-
     private List<JLabel> partLabels = new ArrayList<>();
 
     public PartPage(int x, int y, int width, int height) {
@@ -84,18 +75,12 @@ public class PartPage extends JLabel {
         initRefreshListButton();
         initGenerilLabels();
         initMiniLabels();
-
-
-        //initTotalLabel();
         initFinalPriceLabel();
         initClosePartOrder();
-
         initTableServiceOrder();
         initTableDataOrderId();
         initPartsArea();
         tableDataParts();
-
-
         selectOrdersWithMouse();
 
     }
@@ -134,7 +119,6 @@ public class PartPage extends JLabel {
             partLabel.setBounds(30,50 + (i*50), 50,30);
             transparentPanel.add(partLabel);
             partLabels.add(partLabel);
-
         }
     }
 
@@ -144,7 +128,6 @@ public class PartPage extends JLabel {
         createPartButton.addMouseListener(new MouseAdapterButton(createPartButton));
         transparentPanel.add(createPartButton);
 
-        createPartButton.addActionListener(ev -> createPart());
     }
 
     private void initFinalPriceLabel(){
@@ -155,20 +138,12 @@ public class PartPage extends JLabel {
 
     }
 
-
     private void initRefreshListButton(){
-        refreshListButton = new JButton("refresh");
-        refreshListButton.setBounds(525,410,115,50);
-        refreshListButton.setFont(new Font("Dialog",Font.BOLD, 15));
-        transparentPanel.add(refreshListButton);
-        refreshListButton.addMouseListener(new MouseAdapterButton(refreshListButton));
-        refreshListButton.addActionListener(ev ->{
-            newOrderIds.clear();
-            newOrderIds.addAll(new CopyOnWriteArrayList<>( ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus()));
-            initTableDataOrderId();
-
-        });
-
+        refreshOrdersButton = new JButton("refresh");
+        refreshOrdersButton.setBounds(525,410,115,50);
+        refreshOrdersButton.setFont(new Font("Dialog",Font.BOLD, 15));
+        transparentPanel.add(refreshOrdersButton);
+        refreshOrdersButton.addMouseListener(new MouseAdapterButton(refreshOrdersButton));
     }
 
     private void totalArea(){
@@ -180,38 +155,11 @@ public class PartPage extends JLabel {
         transparentPanel.add(totalArea);
     }
 
-
     private void initClosePartOrder(){
         closePartOrder = new JButton("close part order");
         closePartOrder.setBounds(525,470,445,40);
         closePartOrder.addMouseListener(new MouseAdapterButton(closePartOrder));
         transparentPanel.add(closePartOrder);
-
-        closePartOrder.addActionListener(ev ->{
-
-            if(!status.equals(Status.CLOSE)) {
-
-                int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id, total);
-                int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.READY);
-
-                if (updatePrice > 0 && updateStatus > 0) {
-
-                    Notification notification = new Notification(orderLabel.getText(), Status.READY);
-
-                    //trimite notiifcare catre user body si mechanical
-                    NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
-                    JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
-                }
-
-            }else{
-                JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE);
-            }
-
-        });
-
-
     }
 
     private void initGenerilLabels(){
@@ -247,8 +195,138 @@ public class PartPage extends JLabel {
         transparentPanel.add(serialLabel);
     }
 
+    private void initTableServiceOrder(){
 
-    private void createPart(){
+        orderId = new JTable(orderModel){
+            @Override
+            public Class<?> getColumnClass(int column) {
+                if(convertColumnIndexToModel(column)==1) return String.class;
+                return super.getColumnClass(column);
+            }
+        };
+
+        orderId.setDefaultRenderer(String.class, new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
+                Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+
+                if( value.equals(Status.OPEN)){
+                    c.setForeground(Color.GREEN);
+                }
+
+                if(value.equals(Status.CLOSE)){
+                    c.setForeground(Color.BLUE);
+                }
+
+                if(value.equals(Status.READY)){
+                    c.setForeground(Color.YELLOW);
+                }
+
+                return c;
+            }
+        });
+
+        orderId.setBounds(525,50,115,350);
+        scrollPaneOrder = new JScrollPane(orderId);
+        scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
+        scrollPaneOrder.setBounds(525,50,115,350);
+        transparentPanel.add(scrollPaneOrder);
+        orderId.setRowHeight(20);
+        orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
+        orderId.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        orderId.getTableHeader().setOpaque(false);
+        orderId.getTableHeader().setBackground(new Color(32,136,203));
+        orderId.getTableHeader().setForeground(new Color(255,255,255));
+        orderId.setShowVerticalLines(false);
+        orderId.setBackground(Color.LIGHT_GRAY);
+        orderId.setSelectionBackground(new Color (232,57,95));
+
+    }
+
+    private void initTableDataOrderId(){
+        orderModel.setRowCount(0);
+
+        String [] column = {"Order", "Status"};
+
+        orderModel.setColumnIdentifiers(column);
+
+        Object [] row = new Object [2];
+
+        for(Object [] obj : newOrderIds){
+            row[0] = obj[0];
+            row[1] = obj[1];
+            orderModel.addRow(row);
+
+        }
+
+        for(int i = 0; i < 2; i++){
+            orderId.getColumnModel().getColumn(i).setMaxWidth(47);
+            orderId.getColumnModel().getColumn(i).setMinWidth(47);
+        }
+    }
+
+    private void initPartsArea(){
+        partsTable = new JTable(tableModel);
+        partsTable.setBounds(645,50,300,350);
+        scrollPane = new JScrollPane(partsTable);
+        scrollPane.setBounds(645,50,300,350);
+        scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
+        transparentPanel.add(scrollPane);
+        partsTable.setRowHeight(20);
+        partsTable.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
+        partsTable.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        partsTable.getTableHeader().setOpaque(false);
+        partsTable.getTableHeader().setBackground(new Color(32,136,203));
+        partsTable.getTableHeader().setForeground(new Color(255,255,255));
+        partsTable.setShowVerticalLines(false);
+        partsTable.setSelectionBackground(new Color (232,57,95));
+    }
+
+    private void tableDataParts(){
+
+        tableModel.setRowCount(0);
+
+        String [] columns = {"id", "part name", "count", "price"};
+
+
+        tableModel.setColumnIdentifiers(columns);
+
+        Object [] row = new Object [4];
+
+        for(PartDto partDto : partsDtos){
+            row[0] = partDto.getId();
+            row[1] = partDto.getPartName();
+            row[2] = partDto.getCount();
+            row[3] = partDto.getPrice();
+            tableModel.addRow(row);
+        }
+
+        for(int i = 0; i< 4; i++){
+            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
+            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
+        }
+    }
+
+    private void selectOrdersWithMouse(){
+
+        orderId.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = orderId.rowAtPoint(e.getPoint());
+                //  int col = orderId.columnAtPoint(e.getPoint());
+                id = (int) orderId.getModel().getValueAt(row, 0);
+                status = (Status) orderId.getModel().getValueAt(row, 1);
+
+                if(id != 0 && e.getClickCount() == 1){
+                    System.out.println(status);
+                    refreshPartTable(id);
+                }
+            }
+        });
+    }
+
+
+    public void createPart(){
 
             try{
                 if(!status.equals(Status.CLOSE)){
@@ -297,171 +375,50 @@ public class PartPage extends JLabel {
                 JOptionPane.showMessageDialog(null, "Select an order first");
                 e.printStackTrace();
             }
-
-
-
-
-
-
-
     }
 
+    public void closePartOrder(){
 
-    private void initTableServiceOrder(){
+        if(!status.equals(Status.CLOSE)) {
 
-        orderId = new JTable(orderModel){
-            @Override
-            public Class<?> getColumnClass(int column) {
-                if(convertColumnIndexToModel(column)==1) return String.class;
-                return super.getColumnClass(column);
+            int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id, total);
+            int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.READY);
+
+            if (updatePrice > 0 && updateStatus > 0) {
+
+                Notification notification = new Notification(orderLabel.getText(), Status.READY);
+
+                //trimite notiifcare catre user body si mechanical
+                NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
+                JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
+            } else {
+                JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
             }
-        };
 
-        orderId.setDefaultRenderer(String.class, new DefaultTableCellRenderer(){
-            @Override
-            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
-                Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
-
-                if( value.equals(Status.OPEN)){
-                    c.setForeground(Color.GREEN);
-                }
-
-                if(value.equals(Status.CLOSE)){
-                    c.setForeground(Color.BLUE);
-                }
-
-                if(value.equals(Status.READY)){
-                    c.setForeground(Color.YELLOW);
-                }
-
-                return c;
-            }
-        });
-
-
-        orderId.setBounds(525,50,115,350);
-        scrollPaneOrder = new JScrollPane(orderId);
-        scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        scrollPaneOrder.setBounds(525,50,115,350);
-        transparentPanel.add(scrollPaneOrder);
-        orderId.setRowHeight(20);
-        orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        orderId.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        orderId.getTableHeader().setOpaque(false);
-        orderId.getTableHeader().setBackground(new Color(32,136,203));
-        orderId.getTableHeader().setForeground(new Color(255,255,255));
-        orderId.setShowVerticalLines(false);
-        orderId.setBackground(Color.LIGHT_GRAY);
-        orderId.setSelectionBackground(new Color (232,57,95));
-
-    }
-
-
-    private void initTableDataOrderId(){
-        orderModel.setRowCount(0);
-
-        String [] column = {"Order", "Status"};
-
-        orderModel.setColumnIdentifiers(column);
-
-        Object [] row = new Object [2];
-
-        for(Object [] obj : newOrderIds){
-            row[0] = obj[0];
-            row[1] = obj[1];
-            orderModel.addRow(row);
-
-        }
-
-
-        for(int i = 0; i < 2; i++){
-            orderId.getColumnModel().getColumn(i).setMaxWidth(47);
-            orderId.getColumnModel().getColumn(i).setMinWidth(47);
-        }
-
-
-    }
-
-    private void initPartsArea(){
-        partsTable = new JTable(tableModel);
-        partsTable.setBounds(645,50,300,350);
-        scrollPane = new JScrollPane(partsTable);
-        scrollPane.setBounds(645,50,300,350);
-        scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        transparentPanel.add(scrollPane);
-        partsTable.setRowHeight(20);
-        partsTable.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        partsTable.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        partsTable.getTableHeader().setOpaque(false);
-        partsTable.getTableHeader().setBackground(new Color(32,136,203));
-        partsTable.getTableHeader().setForeground(new Color(255,255,255));
-        partsTable.setShowVerticalLines(false);
-        partsTable.setSelectionBackground(new Color (232,57,95));
-
-
-    }
-
-
-    private void tableDataParts(){
-
-        tableModel.setRowCount(0);
-
-        String [] columns = {"id", "part name", "count", "price"};
-
-
-        tableModel.setColumnIdentifiers(columns);
-
-
-
-        Object [] row = new Object [4];
-
-
-        for(PartDto partDto : partsDtos){
-            row[0] = partDto.getId();
-            row[1] = partDto.getPartName();
-            row[2] = partDto.getCount();
-            row[3] = partDto.getPrice();
-            tableModel.addRow(row);
-        }
-
-        for(int i = 0; i< 4; i++){
-            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
-            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
+        }else{
+            JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE);
         }
     }
 
-    private void selectOrdersWithMouse(){
-
-        orderId.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = orderId.rowAtPoint(e.getPoint());
-              //  int col = orderId.columnAtPoint(e.getPoint());
-                id = (int) orderId.getModel().getValueAt(row, 0);
-               status = (Status) orderId.getModel().getValueAt(row, 1);
-
-                if(id != 0 && e.getClickCount() == 1){
-                    System.out.println(status);
-                    refreshPartTable(id);
-
-                }
-            }
-        });
+    public void refreashOrdersTable(){
+        newOrderIds.clear();
+        newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
+        initTableDataOrderId();
     }
 
-
+    //method 1
     private void refreshPartTable(int id){
 
         partsDtos.clear();
         ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
         setGenericLabels(serviceOrderDto);
 
-        serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
+        serviceOrderDto.getParts().forEach(s ->partsDtos.add(s));
         tableDataParts();
 
              total =  partsDtos.stream()
-                .map(this::totalSum)
-                .reduce(0.0, Double::sum);
+                             .map(this::totalSum)
+                             .reduce(0.0, Double::sum);
 
 
         String c = String.format("%.2f",total);
@@ -469,6 +426,11 @@ public class PartPage extends JLabel {
         totalArea.setText("Total:..................................................." + c);
 
 
+    }
+
+    //method 2
+    private double totalSum(PartDto partDto){
+        return partDto.getCount() * partDto.getPrice();
     }
 
     private void setGenericLabels( ServiceOrderDto serviceOrderDto){
@@ -479,10 +441,6 @@ public class PartPage extends JLabel {
         userLabel.setText(serviceOrderDto.getUserDto().getUserId().getUserName());
     }
 
-    private double totalSum(PartDto partDto){
-        return partDto.getCount() * partDto.getPrice();
-    }
-
     private void resetFields(){
         partField.setText("");
         priceField.setText("");
@@ -490,4 +448,15 @@ public class PartPage extends JLabel {
 
     }
 
+    public JButton getCreatePartButton() {
+        return createPartButton;
+    }
+
+    public JButton getRefreshOrdersButton() {
+        return refreshOrdersButton;
+    }
+
+    public JButton getClosePartOrder() {
+        return closePartOrder;
+    }
 }
