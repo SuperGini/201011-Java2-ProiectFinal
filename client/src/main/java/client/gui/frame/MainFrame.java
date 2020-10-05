@@ -2,15 +2,18 @@ package client.gui.frame;
 
 import AppPackage.AnimationClass;
 import client.controller.media.PictureController;
-import client.controller.notification.NotificationController;
 import client.gui.button.MinimizeButton;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
-import client.util.*;
+import client.util.mouseAdaptors.MouseAdapterButton;
+import client.util.mouseAdaptors.MouseAdapterLogAndRegister;
+import client.util.mouseAdaptors.MouseAdapterMiniButton;
+import client.util.notify.NotificationTask;
+import client.util.sound.SoundConvertor;
+import client.util.sound.SoundPlay;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.ClientDto;
-import lib.dto.notification.Notification;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;
@@ -21,7 +24,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +50,9 @@ public class MainFrame extends JFrame {
     private MinimizeButton minimizeButton;
     private Timer notificationTimer;
     private int timer;
+
+    private NotificationTask notificationTask;
+
 
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
     private ScheduledExecutorService notifyExecutor = Executors.newSingleThreadScheduledExecutor();
@@ -85,14 +90,13 @@ public class MainFrame extends JFrame {
         moveLAbelLeft();
         initUpperLabelAndPanel();
         initLowerLabelAndPanel();
-        startNotifyExecutor();
+        //startNotifyExecutor();
         initCloseButton();
         initMinimizeButton();
-
+        initNotificationTask();
 
         changeFocus();
         setVisible(true);
-
 
     }
 
@@ -112,7 +116,6 @@ public class MainFrame extends JFrame {
         backgroundLabel.setSize(width, height);
         scheduleWithFixedDelay();
         mainPanel.add(backgroundLabel);
-
     }
 
 
@@ -120,43 +123,39 @@ public class MainFrame extends JFrame {
         loginPage = new LoginPage(1200,0,1200,800);
         backgroundLabel.add(loginPage);
 
-        loginPage.getLoginButton().addActionListener(ev ->{
-            if(loginPage.validCredentials()){
-                moveLoginPageRaightAndLeftButtonPageRaight();
-            }
-        });
-        loginPage.getLoginButton().addMouseListener(new MouseAdapterButton(loginPage.getLoginButton()));
+        loginPage.getLoginButton()
+                .addMouseListener(new MouseAdapterButton(loginPage.getLoginButton()));
 
+        loginPage.getRegisterButton()
+                .addMouseListener(new MouseAdapterLogAndRegister());
 
-        loginPage.getRegisterButton().addActionListener(ev -> moveLabesLeftAndRaight(registerPage));
-        loginPage.getRegisterButton().addMouseListener(new MouseAdapterLogAndRegister());
+        loginPage.getLoginButton()
+                .addActionListener(ev -> login());
+
+        loginPage.getRegisterButton()
+                .addActionListener(ev -> moveLabesLeftAndRaight(registerPage));
     }
 
     private void initRegisterPage(){
         registerPage = new RegisterPage(1200,0,1200,800);
         backgroundLabel.add(registerPage);
 
-        registerPage.getRegisterButton().addActionListener(ev ->{
-            if(!registerPage.addUser()){
-                JOptionPane.showMessageDialog(null, "User created");
-            }
+        registerPage.getRegisterButton()
+                .addMouseListener(new MouseAdapterButton(registerPage.getRegisterButton()));
 
-        });
+        registerPage.getLoginButton()
+                .addMouseListener(new MouseAdapterLogAndRegister());
 
-        registerPage.getRegisterButton().addMouseListener(new MouseAdapterButton(registerPage.getRegisterButton()));
+        registerPage.getLoginButton()
+                .addActionListener(ev -> moveLabesLeftAndRaight(loginPage));
 
-        registerPage.getLoginButton().addActionListener(ev -> moveLabesLeftAndRaight(loginPage));
-
-        registerPage.getLoginButton().addMouseListener(new MouseAdapterLogAndRegister());
-
-
+        registerPage.getRegisterButton()
+                .addActionListener(ev -> register());
 
     }
 
     //method 1
     private void scheduleWithFixedDelay(){
-
-        //:todo: nu uita sa dai shutdown la THREAD
         Runnable task = () -> backgroundLabel.setIcon(getImageIcon());
         randomPicture.scheduleWithFixedDelay(task,0,10, TimeUnit.SECONDS);
     }
@@ -208,21 +207,20 @@ public class MainFrame extends JFrame {
         leftButtonPage = new LeftButtonPage(-200,75,200,650);
         backgroundLabel.add(leftButtonPage);
 
-            //todo: de vazut daca pot sa le criu pe astea mai usor cu mai putin cod
             leftButtonPage.getButtons().get(0)
-                    .addActionListener( ev ->movePagesLeftAndRaight(createOrderPage));
+                    .addActionListener( ev -> movePagesLeftAndRaight(createOrderPage)); //create order button
 
             leftButtonPage.getButtons().get(1)
-                    .addActionListener( ev ->movePagesLeftAndRaight(clientAndVehiclePage));
+                    .addActionListener( ev -> movePagesLeftAndRaight(clientAndVehiclePage)); //client and vehicle button
 
             leftButtonPage.getButtons().get(2)
-                    .addActionListener(ev -> movePagesLeftAndRaight(partPage));
+                    .addActionListener(ev -> movePagesLeftAndRaight(partPage)); //parts button
 
             leftButtonPage.getButtons().get(3)
-                    .addActionListener( ev -> movePagesLeftAndRaight(statisticPage));
+                    .addActionListener( ev -> movePagesLeftAndRaight(statisticPage)); // statistic page
 
             leftButtonPage.getButtons().get(4)
-                    .addActionListener( ev -> movePagesLeftAndRaight(accountPage));
+                    .addActionListener( ev -> movePagesLeftAndRaight(accountPage)); //my account page
 
     }
 
@@ -240,69 +238,12 @@ public class MainFrame extends JFrame {
     private void initPartPage(){
         partPage = new PartPage(poitX,0,1200,800);
         backgroundLabel.add(partPage);
-
-
-    }
-    //todo: de inchis executorul
-    //method 1
-    private void startNotifyExecutor(){
-        notifyExecutor.scheduleWithFixedDelay(this::task1,20,10,TimeUnit.SECONDS);
-    }
-
-    //method 2
-    private void task1(){
-        Optional.ofNullable(userDto)
-                .ifPresentOrElse(this::task2,
-                        ()->userDto = MainFrame.getInstance().getAccountPage().getUserDto());
-    }
-
-    //method 3
-    private void task2(UserDto userDto){
-        var notify = NotificationController.getInstance().getNotification(userDto);
-        if(!notify.isEmpty()) {
-            System.out.println(notify.toString());
-            notificationPage.getOrderNumberLabel().setText(notify.toString());
-
-            notify.forEach(this::setNofificationStatus);
-
-            getNotificationTimer().start();
-        }
-    }
-
-    //method 4
-    private void setNofificationStatus(Notification notification){
-        notificationPage.getCategoryLabel().setText(notification.getStatus().toString());
     }
 
 
-
-    private Timer getNotificationTimer(){
-        notificationTimer = new Timer(20, event -> notificationTask());
-        return notificationTimer;
+    private void initNotificationTask(){
+        notificationTask = new NotificationTask(notificationPage);
     }
-
-
-    private void notificationTask(){
-        timer++;
-        if(timer == 1){
-            slideEfect.jLabelXLeft(1200,950,1,2,notificationPage);
-            soundPlay.getClips().get(3).start();
-        }
-
-        if(timer == 300){
-            slideEfect.jLabelXRight(950,1200,1,2,notificationPage);
-            timer = 0;
-            notificationTimer.stop();
-            soundPlay.getClips().get(3).stop();
-            soundPlay.getClips().get(3).setMicrosecondPosition(0);
-        }
-
-
-    }
-
-
-
-
 
 
     private void initAccountPage(){
@@ -320,6 +261,17 @@ public class MainFrame extends JFrame {
         backgroundLabel.add(statisticPage);
     }
 
+    private void login(){
+        if(loginPage.validCredentials()){
+            moveLoginPageRaightAndLeftButtonPageRaight();
+        }
+    }
+
+    private void register(){
+        if(!registerPage.addUser()){
+            JOptionPane.showMessageDialog(null, "User created");
+        }
+    }
 
 
     private List<JLabel> getPages(){
@@ -490,6 +442,14 @@ public class MainFrame extends JFrame {
 
     public void setStatisticPage(JLabel statisticPage) {
         this.statisticPage = statisticPage;
+    }
+
+    public ScheduledExecutorService getRandomPicture() {
+        return randomPicture;
+    }
+
+    public void setRandomPicture(ScheduledExecutorService randomPicture) {
+        this.randomPicture = randomPicture;
     }
 
     private static final class SingletonHolder{

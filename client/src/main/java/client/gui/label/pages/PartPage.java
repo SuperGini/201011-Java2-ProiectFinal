@@ -4,7 +4,7 @@ import client.controller.autovehicle.PartController;
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.notification.NotificationController;
 import client.gui.panel.TransparentPanel;
-import client.util.MouseAdapterButton;
+import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
@@ -248,21 +248,10 @@ public class PartPage extends JLabel {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     private void createPart(){
-        if(!status.equals(Status.CLOSE)){
+
             try{
-
-
+                if(!status.equals(Status.CLOSE)){
 
                 PartDto partDto = new PartDto();
                 partDto.setPartName(partField.getText());
@@ -292,21 +281,27 @@ public class PartPage extends JLabel {
                     resetFields();
                 }
 
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE.toString() + " \n" +
+                            "you can't add any more parts to it");
+                }
+
             }catch(NumberFormatException e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Wrong format for the price or count");
             }catch(IllegalArgumentException e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Select a order befor adding a part");
+            }catch(NullPointerException e){
+                JOptionPane.showMessageDialog(null, "Select an order first");
+                e.printStackTrace();
             }
 
 
 
 
-        }else{
-            JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE.toString() + " \n" +
-                    "you can't add any more parts to it");
-        }
+
 
 
     }

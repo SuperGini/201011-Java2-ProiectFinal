@@ -1,15 +1,15 @@
 package client;
 
-import client.gui.frame.StartFrame;
+import client.gui.frame.MainFrame;
 
 public class MainClient {
     public static void main(String[] args) {
-      //  new MainFrame();
-      //  MainFrame.getInstance();
 
-    //    new LoadingFrame();
+        MainFrame.getInstance();
 
-        new StartFrame();
+    //   new LoadingFrame();
+
+     //   new StartFrame();
 
     //    System.out.println(PictureController.getInstance().getPicture());
     }

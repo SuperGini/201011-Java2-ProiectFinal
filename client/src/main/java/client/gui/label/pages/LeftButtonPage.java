@@ -2,7 +2,7 @@ package client.gui.label.pages;
 
 import client.gui.button.TransparentButton;
 import client.gui.panel.TransparentPanel;
-import client.util.SoundPlay;
+import client.util.sound.SoundPlay;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package client.util;
+package client.util.sound;
 
 import client.controller.media.SoundController;
 import lib.dto.sound.SoundDto;

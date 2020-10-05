@@ -1,4 +1,4 @@
-package client.util;
+package client.util.mouseAdaptors;
 
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;

@@ -5,7 +5,7 @@ import client.controller.autovehicle.VehicleController;
 import client.controller.notification.NotificationController;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
-import client.util.MouseAdapterButton;
+import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
@@ -481,15 +481,16 @@ public class CreateOrderPage extends JLabel {
 
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
-
-                    Object [] obj = newOrderIds.get(newOrderIds.size() -1);
+                    refreshOrderTable();
+                    Object [] obj = newOrderIds.get(newOrderIds.size()-1);
                     int x = (Integer) obj[0];
 
                     Notification notification = new Notification(String.valueOf(x), Status.OPEN);
+                    System.out.println("creted order : " + x);
                     //setez notificarea
                     NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
 
-                    refreshOrderTable();
+
 
                     System.out.println(serviceOrderDto.getId());
                 }else{
@@ -500,8 +501,12 @@ public class CreateOrderPage extends JLabel {
 
     private void refreshOrderTable(){
         newOrderIds.clear();
-        newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
-        initTableDataOrderId();
+
+
+            newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
+            initTableDataOrderId();
+
+
     }
 
     private void selectOrdersWithMouse(){

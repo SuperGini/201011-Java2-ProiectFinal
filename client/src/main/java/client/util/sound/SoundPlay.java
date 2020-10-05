@@ -1,4 +1,4 @@
-package client.util;
+package client.util.sound;
 
 import javax.sound.sampled.*;
 import java.io.File;

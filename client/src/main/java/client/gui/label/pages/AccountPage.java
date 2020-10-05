@@ -2,7 +2,7 @@ package client.gui.label.pages;
 
 import client.controller.user.UserController;
 import client.gui.panel.TransparentPanel;
-import client.util.MouseAdapterButton;
+import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;

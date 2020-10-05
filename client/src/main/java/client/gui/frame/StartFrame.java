@@ -1,15 +1,19 @@
 package client.gui.frame;
 
 import client.gui.panel.StartPanel;
-import client.util.MouseAdapterButton;
+import client.util.mouseAdaptors.MouseAdapterButton;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class StartFrame extends JFrame {
 
     private StartPanel startPanel;
     private JPanel lowerPanel;
     private JButton startButton;
+
+    private int posX =0, posY =0;
 
     public StartFrame(){
 
@@ -29,6 +33,7 @@ public class StartFrame extends JFrame {
         initPanel();
         initLowerPanel();
         initStartButton();
+        mouseListener();
 
     }
 
@@ -62,5 +67,21 @@ public class StartFrame extends JFrame {
         }finally {
             startPanel.getTimer().stop();
         }
+    }
+
+    private void mouseListener() {
+        this.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                posX = e.getX();
+                posY = e.getY();
+            }
+        });
+
+        this.addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+
+                setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
+            }
+        });
     }
 }

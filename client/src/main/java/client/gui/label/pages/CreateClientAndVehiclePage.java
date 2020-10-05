@@ -4,7 +4,7 @@ import client.controller.autovehicle.VehicleController;
 import client.controller.client.CompanyController;
 import client.controller.client.PersonController;
 import client.gui.panel.TransparentPanel;
-import client.util.MouseAdapterButton;
+import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.AdressDto;
 import lib.dto.client.CompanyDto;

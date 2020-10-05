@@ -1,4 +1,4 @@
-package client.util;
+package client.util.mouseAdaptors;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
