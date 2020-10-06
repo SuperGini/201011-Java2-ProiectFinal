@@ -1,6 +1,5 @@
 package server;
 
-import server.service.autovehicle.CountPartImpl;
 import server.service.autovehicle.PartServiceImpl;
 import server.service.autovehicle.ServiceOrderServiceImpl;
 import server.service.autovehicle.VehicleServiceImpl;
@@ -42,7 +41,6 @@ public class MainServer {
             registry.rebind("companyService", new CompanyServiceImpl());
             registry.rebind("serviceOrder", new ServiceOrderServiceImpl());
             registry.rebind("clientService", new ClientServiceImpl());
-            registry.rebind("CountPartService", new CountPartImpl());
             registry.rebind("soundService", new SoundServiceImpl());
             registry.rebind("notificationService", new NotificationServiceImpl());
 

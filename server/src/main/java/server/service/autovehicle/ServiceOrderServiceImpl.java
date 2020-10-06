@@ -46,7 +46,7 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
         userDao = new UserDaoImpl(entityManager);
         clientDao = new ClientDaoImpl(entityManager);
         partDao = new PartDaoImpl(entityManager);
-        countPartDao = new CountPartDaoImpl(entityManager);
+      //  countPartDao = new CountPartDaoImpl(entityManager);
 
     }
 
