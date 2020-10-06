@@ -16,6 +16,7 @@ import lib.dto.bill.TotalPriceDto;
 import lib.dto.client.ClientDto;
 import lib.dto.notification.Notification;
 import lib.dto.user.Category;
+import lib.dto.user.UserDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -388,13 +389,16 @@ public class CreateOrderPage extends JLabel {
 
     private void createNewOrder(){
 
+        UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
+
         serviceOrderDto = new ServiceOrderDto();
         serviceOrderDto.setClientDto(clientDto);
         serviceOrderDto.setVehicleDtos(vehicleDto);
         serviceOrderDto.setStatus(Status.OPEN);
 
 
-        serviceOrderDto.setUserDto(MainFrame.getInstance().getAccountPage().getUserDto());
+        serviceOrderDto.setUserDto(userDto);
+        userDto.setServiceOrderDtos(List.of(serviceOrderDto));
 
                 String text = carProblemArea.getText();
                 String [] textLines = text.split("\n");

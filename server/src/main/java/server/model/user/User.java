@@ -26,7 +26,7 @@ public class User {
     @CollectionTable(name = "user_phoneNumber")
     private List<String> phoneNumber = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private Collection<ServiceOrder> serviceOrders = new ArrayList<>();
 
 

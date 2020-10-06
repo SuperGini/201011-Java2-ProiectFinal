@@ -2,6 +2,8 @@ package lib.dto.user;
 
 
 
+import lib.dto.autovehicle.ServiceOrderDto;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -14,6 +16,8 @@ public class UserDto implements Serializable {
     private String password;
 
     private List<String> phoneNumber = new ArrayList<>(2);
+
+    private List<ServiceOrderDto> serviceOrderDtos = new ArrayList<>();
 
     public UserDto(UserIdDto userId, Category category, List<String> phoneNumber) {
         this.userId = userId;
@@ -54,6 +58,14 @@ public class UserDto implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<ServiceOrderDto> getServiceOrderDtos() {
+        return serviceOrderDtos;
+    }
+
+    public void setServiceOrderDtos(List<ServiceOrderDto> serviceOrderDtos) {
+        this.serviceOrderDtos = serviceOrderDtos;
     }
 
     @Override

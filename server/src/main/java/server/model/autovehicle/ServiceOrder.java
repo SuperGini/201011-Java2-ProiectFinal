@@ -37,10 +37,10 @@ public class ServiceOrder {
     public ServiceOrder() {
     }
 
-    @ManyToOne
+    @ManyToOne()
     private Client client;
 
-    @ManyToOne
+    @ManyToOne()
     private User user;
 
     @Enumerated(EnumType.STRING)

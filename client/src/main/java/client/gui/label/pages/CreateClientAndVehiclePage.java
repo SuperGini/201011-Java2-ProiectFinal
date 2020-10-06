@@ -241,53 +241,62 @@ public class CreateClientAndVehiclePage extends JLabel {
 
     public void createClient(){
 
-        for(JRadioButton button : radioButtons){
 
-            AdressDto adressDto = new AdressDto(
-                    streetField.getText(),
-                    numberField.getText()
-            );
+        if(validClientFields()){
 
-            VehicleDto vehicleDto = new VehicleDto();
-            vehicleDto.setSerialNumber(serialNumberField.getText());
-            vehicleDto.setVehicleName(brandField.getText());
+            for(JRadioButton button : radioButtons){
 
+                AdressDto adressDto = new AdressDto(
+                        streetField.getText(),
+                        numberField.getText()
+                );
 
+                VehicleDto vehicleDto = new VehicleDto();
+                vehicleDto.setSerialNumber(serialNumberField.getText());
+                vehicleDto.setVehicleName(brandField.getText());
 
-            if(button.isSelected() && button.getActionCommand().equals(clientType[0])){
+            try {
+                if (button.isSelected() && button.getActionCommand().equals(clientType[0])) {
 
+                    PersonDto personDto = new PersonDto.Builder()
+                            .setAdresaDto(adressDto)
+                            .setCnpDto(cuiAndCnpField.getText())
+                            .setNameDto(nameField.getText())
+                            .build();
 
-                PersonDto personDto = new PersonDto.Builder()
-                                    .setAdresaDto(adressDto)
-                                    .setCnpDto(cuiAndCnpField.getText())
-                                    .setNameDto(nameField.getText())
-                                    .build();
+                    //setez masina pe persoana -> ca s asocieze id-ul in baza de date
+                    personDto.setVehicleDtos(Set.of(vehicleDto));
 
-                //setez masina pe persoana -> ca s asocieze id-ul in baza de date
-                personDto.setVehicleDtos(Set.of(vehicleDto));
+                    if (!PersonController.getInstance().createPerson(personDto)) {
 
-                if(!PersonController.getInstance().createPerson(personDto)){
-
-                    JOptionPane.showMessageDialog(null, "Person created!");
-                }else{
-                    JOptionPane.showMessageDialog(null, "Person is allready created!");
+                        JOptionPane.showMessageDialog(null, "Person created!");
+                    }
                 }
+            }catch (IllegalArgumentException e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Person is allready created!");
             }
 
-            if(button.isSelected() && button.getActionCommand().equals(clientType[1])){
-                CompanyDto companyDto = new CompanyDto.Builder()
-                                    .setAdressDto(adressDto)
-                                    .setCuiDto(cuiAndCnpField.getText())
-                                    .setNameDto(nameField.getText())
-                                    .build();
-                //setez masina pe companie -> ca sa asocieze id-ul in baza de date
-                companyDto.setVehicleDtos(Set.of(vehicleDto));
 
-                if(!CompanyController.getInstance().ceateCompany(companyDto)){
-                    JOptionPane.showMessageDialog(null, "Company created!");
+                try{
+                    if(button.isSelected() && button.getActionCommand().equals(clientType[1])) {
+                        CompanyDto companyDto = new CompanyDto.Builder()
+                                .setAdressDto(adressDto)
+                                .setCuiDto(cuiAndCnpField.getText())
+                                .setNameDto(nameField.getText())
+                                .build();
+                        //setez masina pe companie -> ca sa asocieze id-ul in baza de date
+                        companyDto.setVehicleDtos(Set.of(vehicleDto));
 
-                }else{
-                    JOptionPane.showMessageDialog(null, "Company is allready created");
+                        if (!CompanyController.getInstance().ceateCompany(companyDto)) {
+                            JOptionPane.showMessageDialog(null, "Company created!");
+
+                        }
+                    }
+
+                }catch (IllegalArgumentException e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Company allready exists");
                 }
             }
         }
