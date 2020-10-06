@@ -3,8 +3,8 @@ package client.gui.label.pages;
 import client.controller.autovehicle.VehicleController;
 import client.controller.client.CompanyController;
 import client.controller.client.PersonController;
+import client.gui.button.ZeeButton;
 import client.gui.panel.TransparentPanel;
-import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.autovehicle.VehicleDto;
 import lib.dto.client.AdressDto;
 import lib.dto.client.CompanyDto;
@@ -145,12 +145,8 @@ public class CreateClientAndVehiclePage extends JLabel {
     }
 
     private void initCreateClientButton(){
-        createClientButton = new JButton("Create client");
-        createClientButton.setBounds(30,450,395,30);
+        createClientButton = new ZeeButton(30,450,395,30,"Create client");
         transparentPanel.add(createClientButton);
-        createClientButton.addMouseListener(new MouseAdapterButton(createClientButton));
-
-
     }
 
     //init Vehicle side
@@ -181,20 +177,17 @@ public class CreateClientAndVehiclePage extends JLabel {
 
 
     private void createVehicleButton(){
-        createVehicleButton = new JButton("Create Vehicle");
-        createVehicleButton.setBounds(525,450,395,30);
+        createVehicleButton = new ZeeButton(525,450,395,30, "Create Vehicle");
+       // createVehicleButton.setBounds(525,450,395,30);
         transparentPanel.add(createVehicleButton);
-        createVehicleButton.addMouseListener(new MouseAdapterButton(createVehicleButton));
+     //   createVehicleButton.addMouseListener(new MouseAdapterButton(createVehicleButton));
 
     }
 
 
     private void initFindClientButton(){
-        findClientButton = new JButton("Find Client");
-        findClientButton.setBounds(277,500,395,30);
+        findClientButton = new ZeeButton(277,500,395,30,"Find Client");
         transparentPanel.add(findClientButton);
-        findClientButton.addMouseListener(new MouseAdapterButton(findClientButton));
-
     }
 
     public void findClient(){

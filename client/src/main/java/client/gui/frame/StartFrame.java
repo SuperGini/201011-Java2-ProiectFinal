@@ -1,7 +1,7 @@
 package client.gui.frame;
 
+import client.gui.button.ZeeButton;
 import client.gui.panel.StartPanel;
-import client.util.mouseAdaptors.MouseAdapterButton;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -52,11 +52,11 @@ public class StartFrame extends JFrame {
     }
 
     private void initStartButton(){
-        startButton = new JButton("POWER UP");
-        startButton.setBounds(200,30,200,40);
+        startButton = new ZeeButton(200,30,200,40, "POWER UP");
+       // startButton.setBounds(200,30,200,40);
         lowerPanel.add(startButton);
 
-        startButton.addMouseListener(new MouseAdapterButton(startButton));
+       // startButton.addMouseListener(new MouseAdapterButton(startButton));
         startButton.addActionListener(ev -> closeWindow());
     }
 

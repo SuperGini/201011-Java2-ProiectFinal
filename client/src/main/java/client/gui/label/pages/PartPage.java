@@ -3,6 +3,7 @@ package client.gui.label.pages;
 import client.controller.autovehicle.PartController;
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.notification.NotificationController;
+import client.gui.button.ZeeButton;
 import client.gui.panel.TransparentPanel;
 import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
@@ -25,14 +26,15 @@ public class PartPage extends JLabel {
     private JPanel transparentPanel;
     private JLabel partLabel;
     private JButton createPartButton;
+    private JButton refreshOrdersButton;
+    private JButton closePartOrder;
     private JTextField partField;
     private JTextField priceField;
     private JTextField countField;
     private JTextArea totalArea;
     private JTable orderId;
     private JTable partsTable;
-    private JButton refreshOrdersButton;
-    private JButton closePartOrder;
+
     private JLabel finalPrice;
     private JLabel genericLabel;
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
@@ -123,9 +125,7 @@ public class PartPage extends JLabel {
     }
 
     private void createPartButton(){
-        createPartButton = new JButton("Add Part");
-        createPartButton.setBounds(30,200,190,30);
-        createPartButton.addMouseListener(new MouseAdapterButton(createPartButton));
+        createPartButton = new ZeeButton(30,200,190,30,"Add Part");
         transparentPanel.add(createPartButton);
 
     }
@@ -139,11 +139,10 @@ public class PartPage extends JLabel {
     }
 
     private void initRefreshListButton(){
-        refreshOrdersButton = new JButton("refresh");
-        refreshOrdersButton.setBounds(525,410,115,50);
+        refreshOrdersButton = new ZeeButton(525,410,115,50,"refresh");
         refreshOrdersButton.setFont(new Font("Dialog",Font.BOLD, 15));
         transparentPanel.add(refreshOrdersButton);
-        refreshOrdersButton.addMouseListener(new MouseAdapterButton(refreshOrdersButton));
+
     }
 
     private void totalArea(){
@@ -156,9 +155,7 @@ public class PartPage extends JLabel {
     }
 
     private void initClosePartOrder(){
-        closePartOrder = new JButton("close part order");
-        closePartOrder.setBounds(525,470,445,40);
-        closePartOrder.addMouseListener(new MouseAdapterButton(closePartOrder));
+        closePartOrder = new ZeeButton(525,470,445,40,"close part order");
         transparentPanel.add(closePartOrder);
     }
 
@@ -379,24 +376,30 @@ public class PartPage extends JLabel {
 
     public void closePartOrder(){
 
-        if(!status.equals(Status.CLOSE)) {
+        try {
 
-            int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id, total);
-            int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.READY);
+            if (!status.equals(Status.CLOSE)) {
 
-            if (updatePrice > 0 && updateStatus > 0) {
+                int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id, total);
+                int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.READY);
 
-                Notification notification = new Notification(orderLabel.getText(), Status.READY);
+                if (updatePrice > 0 && updateStatus > 0) {
 
-                //trimite notiifcare catre user body si mechanical
-                NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
-                JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
+                    Notification notification = new Notification(orderLabel.getText(), Status.READY);
+
+                    //trimite notiifcare catre user body si mechanical
+                    NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
+                    JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
+                }
+
             } else {
-                JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
+                JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE);
             }
-
-        }else{
-            JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Select an order first");
         }
     }
 

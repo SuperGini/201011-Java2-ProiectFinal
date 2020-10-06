@@ -2,6 +2,7 @@ package client.gui.label.pages;
 
 import client.controller.notification.NotificationController;
 import client.controller.user.UserController;
+import client.gui.button.ZeeButton;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import lib.dto.user.UserDto;
@@ -68,10 +69,7 @@ public class LoginPage extends JLabel {
     }
 
     private void initLoginButton(){
-
-        loginButton = new JButton("login");
-
-        loginButton.setBounds(50, 395, 300, 30);
+        loginButton = new ZeeButton(50, 395, 300, 30,"login");
         transparentPanel.add(loginButton);
     }
 

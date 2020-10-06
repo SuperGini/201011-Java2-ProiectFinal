@@ -1,6 +1,7 @@
 package client.gui.label.pages;
 
 import client.controller.user.UserController;
+import client.gui.button.ZeeButton;
 import client.gui.panel.TransparentPanel;
 import lib.dto.user.Category;
 import lib.dto.user.UserDto;
@@ -120,8 +121,7 @@ public class RegisterPage extends JLabel {
     }
 
     private void initRegisterButton(){
-        registerButton = new JButton("Register");
-        registerButton.setBounds(50, 475,300,30);
+        registerButton = new ZeeButton(50, 475,300,30, "Register");
         transparentPanel.add(registerButton);
     }
 

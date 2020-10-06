@@ -1,8 +1,8 @@
 package client.gui.label.pages;
 
 import client.controller.user.UserController;
+import client.gui.button.ZeeButton;
 import client.gui.panel.TransparentPanel;
-import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;
@@ -17,7 +17,6 @@ public class AccountPage extends JLabel {
     private JTextField changeField;
     private JPasswordField newPasswordField;
     private JPasswordField verifyPasswodField;
-    private JButton usernameButton;
     private JButton addPhone2;
     private JButton phone1Button;
     private JButton phone2Button;
@@ -52,8 +51,6 @@ public class AccountPage extends JLabel {
         initNewPassword();
         initGenericalLabels();
         initUserLabels();
-
-
     }
 
 
@@ -64,17 +61,14 @@ public class AccountPage extends JLabel {
     }
 
     private void initAddPhone2(){
-        addPhone2 = new JButton("Add Phone");
-        addPhone2.setBounds(30,150, 200, 30);
+        addPhone2 = new ZeeButton(30,150, 200, 30,"Add Phone");
         transparentPanel.add(addPhone2);
 
-        addPhone2.addMouseListener(new MouseAdapterButton(addPhone2));
 
         addPhone2.addActionListener(ev ->{
 
             if(userDto.getPhoneNumber().size() < 2){
 
-              //  System.out.println(userDto.getPhoneNumber().toString());
                 if(changeField.getText().equals("")){
                     JOptionPane.showMessageDialog(null,"Enter phoneNumber");
                     return;
@@ -101,35 +95,22 @@ public class AccountPage extends JLabel {
             }else{
                 JOptionPane.showMessageDialog(null,"You can't add any phone numbers. Limit is 2 phone numbers");
             }
-
-
         });
     }
 
     private void initPhone1Button(){
-        phone1Button = new JButton(change);
-        phone1Button.setBounds(30,200, 200, 30);
+        phone1Button = new ZeeButton(30,200, 200, 30,change);
         transparentPanel.add(phone1Button);
 
-        phone1Button.addMouseListener(new MouseAdapterButton(phone1Button));
-
-        phone1Button.addActionListener(ev->{
-            changePhoneNumber(phone1Label, phone1Button);
-        });
+        phone1Button.addActionListener(ev-> changePhoneNumber(phone1Label, phone1Button));
 
     }
 
     private void initPhoneNumber2(){
-        phone2Button = new JButton(change);
-        phone2Button.setBounds(30,250, 200, 30);
+        phone2Button = new ZeeButton(30,250, 200, 30, change);
         transparentPanel.add(phone2Button);
 
-        phone2Button.addMouseListener(new MouseAdapterButton(phone2Button));
-
-        phone2Button.addActionListener(ev ->{
-            changePhoneNumber(phone2Label, phone2Button);
-
-        });
+        phone2Button.addActionListener(ev -> changePhoneNumber(phone2Label, phone2Button));
     }
 
 
@@ -161,40 +142,42 @@ public class AccountPage extends JLabel {
             return;
         }
 
+        try {
 
-        if(!changeField.getText().equals("") && changeField.getY() == label.getY()){
+            if (!changeField.getText().equals("") && changeField.getY() == label.getY()) {
 
-            List<String> phoneNumbers = userDto.getPhoneNumber();
+                List<String> phoneNumbers = userDto.getPhoneNumber();
 
-            int index = phoneNumbers.indexOf(label.getText());
-            if(!phoneNumbers.contains(changeField.getText())){
-                phoneNumbers.set(index, changeField.getText());
-            }else{
-                JOptionPane.showMessageDialog(null,"Duplicate phone number");
-                changeField.setText("");
-                return;
+                int index = phoneNumbers.indexOf(label.getText());
+                if (!phoneNumbers.contains(changeField.getText())) {
+                    phoneNumbers.set(index, changeField.getText());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Duplicate phone number");
+                    changeField.setText("");
+                    return;
+                }
+
+                userDto.setPhoneNumber(phoneNumbers);
+
+                if (!UserController.getInstance().updatePhoneNumber(userDto)) {
+                    JOptionPane.showMessageDialog(null, "Phone number changed!");
+                    label.setText(changeField.getText());
+                    changeField.setText("");
+                    changeField.setVisible(false);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Enter phone number!");
             }
-
-            userDto.setPhoneNumber(phoneNumbers);
-
-            if(!UserController.getInstance().updatePhoneNumber(userDto)){
-                JOptionPane.showMessageDialog(null,"Phone number changed!");
-                label.setText(changeField.getText());
-                changeField.setText("");
-                changeField.setVisible(false);
-            }
-
-        }else{
-            JOptionPane.showMessageDialog(null, "Enter phone number!");
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null , "And second phone number first");
         }
     }
 
     private void changePasswordButton(){
-        changePasswordButton = new JButton(change);
-        changePasswordButton.setBounds(30,300, 200, 30);
+        changePasswordButton = new ZeeButton(30,300, 200, 30, change);
         transparentPanel.add(changePasswordButton);
-
-        changePasswordButton.addMouseListener(new MouseAdapterButton(changePasswordButton));
 
         changePasswordButton.addActionListener(ev->{
 
@@ -215,12 +198,7 @@ public class AccountPage extends JLabel {
                 int updatePassword =  UserController.getInstance()
                         .updatePassword(new String(newPasswordField.getPassword()),userDto);
 
-
                 if(updatePassword > 0){
-
-                    System.out.println(userDto.getPassword());
-
-
 
                     JOptionPane.showMessageDialog(null, "Password updated");
                     newPasswordField.setVisible(false);

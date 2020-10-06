@@ -3,6 +3,7 @@ package client.gui.label.pages;
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.autovehicle.VehicleController;
 import client.controller.notification.NotificationController;
+import client.gui.button.ZeeButton;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import client.util.mouseAdaptors.MouseAdapterButton;
@@ -37,47 +38,33 @@ public class CreateOrderPage extends JLabel {
     private JTable partsTable;
     private JTextField addProblemField;
     private JButton addProblemButton;
-    private JButton findPartButton;
-    private JButton addPartToOrderButton;
+    private JButton findCarButton;
+    private JButton createOrderButton;
+    private JButton billButton;
     private JLabel genericLabel;
     private JLabel carProblemLabel;
     private JLabel orderPartsLable;
     private JButton getSelectedORderButton;
-    private JButton findCarButton;
-    private JButton createOrderButton;
-    private JButton billButton;
+
     private JTextField findField;
     private int id;
     private int i = 0;
     private double total;
 
-
-
-
-
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
-
 
     private JScrollPane scrollPane;
     private JScrollPane scrollPaneOrder;
-
 
     private List<JLabel> genericLabels = new ArrayList<>();
     private DefaultTableModel tableModel;
     private DefaultTableModel orderModel;
 
     private List<PartDto> partsDtos = new ArrayList<>();
- //   private List<CountPartDto> countPartDtos = new ArrayList<>();
-
-
-
-
- //   private List<Integer> orderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIds());
     private List<Object[]>  newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
 
     private ClientDto clientDto = new ClientDto();
     private VehicleDto vehicleDto = new VehicleDto();
- //   private PartDto partDto;
     private ServiceOrderDto serviceOrderDto;
     private BillDto billDto = new BillDto();
 
@@ -137,11 +124,6 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(orderPartsLable);
     }
 
-
-
-
-
-
     private void initTableServiceOrder(){
 
         orderId = new JTable(orderModel){
@@ -173,8 +155,6 @@ public class CreateOrderPage extends JLabel {
                 return c;
             }
         });
-
-
 
 
         orderId.setBounds(5,50,115,350);
@@ -238,10 +218,8 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void initAddProblemButton(){
-        addProblemButton = new JButton("add problem");
-        addProblemButton.setBounds(125,500,300,30);
+        addProblemButton = new ZeeButton(125,500,300,30,"add problem");
         transparentPanel.add(addProblemButton);
-        addProblemButton.addMouseListener(new MouseAdapterButton(addProblemButton));
     }
 
 
@@ -289,11 +267,8 @@ public class CreateOrderPage extends JLabel {
     }
 
     public void initBillButton(){
-        billButton = new JButton("Bill");
-        billButton.setBounds(645,500,300,30);
+        billButton = new ZeeButton(645,500,300,30,"Bill");
         transparentPanel.add(billButton);
-        billButton.addMouseListener(new MouseAdapterButton(billButton));
-
     }
 
 
@@ -324,9 +299,6 @@ public class CreateOrderPage extends JLabel {
         }else{
             JOptionPane.showMessageDialog(null, "Bill allready exists");
         }
-
-
-
     }
 
 
@@ -374,17 +346,13 @@ public class CreateOrderPage extends JLabel {
 
 
     private void initFindCarButton(){
-        findCarButton = new JButton("find car serial");
-        findCarButton.setBounds(430,350,200,30);
+        findCarButton = new ZeeButton(430,350,200,30,"find car serial number");
         transparentPanel.add(findCarButton);
-        findCarButton.addMouseListener(new MouseAdapterButton(findCarButton));
     }
 
     private void initCreateOrderButton(){
-        createOrderButton = new JButton("create order");
-        createOrderButton.setBounds(430,500,200,30);
+        createOrderButton = new ZeeButton(430,500,200,30,"create order");
         transparentPanel.add(createOrderButton);
-        createOrderButton.addMouseListener(new MouseAdapterButton(createOrderButton));
     }
 
     public void createOrder(){
@@ -595,22 +563,6 @@ public class CreateOrderPage extends JLabel {
 
     public void setAddProblemButton(JButton addProblemButton) {
         this.addProblemButton = addProblemButton;
-    }
-
-    public JButton getFindPartButton() {
-        return findPartButton;
-    }
-
-    public void setFindPartButton(JButton findPartButton) {
-        this.findPartButton = findPartButton;
-    }
-
-    public JButton getAddPartToOrderButton() {
-        return addPartToOrderButton;
-    }
-
-    public void setAddPartToOrderButton(JButton addPartToOrderButton) {
-        this.addPartToOrderButton = addPartToOrderButton;
     }
 
     public JButton getGetSelectedORderButton() {
