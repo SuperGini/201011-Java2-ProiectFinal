@@ -90,26 +90,6 @@ public class ServiceOrderController implements ServiceOrderService {
     }
 
     @Override
-    public List<Object[]> findOrdersByIds(int id){
-        try {
-           return serviceOrderService.findOrdersByIds(id);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId){
-        try {
-            return serviceOrderService.initInfoOnPartPageAndCreateOrderPage(orderId);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public int setTotalPriceToOrder(int orderId, double totalPrice){
         try {
             return serviceOrderService.setTotalPriceToOrder(orderId, totalPrice);

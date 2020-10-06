@@ -25,10 +25,6 @@ public interface ServiceOrderService extends Remote {
 
     int updateParsAndPartsCount(int orderId) throws RemoteException;
 
-    List<Object[]> findOrdersByIds(int id) throws RemoteException;
-
-    List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId) throws RemoteException;
-
     int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException;
 
     void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto) throws RemoteException;

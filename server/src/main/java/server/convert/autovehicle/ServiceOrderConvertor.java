@@ -55,6 +55,12 @@ public class ServiceOrderConvertor {
     }
 
     public static ServiceOrder convert(ServiceOrderDto serviceOrderDto){
+        Client client = ClientConvertor.convert(serviceOrderDto.getClientDto());
+        Vehicle vehicle = VehicleConvetor.convert(serviceOrderDto.getVehicleDtos());
+        User user = UserConvertor.convert(serviceOrderDto.getUserDto());
+
+
+
         ServiceOrder serviceOrder =  new ServiceOrder(
                 serviceOrderDto.getId(),
                 serviceOrderDto.getTotal()
@@ -62,14 +68,6 @@ public class ServiceOrderConvertor {
         );
 
         serviceOrder.setCarProblems(serviceOrderDto.getCarProblems());
-
-
-        Client client = ClientConvertor.convert(serviceOrderDto.getClientDto());
-        Vehicle vehicle = VehicleConvetor.convert(serviceOrderDto.getVehicleDtos());
-        User user = UserConvertor.convert(serviceOrderDto.getUserDto());
-
-
-
 
         serviceOrder.setClient(client);
         serviceOrder.setVehicle(vehicle);

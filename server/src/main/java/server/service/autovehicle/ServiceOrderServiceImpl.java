@@ -6,9 +6,10 @@ import lib.dto.autovehicle.Status;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 import lib.service.ServiceOrderService;
-import server.convert.autovehicle.PartConvertor;
 import server.convert.autovehicle.ServiceOrderConvertor;
-import server.dao.impl.autovehicle.*;
+import server.dao.impl.autovehicle.PartDaoImpl;
+import server.dao.impl.autovehicle.ServiceOrderDaoImpl;
+import server.dao.impl.autovehicle.VehicleDaoImpl;
 import server.dao.impl.client.ClientDaoImpl;
 import server.dao.impl.user.UserDaoImpl;
 import server.dao.interfaces.*;
@@ -34,7 +35,6 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     private UserDao userDao;
     private ClientDao clientDao;
     private PartDao partDao;
-    private CountPartDao countPartDao;
 
 
     public ServiceOrderServiceImpl() throws RemoteException {
@@ -99,17 +99,7 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
                 .map(s ->partDao.findPartById(s))
                 .collect(Collectors.toList());
 
-//        var countParts = serviceOrder.getCoutParts().stream()
-//                .map(s->countPartDao.findById(s.getId()))
-//                .collect(Collectors.toList());
-
-
                 serviceOrder.setParts(parts);
-            //    serviceOrder.setCoutParts(countParts);
-
-            //    countParts.stream().forEach(s ->s.setServiceOrder(serviceOrder));
-
-
 
               return  serviceOrderDao.updateServiceOrder(serviceOrder);
 
@@ -118,27 +108,6 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     @Override
     public int updateParsAndPartsCount(int orderId) throws RemoteException{
       return   serviceOrderDao.updateParsAndPartsCount(orderId);
-
-    }
-
-    //de sters
-    @Override
-    public List<Object[]> findOrdersByIds(int id) throws RemoteException{
-//         serviceOrderDao.findOrdersByIds(id).stream()
-//                .map(s -> Arrays.stream(s))
-//                 .map(s ->s.)
-        return null;
-    }
-
-
-    //de sters
-    @Override
-    public List<PartDto> initInfoOnPartPageAndCreateOrderPage(int orderId)throws RemoteException{
-
-        Object x = serviceOrderDao.initInfoOnPartPageAndCreateOrderPage(orderId);
-              ServiceOrder y = (ServiceOrder)  x;
-               return y.getParts().stream().map(PartConvertor::convert)
-                       .collect(Collectors.toList());
 
     }
 
