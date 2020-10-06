@@ -19,9 +19,6 @@ public class PartConvertor {
 
         );
 
-    //    partdto.setTotalNumberOfParts(new ArrayList<>(part.getTotalNumberOfParts()));
-
-
         return partdto;
 
     }
@@ -37,7 +34,6 @@ public class PartConvertor {
        ServiceOrder serviceOrder = ServiceOrderConvertor.convert(partDto.getServiceOrderDto());
 
         part.setOrders(serviceOrder);
-     //   part.setTotalNumberOfParts(partDto.getTotalNumberOfParts());
 
         return part;
     }

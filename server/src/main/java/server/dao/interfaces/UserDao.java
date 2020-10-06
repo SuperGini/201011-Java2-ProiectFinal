@@ -11,10 +11,6 @@ public interface UserDao {
 
     Optional<User> findByEmailAdress(String emailAdress);
 
-//    List<User> findByName2(String userName);
-
-
-
     int updatePassword(String newPassword, User user);
 
     boolean addPhoneNumber(User u, String phoneNumber);

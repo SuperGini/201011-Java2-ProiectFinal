@@ -85,7 +85,7 @@ public class UserController implements UserService{
             throw new RuntimeException(e);
         }
     }
-    
+
     private static final class SingletonHolder{
         public static final UserController INSTANCE = new UserController();
     }

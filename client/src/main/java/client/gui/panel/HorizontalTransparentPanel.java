@@ -15,7 +15,7 @@ public class HorizontalTransparentPanel extends JPanel {
     private Polygon trapez2 = new Polygon(x, y2, 4);
 
 
-    Color color1 = new Color(175,0,0,80);
+    Color color1 = new Color(167,32,7,250);
 
 
 

@@ -59,6 +59,63 @@ public class ServiceOrder {
     @ManyToOne
     private Vehicle vehicle;
 
+
+    public static class Builder{
+        private ServiceOrder serviceOrder = new ServiceOrder();
+
+        public Builder setId(int id){
+            serviceOrder.id = id;
+            return this;
+        }
+
+        public Builder setTotal(double total){
+            serviceOrder.total = total;
+            return this;
+        }
+
+        public Builder setClient (Client client){
+            serviceOrder.client = client;
+            return this;
+        }
+
+        public Builder setUser(User user){
+            serviceOrder.user = user;
+            return this;
+        }
+
+        public Builder setStatus(Status status){
+            serviceOrder.status = status;
+            return this;
+        }
+
+        public Builder setCarProblems(List<String> carProblems){
+            serviceOrder.carProblems = carProblems;
+            return this;
+        }
+
+        public Builder setParts(List<Part> parts){
+            serviceOrder.parts = parts;
+            return this;
+        }
+
+        public Builder setVehicle(Vehicle vehicle){
+            serviceOrder.vehicle = vehicle;
+            return this;
+        }
+
+        public ServiceOrder build(){
+            return serviceOrder;
+        }
+
+    }
+
+
+
+
+
+
+
+
     public Vehicle getVehicle() {
         return vehicle;
     }

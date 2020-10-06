@@ -28,14 +28,67 @@ public class ServiceOrderDto implements Serializable {
 
     private List<Integer> partsIds = new ArrayList();
 
-    private List<CountPartDto> countPartDtos = new ArrayList<>();
-
 
     public ServiceOrderDto(int id, double total) {
         this.id = id;
         this.total = total;
 
     }
+    public ServiceOrderDto() {
+    }
+
+
+
+    public static class Builder{
+        private ServiceOrderDto serviceOrderDto = new ServiceOrderDto();
+
+        public Builder setId(int id){
+            serviceOrderDto.id = id;
+            return this;
+        }
+
+        public Builder setTotal(double total){
+            serviceOrderDto.total = total;
+            return this;
+        }
+
+        public Builder setClient(ClientDto clientDto){
+            serviceOrderDto.clientDto = clientDto;
+            return this;
+        }
+
+        public Builder setUser(UserDto userDto){
+            serviceOrderDto.userDto = userDto;
+            return this;
+        }
+
+        public Builder setVehicle(VehicleDto vehicleDto){
+            serviceOrderDto.vehicleDtos = vehicleDto;
+            return this;
+        }
+
+        public Builder setStatus(Status status){
+            serviceOrderDto.status = status;
+            return this;
+        }
+
+        public Builder setCarProblems(List<String> carProblems){
+            serviceOrderDto.carProblems = carProblems;
+            return this;
+        }
+
+        public Builder setParts(List<PartDto> parts){
+            serviceOrderDto.parts = parts;
+            return this;
+        }
+
+        public ServiceOrderDto build(){
+            return serviceOrderDto;
+        }
+
+
+    }
+
 
     public List<PartDto> getParts() {
         return parts;
@@ -45,19 +98,8 @@ public class ServiceOrderDto implements Serializable {
         return partsIds;
     }
 
-    public List<CountPartDto> getCountPartDtos() {
-        return countPartDtos;
-    }
-
-    public void setCountPartDtos(List<CountPartDto> countPartDtos) {
-        this.countPartDtos = countPartDtos;
-    }
-
     public void setPartsIds(List<Integer> partsIds) {
         this.partsIds = partsIds;
-    }
-
-    public ServiceOrderDto() {
     }
 
 

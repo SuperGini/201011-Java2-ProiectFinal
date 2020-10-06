@@ -71,15 +71,15 @@ public class NotificationTask {
         timer++;
         if(timer == 1){
             slideEfect.jLabelXLeft(1200,950,1,2,notificationPage);
-            soundPlay.getClips().get(3).start();
+            soundPlay.getClips().get(4).start();
         }
 
         if(timer == 300){
             slideEfect.jLabelXRight(950,1200,1,2,notificationPage);
             timer = 0;
             notificationTimer.stop(); //daca bag getNotificationTimer().stop se duce naibii tot => spam fest
-            soundPlay.getClips().get(3).stop();
-            soundPlay.getClips().get(3).setMicrosecondPosition(0);
+            soundPlay.getClips().get(4).stop();
+            soundPlay.getClips().get(4).setMicrosecondPosition(0);
         }
     }
 

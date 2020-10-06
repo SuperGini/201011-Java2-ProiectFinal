@@ -10,7 +10,7 @@ import client.util.mouseAdaptors.MouseAdapterButton;
 import client.util.mouseAdaptors.MouseAdapterLogAndRegister;
 import client.util.mouseAdaptors.MouseAdapterMiniButton;
 import client.util.notify.NotificationTask;
-import client.util.sound.SoundPlay;
+import client.util.sound.SoundConvertor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +20,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class MainFrame extends JFrame {
 
@@ -47,9 +45,8 @@ public class MainFrame extends JFrame {
     private ImageTask imageTask;
 
 
-    private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
     private static AnimationClass slideEfect = new AnimationClass();
-    private static SoundPlay soundPlay = new SoundPlay();
+    private SoundConvertor soundConvertor;
 
     private List<JLabel> pages;
 
@@ -61,7 +58,7 @@ public class MainFrame extends JFrame {
         initFrame();
         initBackgroundLabel();
         mouseListener();
-
+        soundConvertor = new SoundConvertor();
         initAccountPage();
         initLoginPage();
         initRegisterPage();
@@ -80,7 +77,8 @@ public class MainFrame extends JFrame {
         initNotificationTask();
         initImageTask();
         changeFocus();
-       // setVisible(true);
+
+
     }
 
     private void initNotificationTask(){
@@ -336,9 +334,9 @@ public class MainFrame extends JFrame {
             public void windowGainedFocus(WindowEvent e) {
 
                 super.windowGainedFocus(e);
-                upperPanel.setColor1(new Color(0,175,0,80));
+                upperPanel.setColor1(new Color(255,255,255,250));
                 upperPanel.repaint();
-                lowerPanel.setColor1(new Color(0,175,0,80));
+                lowerPanel.setColor1(new Color(255,255,255,250));
                 lowerPanel.repaint();
 
             }
@@ -346,9 +344,9 @@ public class MainFrame extends JFrame {
             @Override
             public void windowLostFocus(WindowEvent e) {
                 super.windowLostFocus(e);
-                upperPanel.setColor1(new Color(175,0,0,80));
+                upperPanel.setColor1(new Color(167,32,7,250));
                 upperPanel.repaint(); // ca sa repicteze panoul cu noua culoare altfel remane vechea culoare
-                lowerPanel.setColor1(new Color(175,0,0,80));
+                lowerPanel.setColor1(new Color(167,32,7,250));
                 lowerPanel.repaint();
             }
         });
@@ -359,7 +357,6 @@ public class MainFrame extends JFrame {
         try{
             this.dispose();
         }finally {
-            randomPicture.shutdownNow();
             notificationTask.getNotifyExecutor().shutdown();
             imageTask.getRandomPicture().shutdown();
         }
@@ -411,14 +408,6 @@ public class MainFrame extends JFrame {
 
     public void setStatisticPage(JLabel statisticPage) {
         this.statisticPage = statisticPage;
-    }
-
-    public ScheduledExecutorService getRandomPicture() {
-        return randomPicture;
-    }
-
-    public void setRandomPicture(ScheduledExecutorService randomPicture) {
-        this.randomPicture = randomPicture;
     }
 
     private static final class SingletonHolder{
