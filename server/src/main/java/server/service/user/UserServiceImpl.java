@@ -39,17 +39,6 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
         throw new NoSuchElementException();
     }
 
-
-    //todo: de sters la final ca nu o mai folosesc
-//    @Override
-//    public boolean loginWithUsername(String userName, String password) throws RemoteException {
-//        Optional<User> user = userDao.findByName(userName);
-//
-//        return user.filter(u -> u.getPassword().equals(password))
-//                .isPresent();
-//
-//    }
-    //todo: de sters la final ca nu o mai folosesc
     @Override
     public UserDto loginWithEmailAdress(String emailAdress, String password) throws RemoteException {
         Optional<User> user = userDao.findByEmailAdress(emailAdress);
