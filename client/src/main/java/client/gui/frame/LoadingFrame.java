@@ -9,14 +9,17 @@ import java.awt.event.MouseEvent;
 
 public class LoadingFrame extends JFrame {
 
+    private MainFrame mainFrame;
     private LoadingPanel panel;
     private int posX =0, posY = 0;
-
+    private GLG2DCanvas graphic;
 
     public LoadingFrame(){
         initFrame();
         this.setVisible(true);
         mouseListener();
+
+        mainFrame = MainFrame.getInstance();
     }
 
 
@@ -26,14 +29,38 @@ public class LoadingFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         setUndecorated(true);
         panel = new LoadingPanel();
+      //  graphic = new GLG2DCanvas(panel);
+
 
         //linia aceasta face ca grafica sa fie executata pe procesor
-      //  add(panel);
+        add(panel);
 
         //daca linia de jos face figuri comenteaz-o si folosete-o pe cea de sus care e comentata
-        //lini de jos arunca grafica pe placa video (OpenGL)
-          this.setContentPane(new GLG2DCanvas(panel));
+        //linia de jos arunca grafica pe placa video (OpenGL) -> problema este ca ramne threadul deshis si nu stiu cum sa-l inchid;)
+        //  this.setContentPane(graphic);
 
+        animatie.start();
+
+    }
+
+    Timer animatie = new Timer(1000, e -> verif() );
+
+    private void verif(){
+        if(panel.getMainFrameVisibleCount() == 120){
+
+            try{
+
+                mainFrame.setVisible(true);
+                dispose();
+
+            }finally{
+                panel.getAnimatie1().stop();
+                panel.getAnimatie2().stop();
+                panel.getAnimatie3().stop();
+                panel.getAnimatie4().stop();
+                animatie.stop();
+            }
+        }
     }
 
     private void mouseListener(){
@@ -50,5 +77,13 @@ public class LoadingFrame extends JFrame {
                 setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
             }
         });
+    }
+
+    private static final class SingletonHolder{
+        public static final LoadingFrame INSTANCE = new LoadingFrame();
+    }
+
+    public static LoadingFrame getInstance(){
+        return SingletonHolder.INSTANCE;
     }
 }

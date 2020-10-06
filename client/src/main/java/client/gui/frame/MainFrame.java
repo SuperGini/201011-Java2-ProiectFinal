@@ -10,11 +10,7 @@ import client.util.mouseAdaptors.MouseAdapterButton;
 import client.util.mouseAdaptors.MouseAdapterLogAndRegister;
 import client.util.mouseAdaptors.MouseAdapterMiniButton;
 import client.util.notify.NotificationTask;
-import client.util.sound.SoundConvertor;
 import client.util.sound.SoundPlay;
-import lib.dto.autovehicle.VehicleDto;
-import lib.dto.client.ClientDto;
-import lib.dto.user.UserDto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,18 +56,12 @@ public class MainFrame extends JFrame {
     private int poitX = 1800;
     private Color colorOrange = new Color(167,32,7);
 
-
-    private UserDto userDto;
-    private ClientDto clientDto;
-    private VehicleDto vehicleDto;
-    private SoundConvertor soundConvertor;
-
-
     private MainFrame(){
-        soundConvertor = new SoundConvertor();
+
         initFrame();
         initBackgroundLabel();
         mouseListener();
+
         initAccountPage();
         initLoginPage();
         initRegisterPage();
@@ -79,7 +69,6 @@ public class MainFrame extends JFrame {
         initCreateClientAndVehiclePage();
         initPartPage();
         initNotificationPage();
-
         initCreateOrderPage();
         initStatisticPage();
         getPages();
@@ -90,11 +79,8 @@ public class MainFrame extends JFrame {
         initMinimizeButton();
         initNotificationTask();
         initImageTask();
-
-
         changeFocus();
-        setVisible(true);
-
+       // setVisible(true);
     }
 
     private void initNotificationTask(){

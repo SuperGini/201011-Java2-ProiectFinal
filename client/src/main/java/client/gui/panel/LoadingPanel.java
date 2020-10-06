@@ -2,8 +2,6 @@ package client.gui.panel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -11,9 +9,11 @@ import java.util.ArrayList;
 
 public class LoadingPanel extends JPanel {
 
-    private JButton buton;
+
 
     int firstCircleAngle,secondCircleAngle, secondCircleCount, writingCount, dotCount, linesCount;
+
+    int mainFrameVisibleCount;
 
     BasicStroke wideStroke = new BasicStroke(10.0f);
 
@@ -25,7 +25,8 @@ public class LoadingPanel extends JPanel {
         this.setLayout(null);
         this.setBackground(Color.BLACK);
         addLinesToList();
-      //  initNuton();
+
+
     }
 
 
@@ -48,88 +49,73 @@ public class LoadingPanel extends JPanel {
         movingOrangeLines(g2);
         thirdCircle(g2);
 
-
-        animatie.start();
+        animatie1.start();
         animatie2.start();
         animatie3.start();
         animatie4.start();
 
     }
 
-    private void initNuton(){
-        buton = new JButton("apasa");
-        buton.setBounds(250,500,100,20);
-        this.add(buton);
-        buton.addActionListener(e ->{
-            animatie.start();
-            animatie2.start();
-            animatie3.start();
-            animatie4.start();
-        } );
-    }
-
     //barile cyan
-    Timer animatie = new Timer(20, e -> repaint());
+    Timer animatie1 = new Timer(20, e -> repaint());
 
     //cifrele incarcare loading
-    Timer animatie2 = new Timer(80,new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    Timer animatie2 = new Timer(80,e -> animatie2());
 
-            if(writingCount < 100){
-                writingCount++;
-                dotCount++; // face punctuletele sa apara si sa dispara
-            }
+    Timer animatie3 = new Timer(20,e -> animatie3());
 
-            secondCircleAngle++;
+    Timer animatie4 = new Timer(10, e -> animatie4());
 
+    private void animatie2(){
+        if(writingCount < 100){
+            writingCount++;
+            dotCount++; // face punctuletele sa apara si sa dispara
         }
-    });
 
+        secondCircleAngle++;
+      //  System.out.println(secondCircleAngle++);
+
+
+        if(mainFrameVisibleCount <= 119){
+            mainFrameVisibleCount ++;
+        }
+    }
 
     //barile rosii cresc si scad
-    Timer animatie3 = new Timer(20,new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
-            if(secondCircleVariableBar == true && secondCircleCount < 60){
 
-                secondCircleCount++;
+    private void animatie3(){
+        if(secondCircleVariableBar == true && secondCircleCount < 60){
 
-                if(secondCircleCount == 60){
-                    secondCircleVariableBar = false;
-                }
+            secondCircleCount++;
 
+            if(secondCircleCount == 60){
+                secondCircleVariableBar = false;
             }
-
-            if(secondCircleVariableBar == false && secondCircleCount > 0){
-
-                secondCircleCount--;
-
-                if(secondCircleCount == 0){
-                    secondCircleVariableBar = true;
-                }
-            }
-
         }
-    });
 
-    Timer animatie4 = new Timer(10,new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        if(secondCircleVariableBar == false && secondCircleCount > 0){
 
-            if(writingCount < 50 && linesCount < 90){ //liniutele pleaca
-                linesCount++;
+            secondCircleCount--;
+
+            if(secondCircleCount == 0){
+                secondCircleVariableBar = true;
             }
-
-            if(writingCount > 50 && linesCount > 0){ // liniutele se intorc
-                linesCount--;
-            }
-            firstCircleAngle++;
-
-
         }
-    });
+    }
+
+
+
+    private void animatie4(){
+        if(writingCount < 50 && linesCount < 90){ //liniutele pleaca
+            linesCount++;
+        }
+
+        if(writingCount > 50 && linesCount > 0){ // liniutele se intorc
+            linesCount--;
+        }
+        firstCircleAngle++;
+    }
 
 
     private void staticOrangeLines(Graphics2D g2){
@@ -301,4 +287,24 @@ public class LoadingPanel extends JPanel {
         }
     }
 
+
+    public Timer getAnimatie1() {
+        return animatie1;
+    }
+
+    public Timer getAnimatie2() {
+        return animatie2;
+    }
+
+    public Timer getAnimatie3() {
+        return animatie3;
+    }
+
+    public Timer getAnimatie4() {
+        return animatie4;
+    }
+
+    public int getMainFrameVisibleCount() {
+        return mainFrameVisibleCount;
+    }
 }

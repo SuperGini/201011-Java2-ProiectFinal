@@ -14,6 +14,8 @@ public class ImageTask {
     private int width = 1200;
     private int height = 800;
     private ScheduledExecutorService randomPicture = Executors.newSingleThreadScheduledExecutor();
+    private byte [] image;
+
 
     public ImageTask(JLabel backgroundLabel) {
         this.backgroundLabel = backgroundLabel;
@@ -23,12 +25,12 @@ public class ImageTask {
     //method 1  -> seteaza imaginea ca background
     private void scheduleWithFixedDelay(){
         Runnable task = () -> backgroundLabel.setIcon(getImageIcon());
-        randomPicture.scheduleWithFixedDelay(task,0,10, TimeUnit.SECONDS);
+        randomPicture.scheduleWithFixedDelay(task,0,30, TimeUnit.SECONDS);
     }
 
     //method 2  -> ia o imagine random din baza de date
     private ImageIcon getImageIcon(){
-        byte [] image = PictureController.getInstance().getPicture().getPicture();
+        image = PictureController.getInstance().getPicture().getPicture();
 
         Image rescaleImage = new ImageIcon(image).getImage()
                 .getScaledInstance(width, height, Image.SCALE_SMOOTH);
@@ -37,5 +39,9 @@ public class ImageTask {
 
     public ScheduledExecutorService getRandomPicture() {
         return randomPicture;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 }
