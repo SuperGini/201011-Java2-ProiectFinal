@@ -251,9 +251,6 @@ public class CreateClientAndVehiclePage extends JLabel {
                         numberField.getText()
                 );
 
-                VehicleDto vehicleDto = new VehicleDto();
-                vehicleDto.setSerialNumber(serialNumberField.getText());
-                vehicleDto.setVehicleName(brandField.getText());
 
             try {
                 if (button.isSelected() && button.getActionCommand().equals(clientType[0])) {
@@ -263,9 +260,6 @@ public class CreateClientAndVehiclePage extends JLabel {
                             .setCnpDto(cuiAndCnpField.getText())
                             .setNameDto(nameField.getText())
                             .build();
-
-                    //setez masina pe persoana -> ca s asocieze id-ul in baza de date
-                    personDto.setVehicleDtos(Set.of(vehicleDto));
 
                     if (!PersonController.getInstance().createPerson(personDto)) {
 
@@ -285,8 +279,6 @@ public class CreateClientAndVehiclePage extends JLabel {
                                 .setCuiDto(cuiAndCnpField.getText())
                                 .setNameDto(nameField.getText())
                                 .build();
-                        //setez masina pe companie -> ca sa asocieze id-ul in baza de date
-                        companyDto.setVehicleDtos(Set.of(vehicleDto));
 
                         if (!CompanyController.getInstance().ceateCompany(companyDto)) {
                             JOptionPane.showMessageDialog(null, "Company created!");

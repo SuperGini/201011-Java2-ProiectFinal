@@ -398,7 +398,7 @@ public class CreateOrderPage extends JLabel {
 
 
         serviceOrderDto.setUserDto(userDto);
-        userDto.setServiceOrderDtos(List.of(serviceOrderDto));
+      //  userDto.setServiceOrderDtos(List.of(serviceOrderDto));
 
                 String text = carProblemArea.getText();
                 String [] textLines = text.split("\n");
