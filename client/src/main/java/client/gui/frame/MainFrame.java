@@ -147,19 +147,18 @@ public class MainFrame extends JFrame {
     }
 
     private void initCloseButton(){
-        closeButton = new MinimizeButton(1176,0,24,24, true);
+        closeButton = new MinimizeButton(1170,0,24,24, true);
         upperPanel.add(closeButton);
-        closeButton.addMouseListener(new MouseAdapterMiniButton(closeButton));
+        closeButton.addMouseListener(new MouseAdapterMiniButton(closeButton, true));
         closeButton.addActionListener( ev -> closeProgram());
     }
 
 
     private void initMinimizeButton(){
-        minimizeButton = new MinimizeButton(1152,0,24,24, false);
+        minimizeButton = new MinimizeButton(1144,0,24,24, false);
         upperPanel.add(minimizeButton);
-        minimizeButton.addMouseListener(new MouseAdapterMiniButton(minimizeButton));
-        minimizeButton.addActionListener( ev -> setExtendedState(JFrame.ICONIFIED));
-
+        minimizeButton.addMouseListener(new MouseAdapterMiniButton(minimizeButton, false));
+        minimizeButton.addActionListener( ev ->setExtendedState(JFrame.ICONIFIED));
 
     }
 
