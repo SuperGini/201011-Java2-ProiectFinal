@@ -31,22 +31,7 @@ public class ServiceOrderConvertor {
                                     .map(PartConvertor::convert)
                                     .collect(Collectors.toList());
 
-//        ServiceOrderDto serviceOrderDto = new ServiceOrderDto(
-//                                              serviceOrder.getId(),
-//                                              serviceOrder.getTotal()
-//
-//        );
-//
-//
-//        serviceOrderDto.setParts(new ArrayList<>(partsDto));
-//        serviceOrderDto.setUserDto(userDto);
-//        serviceOrderDto.setStatus(serviceOrder.getStatus());
-//        serviceOrderDto.setVehicleDtos(vehicleDto);
-//        serviceOrderDto.setClientDto(clientDto);
-//        serviceOrderDto.setCarProblems(new ArrayList<>(serviceOrder.getCarProblems()));
-//        serviceOrderDto.setPartsIds(null);
-
-        ServiceOrderDto serviceOrderDto1 = new ServiceOrderDto.Builder()
+        ServiceOrderDto serviceOrderDto = new ServiceOrderDto.Builder()
                                           .setCarProblems(new ArrayList<>(serviceOrder.getCarProblems()))
                                           .setParts(new ArrayList<>(partsDto))
                                           .setStatus(serviceOrder.getStatus())
@@ -57,31 +42,18 @@ public class ServiceOrderConvertor {
                                           .setUser(userDto)
                                           .build();
 
-        return serviceOrderDto1;
+        return serviceOrderDto;
 
     }
 
     public static ServiceOrder convert(ServiceOrderDto serviceOrderDto){
+
         Client client = ClientConvertor.convert(serviceOrderDto.getClientDto());
         Vehicle vehicle = VehicleConvetor.convert(serviceOrderDto.getVehicleDtos());
         User user = UserConvertor.convert(serviceOrderDto.getUserDto());
 
-//        ServiceOrder serviceOrder =  new ServiceOrder(
-//                serviceOrderDto.getId(),
-//                serviceOrderDto.getTotal()
-//
-//        );
-//
-//        serviceOrder.setCarProblems(serviceOrderDto.getCarProblems());
-//
-//        serviceOrder.setClient(client);
-//        serviceOrder.setVehicle(vehicle);
-//        serviceOrder.setUser(user);
-//        serviceOrder.setStatus(serviceOrderDto.getStatus());
 
-
-
-        ServiceOrder serviceOrder1 = new ServiceOrder.Builder()
+        ServiceOrder serviceOrder = new ServiceOrder.Builder()
                                     .setCarProblems(serviceOrderDto.getCarProblems())
                                     .setStatus(serviceOrderDto.getStatus())
                                     .setTotal(serviceOrderDto.getTotal())
@@ -91,6 +63,6 @@ public class ServiceOrderConvertor {
                                     .setUser(user)
                                     .build();
 
-        return serviceOrder1;
+        return serviceOrder;
     }
 }

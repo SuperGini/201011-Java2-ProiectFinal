@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TransparentButton extends JButton {
+    
 
     public TransparentButton(int x, int y, int width, int height) {
         this.setBounds(x,y,width, height);
@@ -20,11 +21,9 @@ public class TransparentButton extends JButton {
             g.setColor(getBackground());
             g.fillRect(0, 0, getWidth(), getHeight());
         }
+
         super.paintComponent(g);
     }
-
-
-
 
 
 }

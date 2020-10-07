@@ -98,6 +98,7 @@ public class LoginPage extends JLabel {
 
                             setUserAndLabelsInMyAccountPage(userDto);
                             NotificationController.getInstance().addUserToNotificationList(userDto);
+                            MainFrame.getInstance().getLoginUserLabel().setText(userDto.getUserId().getUserName());
 
                             return true;
                         }
@@ -110,6 +111,7 @@ public class LoginPage extends JLabel {
                     if(Optional.ofNullable(userDto).isPresent()){
                         setUserAndLabelsInMyAccountPage(userDto);
                         NotificationController.getInstance().addUserToNotificationList(userDto);
+                        MainFrame.getInstance().getLoginUserLabel().setText(userDto.getUserId().getUserName());
 
                         return true;
                     }

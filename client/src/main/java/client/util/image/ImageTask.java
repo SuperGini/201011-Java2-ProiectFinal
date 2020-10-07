@@ -25,7 +25,7 @@ public class ImageTask {
     //method 1  -> seteaza imaginea ca background
     private void scheduleWithFixedDelay(){
         Runnable task = () -> backgroundLabel.setIcon(getImageIcon());
-        randomPicture.scheduleWithFixedDelay(task,0,30, TimeUnit.SECONDS);
+        randomPicture.scheduleWithFixedDelay(task,0,10, TimeUnit.SECONDS);
     }
 
     //method 2  -> ia o imagine random din baza de date

@@ -71,12 +71,13 @@ public class LeftButtonPage extends JLabel {
                             b.setForeground(Color.WHITE);
                             b.setBackground(new Color(0,0,0,0));
                           //  soundPlay.getClips().get(1).stop();
-                            soundPlay.getClips().get(3).setMicrosecondPosition(0);
+                            soundPlay.getClips().get(3).start();
                         }
                         if(b == but){
                             but.setForeground(Color.BLACK);
+
                             but.setBackground(new Color(200,200,200,200));
-                            soundPlay.getClips().get(3).start();
+                            soundPlay.getClips().get(3).setMicrosecondPosition(0);
                         }
                     }
 
@@ -94,7 +95,7 @@ public class LeftButtonPage extends JLabel {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    soundPlay.getClips().get(2).setMicrosecondPosition(0);
+                   // soundPlay.getClips().get(2).setMicrosecondPosition(0);
                     Component but = e.getComponent();
                     if(but.getForeground().equals(Color.BLACK)){
                         but.setBackground(new Color(200,200,200,200));

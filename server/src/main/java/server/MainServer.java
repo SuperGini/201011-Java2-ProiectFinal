@@ -43,16 +43,14 @@ public class MainServer {
             registry.rebind("clientService", new ClientServiceImpl());
             registry.rebind("soundService", new SoundServiceImpl());
             registry.rebind("notificationService", new NotificationServiceImpl());
-
+            System.out.println("Server -> running");
         } catch (RemoteException e) {
             e.printStackTrace();
+            System.out.println("Server -> shutdown");
             throw new RuntimeException(e);
         }
 
 
-        System.out.println("++++++++++++++++++");
-     //   System.out.println(PictureController.getInstance().getPicture());
-     //   System.out.println(UserController.getInstance().loginWithUsername("1234", "1234"));
 
 
     }

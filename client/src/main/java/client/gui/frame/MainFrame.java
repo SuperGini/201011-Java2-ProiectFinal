@@ -5,6 +5,7 @@ import client.gui.button.MinimizeButton;
 import client.gui.label.MovingLabel;
 import client.gui.label.pages.*;
 import client.gui.panel.HorizontalTransparentPanel;
+import client.util.focusAdapter.FocusAdapter;
 import client.util.image.ImageTask;
 import client.util.mouseAdaptors.MouseAdapterButton;
 import client.util.mouseAdaptors.MouseAdapterLogAndRegister;
@@ -16,8 +17,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,8 @@ public class MainFrame extends JFrame {
     private MinimizeButton minimizeButton;
     private NotificationTask notificationTask;
     private ImageTask imageTask;
+    private JLabel loginLabel;
+    private JLabel loginUserLabel;
 
 
     private static AnimationClass slideEfect = new AnimationClass();
@@ -144,7 +145,7 @@ public class MainFrame extends JFrame {
     private void initCloseButton(){
         closeButton = new MinimizeButton(1176,0,24,24, true);
         upperPanel.add(closeButton);
-        closeButton.addMouseListener(new MouseAdapterMiniButton());
+        closeButton.addMouseListener(new MouseAdapterMiniButton(closeButton));
         closeButton.addActionListener( ev -> closeProgram());
     }
 
@@ -152,7 +153,7 @@ public class MainFrame extends JFrame {
     private void initMinimizeButton(){
         minimizeButton = new MinimizeButton(1152,0,24,24, false);
         upperPanel.add(minimizeButton);
-        minimizeButton.addMouseListener(new MouseAdapterMiniButton());
+        minimizeButton.addMouseListener(new MouseAdapterMiniButton(minimizeButton));
         minimizeButton.addActionListener( ev -> setExtendedState(JFrame.ICONIFIED));
 
     }
@@ -164,6 +165,20 @@ public class MainFrame extends JFrame {
         upperPanel = new HorizontalTransparentPanel(0,0,1200,75, true);
         upperPanel.setLayout(null);
         upperLabel.add(upperPanel);
+
+        loginLabel = new JLabel("login:");
+        loginLabel.setBounds(1000,30,30,20);
+        loginLabel.setForeground(new Color(255,255,255,250));
+        upperPanel.add(loginLabel);
+
+
+        loginUserLabel = new JLabel("");
+        loginUserLabel.setBounds(1035,30,50,20);
+        loginUserLabel.setForeground(colorOrange);
+        upperPanel.add(loginUserLabel);
+
+
+
     }
 
     private void initLowerLabelAndPanel(){
@@ -318,38 +333,14 @@ public class MainFrame extends JFrame {
 
         this.addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-
                 setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
             }
         });
     }
 
 
-
     private void changeFocus(){
-
-
-        this.addWindowFocusListener(new WindowAdapter() {
-            @Override
-            public void windowGainedFocus(WindowEvent e) {
-
-                super.windowGainedFocus(e);
-                upperPanel.setColor1(new Color(255,255,255,250));
-                upperPanel.repaint();
-                lowerPanel.setColor1(new Color(255,255,255,250));
-                lowerPanel.repaint();
-
-            }
-
-            @Override
-            public void windowLostFocus(WindowEvent e) {
-                super.windowLostFocus(e);
-                upperPanel.setColor1(new Color(167,32,7,250));
-                upperPanel.repaint(); // ca sa repicteze panoul cu noua culoare altfel remane vechea culoare
-                lowerPanel.setColor1(new Color(167,32,7,250));
-                lowerPanel.repaint();
-            }
-        });
+        this.addWindowFocusListener(new FocusAdapter(upperPanel, lowerPanel));
     }
 
     private void closeProgram(){
@@ -418,12 +409,19 @@ public class MainFrame extends JFrame {
         return SingletonHolder.INSTANCE;
     }
 
-    @Override
+    public void setLoginUserLabel(JLabel loginUserLabel) {
+        this.loginUserLabel = loginUserLabel;
+    }
+
+    public JLabel getLoginUserLabel() {
+        return loginUserLabel;
+    }
+
     public int getWidth() {
         return width;
     }
 
-    @Override
+
     public int getHeight() {
         return height;
     }

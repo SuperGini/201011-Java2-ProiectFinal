@@ -8,7 +8,7 @@ public class MinimizeButton extends JButton {
     private Graphics2D g2;
     private boolean flag;
 
-    private  Color colorOrange = new Color(167,32,7);
+    private  Color colorOrange = new Color(167,32,7, 250);
     private  BasicStroke wideStroke1 = new BasicStroke(2.5f);
 
     public MinimizeButton(int x, int y, int width, int height, boolean flag){
@@ -18,9 +18,6 @@ public class MinimizeButton extends JButton {
         this.setOpaque(false);
         this.setBackground(new Color(255,255,255,0));
         this.setContentAreaFilled(false);
-
-
-
     }
 
 
@@ -76,13 +73,6 @@ public class MinimizeButton extends JButton {
         this.g2 = g2;
     }
 
-    public boolean isFlag() {
-        return flag;
-    }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
 
     public Color getColorOrange() {
         return colorOrange;
@@ -91,4 +81,8 @@ public class MinimizeButton extends JButton {
     public void setColorOrange(Color colorOrange) {
         this.colorOrange = colorOrange;
     }
+
+
+
+
 }
