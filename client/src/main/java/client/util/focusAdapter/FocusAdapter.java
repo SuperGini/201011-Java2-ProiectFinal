@@ -10,6 +10,8 @@ public class FocusAdapter extends WindowAdapter {
 
     private HorizontalTransparentPanel upperPanel;
     private HorizontalTransparentPanel lowerPanel;
+    private Color orange = new Color(167,32,7,250);
+    private Color white = new Color(255,255,255,250);
 
     public FocusAdapter(HorizontalTransparentPanel upperPanel, HorizontalTransparentPanel lowerPanel) {
         this.upperPanel = upperPanel;
@@ -20,9 +22,9 @@ public class FocusAdapter extends WindowAdapter {
     public void windowGainedFocus(WindowEvent e) {
 
         super.windowGainedFocus(e);
-        upperPanel.setColor1(new Color(255,255,255,250));
+        upperPanel.setColor1(white);
         upperPanel.repaint();
-        lowerPanel.setColor1(new Color(255,255,255,250));
+        lowerPanel.setColor1(white);
         lowerPanel.repaint();
 
     }
@@ -30,9 +32,9 @@ public class FocusAdapter extends WindowAdapter {
     @Override
     public void windowLostFocus(WindowEvent e) {
         super.windowLostFocus(e);
-        upperPanel.setColor1(new Color(167,32,7,250));
+        upperPanel.setColor1(orange);
         upperPanel.repaint(); // ca sa repicteze panoul cu noua culoare altfel remane vechea culoare
-        lowerPanel.setColor1(new Color(167,32,7,250));
+        lowerPanel.setColor1(orange);
         lowerPanel.repaint();
     }
 

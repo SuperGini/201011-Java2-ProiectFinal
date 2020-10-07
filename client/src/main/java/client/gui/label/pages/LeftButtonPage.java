@@ -6,6 +6,7 @@ import client.util.sound.SoundPlay;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -58,56 +59,58 @@ public class LeftButtonPage extends JLabel {
             button.setFocusable(false);
             button.setForeground(Color.WHITE);
 
+            button.addActionListener(ev -> {
 
-            button.addMouseListener(new MouseAdapter() {
+                JButton but = (JButton)ev.getSource();
+                if(!but.getForeground().equals(Color.BLACK)){
+                    for(JButton b : buttons) {
 
-
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    Component but = e.getComponent();
-
-                    for(JButton b : buttons){
-                        if(b.getForeground().equals(Color.BLACK)){
+                        if (b.getForeground().equals(Color.BLACK)) {
                             b.setForeground(Color.WHITE);
-                            b.setBackground(new Color(0,0,0,0));
-                          //  soundPlay.getClips().get(1).stop();
-                            soundPlay.getClips().get(3).start();
-                        }
-                        if(b == but){
-                            but.setForeground(Color.BLACK);
-
-                            but.setBackground(new Color(200,200,200,200));
+                            b.setBackground(new Color(0, 0, 0, 0));
                             soundPlay.getClips().get(3).setMicrosecondPosition(0);
                         }
                     }
 
+
+                    if (but.getForeground().equals(Color.WHITE) && but.getBackground().equals(new Color(170, 170, 170, 150))) {
+                        but.setForeground(Color.BLACK);
+                        but.setBackground(new Color(200, 200, 200, 250));
+                        soundPlay.getClips().get(3).start();
+                    }
                 }
+            });
+
+            button.addMouseListener(new MouseAdapter() {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     Component but = e.getComponent();
-                    if(but.getForeground().equals(Color.BLACK)){
-                        but.setBackground(new Color(200,200,200,250));
-                    }else{
+                    if(!but.getForeground().equals(Color.BLACK)){
                         but.setBackground(new Color(170,170,170,150));
                     }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                   // soundPlay.getClips().get(2).setMicrosecondPosition(0);
+
                     Component but = e.getComponent();
-                    if(but.getForeground().equals(Color.BLACK)){
-                        but.setBackground(new Color(200,200,200,200));
-                    }else{
+                    if(!but.getForeground().equals(Color.BLACK)){
                         but.setBackground(new Color(0,0,0,0));
                     }
+
+
                 }
             });
             buttons.add(button);
             transparentPanel.add(button);
         }
     }
+
+    private void buttonGraphics(ActionListener ev){
+        
+    }
+
 
     public List<JButton> getButtons() {
         return buttons;
