@@ -11,7 +11,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Collection;
 import java.util.List;
 
 public class ServiceOrderController implements ServiceOrderService {
@@ -49,15 +48,15 @@ public class ServiceOrderController implements ServiceOrderService {
         }
     }
 
-    @Override
-    public Collection<ServiceOrderDto> findAll(){
-        try {
-            return serviceOrderService.findAll();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+//    @Override
+//    public Collection<ServiceOrderDto> findAll(){
+//        try {
+//            return serviceOrderService.findAll();
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Override
     public List<Integer> findAllServiceOrderIds(){
@@ -79,15 +78,15 @@ public class ServiceOrderController implements ServiceOrderService {
         }
     }
 
-    @Override
-    public int updateParsAndPartsCount(int orderId) {
-        try {
-           return serviceOrderService.updateParsAndPartsCount(orderId);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+//    @Override
+//    public int updateParsAndPartsCount(int orderId) {
+//        try {
+//           return serviceOrderService.updateParsAndPartsCount(orderId);
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Override
     public int setTotalPriceToOrder(int orderId, double totalPrice){

@@ -31,8 +31,6 @@ public class RegisterPage extends JLabel {
     private ButtonGroup buttonGroup;
     private Color colorOrange = new Color(167,32,7);
 
-
-
     private final String [] category = {"MECHANICAL", "BODY", "WAREHOUSE"};
     private final String [] fieldLabel = {"username", "email", "password", "confirm password", "phone number"};
     private List<JRadioButton> radioButtons;
@@ -244,8 +242,6 @@ public class RegisterPage extends JLabel {
                     .findAny();
 
     }
-
-
 
     private void resetFileds(){
         usernameField.setText("");

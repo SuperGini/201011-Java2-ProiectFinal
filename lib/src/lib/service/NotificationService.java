@@ -15,7 +15,5 @@ public interface NotificationService extends Remote{
 
     void sendNotificationToUser(String user, Notification notification) throws RemoteException;
 
-
-
     List<Notification> getNotification(UserDto user)throws RemoteException;
 }

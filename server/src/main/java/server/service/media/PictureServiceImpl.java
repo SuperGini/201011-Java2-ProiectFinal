@@ -40,8 +40,6 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
     //method 1
     public void sendPicturesToDatabase(){
 
-
-
         try {
             if(findAllBackgroundPictures().isEmpty()){
 

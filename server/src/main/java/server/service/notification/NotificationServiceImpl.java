@@ -23,7 +23,6 @@ public class NotificationServiceImpl extends UnicastRemoteObject implements lib.
     @Override
     public void addUserToNotificationList(UserDto user) throws RemoteException{
         notifications.put(user, new LinkedBlockingQueue<>());
-
     }
 
     @Override
@@ -32,8 +31,6 @@ public class NotificationServiceImpl extends UnicastRemoteObject implements lib.
         notifications.entrySet().stream()
                 .filter( s-> s.getKey().getCategory().equals(Category.WAREHOUSE))
                 .forEach(s ->s.getValue().add(notification));
-        System.out.println("a ajuns la send");
-
     }
 
     @Override
@@ -41,19 +38,14 @@ public class NotificationServiceImpl extends UnicastRemoteObject implements lib.
         notifications.entrySet().stream()
                 .filter(s ->s.getKey().getUserId().getUserName().equals(user))
                 .forEach(s ->s.getValue().add(notification));
-        System.out.println("a ajuns aici");
-
     }
 
     @Override
     public List<Notification> getNotification(UserDto user)throws RemoteException{
+
             Queue<Notification> queue = notifications.get(user);
-
             notifications.put(user, new LinkedBlockingQueue<>());
-        System.out.println(" a ajuns +++++++");
-
             return new ArrayList<>(queue);
-
     }
 
 

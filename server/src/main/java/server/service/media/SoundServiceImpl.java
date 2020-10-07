@@ -57,7 +57,6 @@ public class SoundServiceImpl extends UnicastRemoteObject implements lib.service
     private void sendSound(Path path){
         Sound sound = new Sound();
         soundDao.sendSoundToDatabase(sound, path);
-
     }
 
     @Override

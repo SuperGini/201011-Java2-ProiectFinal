@@ -38,7 +38,7 @@ public class PersonServiceImpl extends UnicastRemoteObject implements lib.servic
                                         .map(VehicleConvetor::convert)
                                         .collect(Collectors.toSet());
         person.setVehicles(vehicles);
-        vehicles.stream().forEach(s -> s.setClient(person));
+        vehicles.forEach(vehicle -> vehicle.setClient(person));
 
         Optional<Person> optionalPerson = personDao.findPersonByName(person.getName());
 
@@ -60,8 +60,5 @@ public class PersonServiceImpl extends UnicastRemoteObject implements lib.servic
         return personDao.findPersonByName(name)
                     .map(PersonConvertor::convert)
                     .orElseThrow(NoSuchElementException::new);
-
-
     }
-
 }

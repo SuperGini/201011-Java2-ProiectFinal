@@ -33,7 +33,6 @@ public class MainFrame extends JFrame {
     private NotificationPage notificationPage;
     private AccountPage accountPage;
     private CreateOrderPage createOrderPage;
-    private JLabel statisticPage;
     private MovingLabel upperLabel, lowerLabel;
     private LeftButtonPage leftButtonPage;
     private HorizontalTransparentPanel upperPanel, lowerPanel;
@@ -58,7 +57,6 @@ public class MainFrame extends JFrame {
 
         initFrame();
         initBackgroundLabel();
-       // mouseListener();
         soundConvertor = new SoundConvertor();
         initAccountPage();
         initLoginPage();
@@ -68,7 +66,6 @@ public class MainFrame extends JFrame {
         initPartPage();
         initNotificationPage();
         initCreateOrderPage();
-        initStatisticPage();
         getPages();
         moveLAbelLeft();
         initUpperLabelAndPanel();
@@ -79,8 +76,6 @@ public class MainFrame extends JFrame {
         initImageTask();
         changeFocus();
         initFrameMove();
-
-
     }
 
     private void changeFocus(){
@@ -186,9 +181,6 @@ public class MainFrame extends JFrame {
         loginUserLabel.setBounds(1035,30,50,20);
         loginUserLabel.setForeground(colorOrange);
         upperPanel.add(loginUserLabel);
-
-
-
     }
 
     private void initLowerLabelAndPanel(){
@@ -213,11 +205,7 @@ public class MainFrame extends JFrame {
                     .addActionListener(ev -> movePagesLeftAndRaight(partPage)); //parts button
 
             leftButtonPage.getButtons().get(3)
-                    .addActionListener( ev -> movePagesLeftAndRaight(statisticPage)); // my account page
-
-//            leftButtonPage.getButtons().get(4)
-//                    .addActionListener( ev -> movePagesLeftAndRaight(accountPage)); //my account page
-
+                    .addActionListener( ev -> movePagesLeftAndRaight(accountPage)); // my account page
     }
 
 
@@ -277,10 +265,6 @@ public class MainFrame extends JFrame {
                 .addActionListener(ev -> createOrderPage.addCarProblems() );
     }
 
-    private void initStatisticPage(){
-        statisticPage = new StatisticsPage(poitX,0,1200,800);
-        backgroundLabel.add(statisticPage);
-    }
 
     private void login(){
         if(loginPage.validCredentials()){
@@ -297,7 +281,6 @@ public class MainFrame extends JFrame {
         pages.add(createOrderPage);
         pages.add(clientAndVehiclePage);
         pages.add(partPage);
-        pages.add(statisticPage);
         pages.add(accountPage);
         pages.add(loginPage);
         pages.add(registerPage);
@@ -384,13 +367,6 @@ public class MainFrame extends JFrame {
         this.createOrderPage = createOrderPage;
     }
 
-    public JLabel getStatisticPage() {
-        return statisticPage;
-    }
-
-    public void setStatisticPage(JLabel statisticPage) {
-        this.statisticPage = statisticPage;
-    }
 
     private static final class SingletonHolder{
         public static final MainFrame INSTANCE = new MainFrame();

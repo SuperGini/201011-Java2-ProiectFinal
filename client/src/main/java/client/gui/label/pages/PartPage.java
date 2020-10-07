@@ -416,25 +416,19 @@ public class PartPage extends JLabel {
     //method 1
     private void refreshPartTable(int id){
 
-        partsDtos.clear();
-        ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
-        setGenericLabels(serviceOrderDto);
-
         SwingUtilities.invokeLater(() -> {
+            partsDtos.clear();
+            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+            setGenericLabels(serviceOrderDto);
             serviceOrderDto.getParts().forEach(s ->partsDtos.add(s));
             tableDataParts();
+            total =  partsDtos.stream()
+                    .map(this::totalSum)
+                    .reduce(0.0, Double::sum);
+            String c = String.format("%.2f",total);
+
+            totalArea.setText("Total:..................................................." + c);
         });
-
-             total =  partsDtos.stream()
-                             .map(this::totalSum)
-                             .reduce(0.0, Double::sum);
-
-
-        String c = String.format("%.2f",total);
-
-        totalArea.setText("Total:..................................................." + c);
-
-
     }
 
     //method 2

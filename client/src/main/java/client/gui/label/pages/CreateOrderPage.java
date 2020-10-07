@@ -403,20 +403,6 @@ public class CreateOrderPage extends JLabel {
                             .setUser(userDto)
                             .build();
 
-//        serviceOrderDto = new ServiceOrderDto();
-//        serviceOrderDto.setClientDto(clientDto);
-//        serviceOrderDto.setVehicleDtos(vehicleDto);
-//        serviceOrderDto.setStatus(Status.OPEN);
-//
-//
-//        serviceOrderDto.setUserDto(userDto);
-      //  userDto.setServiceOrderDtos(List.of(serviceOrderDto));
-
-
-
- //       serviceOrderDto.setCarProblems(lines);
-
-
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
                     refreshOrderTable();
@@ -443,7 +429,6 @@ public class CreateOrderPage extends JLabel {
               newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
               initTableDataOrderId();
           });
-
     }
 
     private void selectOrdersWithMouse(){
@@ -454,7 +439,6 @@ public class CreateOrderPage extends JLabel {
                 int row = orderId.rowAtPoint(e.getPoint());
              //   Status col = orderId.columnAtPoint(e.getPoint()); // stergerea liniei previne un bug cand selectam coloana de string in loc de int
                 id = (int) orderId.getModel().getValueAt(row, 0);
-
 
                 if(id != 0 && e.getClickCount() == 1){
 
@@ -473,12 +457,14 @@ public class CreateOrderPage extends JLabel {
         serviceOrderDto.getCarProblems().stream()
                 .forEach(s->carProblemArea.append(s + "\n"));
 
-        serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
-        tableDataParts();
+        SwingUtilities.invokeLater(() ->{
+            serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
+            tableDataParts();
+            total =  partsDtos.stream()
+                    .map(this::totalSum)
+                    .reduce(0.0, Double::sum);
+        });
 
-        total =  partsDtos.stream()
-                .map(this::totalSum)
-                .reduce(0.0, Double::sum);
     }
 
     private double totalSum(PartDto partDto){

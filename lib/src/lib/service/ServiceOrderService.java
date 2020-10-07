@@ -8,7 +8,6 @@ import lib.dto.bill.TotalPriceDto;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Collection;
 import java.util.List;
 
 public interface ServiceOrderService extends Remote {
@@ -17,13 +16,13 @@ public interface ServiceOrderService extends Remote {
 
     ServiceOrderDto findById(int id) throws RemoteException;
 
-    Collection<ServiceOrderDto> findAll() throws RemoteException;
+ //   Collection<ServiceOrderDto> findAll() throws RemoteException;
 
     List<Integer> findAllServiceOrderIds() throws RemoteException;
 
     boolean updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException;
 
-    int updateParsAndPartsCount(int orderId) throws RemoteException;
+ //   int updateParsAndPartsCount(int orderId) throws RemoteException;
 
     int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException;
 
