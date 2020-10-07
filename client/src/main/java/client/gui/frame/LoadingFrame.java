@@ -2,14 +2,14 @@ package client.gui.frame;
 
 import client.gui.panel.LoadingPanel;
 import client.util.sound.SoundPlay;
+import client.util.windowMovement.MoveFrameWithMouse;
 import org.jogamp.glg2d.GLG2DCanvas;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class LoadingFrame extends JFrame {
 
+    private MoveFrameWithMouse frameMove;
     private MainFrame mainFrame;
     private LoadingPanel panel;
     private int posX =0, posY = 0;
@@ -20,8 +20,9 @@ public class LoadingFrame extends JFrame {
 
     public LoadingFrame(){
         initFrame();
+        initMoveFrameWithMouse();
         this.setVisible(true);
-        mouseListener();
+
 
         mainFrame = MainFrame.getInstance();
 
@@ -70,22 +71,9 @@ public class LoadingFrame extends JFrame {
         }
     }
 
-    private void mouseListener(){
-        this.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                posX = e.getX();
-                posY = e.getY();
-            }
-        });
-
-        this.addMouseMotionListener(new MouseAdapter() {
-            public void mouseDragged(MouseEvent e) {
-
-                setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
-            }
-        });
+    private void initMoveFrameWithMouse(){
+        frameMove = new MoveFrameWithMouse(this);
     }
-
     private static final class SingletonHolder{
         public static final LoadingFrame INSTANCE = new LoadingFrame();
     }

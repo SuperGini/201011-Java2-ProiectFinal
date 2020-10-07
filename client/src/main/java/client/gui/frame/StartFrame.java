@@ -2,13 +2,13 @@ package client.gui.frame;
 
 import client.gui.button.ZeeButton;
 import client.gui.panel.StartPanel;
+import client.util.windowMovement.MoveFrameWithMouse;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class StartFrame extends JFrame {
 
+    private MoveFrameWithMouse frameMove;
     private StartPanel startPanel;
     private JPanel lowerPanel;
     private JButton startButton;
@@ -33,13 +33,15 @@ public class StartFrame extends JFrame {
         initPanel();
         initLowerPanel();
         initStartButton();
-        mouseListener();
+        initMoveFrameWithMouse();
+    }
 
+    private void initMoveFrameWithMouse(){
+        frameMove = new MoveFrameWithMouse(this);
     }
 
     private void initPanel(){
         startPanel = new StartPanel(0,0,600,300);
-
         add(startPanel);
     }
 
@@ -53,10 +55,7 @@ public class StartFrame extends JFrame {
 
     private void initStartButton(){
         startButton = new ZeeButton(200,30,200,40, "POWER UP");
-       // startButton.setBounds(200,30,200,40);
         lowerPanel.add(startButton);
-
-       // startButton.addMouseListener(new MouseAdapterButton(startButton));
         startButton.addActionListener(ev -> closeWindow());
     }
 
@@ -67,21 +66,5 @@ public class StartFrame extends JFrame {
         }finally {
             startPanel.getTimer().stop();
         }
-    }
-
-    private void mouseListener() {
-        this.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                posX = e.getX();
-                posY = e.getY();
-            }
-        });
-
-        this.addMouseMotionListener(new MouseAdapter() {
-            public void mouseDragged(MouseEvent e) {
-
-                setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
-            }
-        });
     }
 }

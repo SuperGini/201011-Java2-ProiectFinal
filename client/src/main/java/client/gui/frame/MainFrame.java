@@ -12,11 +12,10 @@ import client.util.mouseAdaptors.MouseAdapterLogAndRegister;
 import client.util.mouseAdaptors.MouseAdapterMiniButton;
 import client.util.notify.NotificationTask;
 import client.util.sound.SoundConvertor;
+import client.util.windowMovement.MoveFrameWithMouse;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +43,7 @@ public class MainFrame extends JFrame {
     private ImageTask imageTask;
     private JLabel loginLabel;
     private JLabel loginUserLabel;
+    private MoveFrameWithMouse frameMove;
 
 
     private static AnimationClass slideEfect = new AnimationClass();
@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
 
         initFrame();
         initBackgroundLabel();
-        mouseListener();
+       // mouseListener();
         soundConvertor = new SoundConvertor();
         initAccountPage();
         initLoginPage();
@@ -78,8 +78,17 @@ public class MainFrame extends JFrame {
         initNotificationTask();
         initImageTask();
         changeFocus();
+        initFrameMove();
 
 
+    }
+
+    private void changeFocus(){
+        this.addWindowFocusListener(new FocusAdapter(upperPanel, lowerPanel));
+    }
+
+    private void initFrameMove(){
+        frameMove = new MoveFrameWithMouse(this);
     }
 
     private void initNotificationTask(){
@@ -323,25 +332,6 @@ public class MainFrame extends JFrame {
         slideEfect.jLabelXLeft(1200,400,2,4,loginPage);
     }
 
-    private void mouseListener() {
-        this.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                posX = e.getX();
-                posY = e.getY();
-            }
-        });
-
-        this.addMouseMotionListener(new MouseAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                setLocation(e.getXOnScreen() - posX, e.getYOnScreen() - posY);
-            }
-        });
-    }
-
-
-    private void changeFocus(){
-        this.addWindowFocusListener(new FocusAdapter(upperPanel, lowerPanel));
-    }
 
     private void closeProgram(){
 
