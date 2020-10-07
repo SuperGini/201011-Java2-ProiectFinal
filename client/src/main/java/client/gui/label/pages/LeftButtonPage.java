@@ -6,7 +6,7 @@ import client.util.sound.SoundPlay;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -17,12 +17,13 @@ public class LeftButtonPage extends JLabel {
     private int width, height;
 
     private JPanel transparentPanel;
-
-    private JButton button;
+    private Color orange = new Color(167,32,7, 250);
+    private Color transparent = new Color(0,0,0,1);
+    private TransparentButton button;
     private boolean flag = true;
 
     private String [] buttonName = {"Create Order", "Create client & vehicle", "Parts", "Statistics", "Account" };
-    private List<JButton> buttons = new ArrayList<>();
+    private List<TransparentButton> buttons = new ArrayList<>();
     private static SoundPlay soundPlay = new SoundPlay();
 
 
@@ -59,27 +60,7 @@ public class LeftButtonPage extends JLabel {
             button.setFocusable(false);
             button.setForeground(Color.WHITE);
 
-            button.addActionListener(ev -> {
-
-                JButton but = (JButton)ev.getSource();
-                if(!but.getForeground().equals(Color.BLACK)){
-                    for(JButton b : buttons) {
-
-                        if (b.getForeground().equals(Color.BLACK)) {
-                            b.setForeground(Color.WHITE);
-                            b.setBackground(new Color(0, 0, 0, 0));
-                            soundPlay.getClips().get(3).setMicrosecondPosition(0);
-                        }
-                    }
-
-
-                    if (but.getForeground().equals(Color.WHITE) && but.getBackground().equals(new Color(170, 170, 170, 150))) {
-                        but.setForeground(Color.BLACK);
-                        but.setBackground(new Color(200, 200, 200, 250));
-                        soundPlay.getClips().get(3).start();
-                    }
-                }
-            });
+            button.addActionListener(this::buttonGraphics);
 
             button.addMouseListener(new MouseAdapter() {
 
@@ -93,30 +74,46 @@ public class LeftButtonPage extends JLabel {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-
                     Component but = e.getComponent();
                     if(!but.getForeground().equals(Color.BLACK)){
                         but.setBackground(new Color(0,0,0,0));
                     }
-
-
                 }
             });
+
             buttons.add(button);
             transparentPanel.add(button);
         }
     }
 
-    private void buttonGraphics(ActionListener ev){
-        
+    private void buttonGraphics(ActionEvent ev){
+
+        TransparentButton but = (TransparentButton) ev.getSource();
+        if(!but.getForeground().equals(Color.BLACK)){
+
+            for(TransparentButton b : buttons) {
+                if (b.getForeground().equals(Color.BLACK)) {
+                    b.setForeground(Color.WHITE);
+                    b.setBackground(new Color(0, 0, 0, 0));
+                    b.setTransparent(transparent);
+                    soundPlay.getClips().get(3).setMicrosecondPosition(0); //daca se blocheaza cand selectezi butoanele comenteaza linia asta si cea de jos
+                }
+            }
+
+            if (but.getForeground().equals(Color.WHITE) && but.getBackground().equals(new Color(170, 170, 170, 150))) {
+                but.setForeground(Color.BLACK);
+                but.setBackground(new Color(200, 200, 200, 220));
+                but.setTransparent(orange);
+                soundPlay.getClips().get(3).start(); //daca se blocheaza interfata grafica comenteaza linia asta
+            }
+        }
     }
 
-
-    public List<JButton> getButtons() {
+    public List<TransparentButton> getButtons() {
         return buttons;
     }
 
-    public void setButtons(List<JButton> buttons) {
+    public void setButtons(List<TransparentButton> buttons) {
         this.buttons = buttons;
     }
 }
