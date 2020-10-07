@@ -24,7 +24,7 @@ public class MinimizeButton extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
 
-        super.paintComponent(g);
+
 
           g2 = (Graphics2D) g;
 
@@ -45,6 +45,8 @@ public class MinimizeButton extends JButton {
         if(!flag){
             graphicMinimize(g2);
         }
+        super.paintComponent(g);
+
 
     }
 

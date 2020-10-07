@@ -178,10 +178,7 @@ public class CreateClientAndVehiclePage extends JLabel {
 
     private void createVehicleButton(){
         createVehicleButton = new ZeeButton(525,450,395,30, "Create Vehicle");
-       // createVehicleButton.setBounds(525,450,395,30);
         transparentPanel.add(createVehicleButton);
-     //   createVehicleButton.addMouseListener(new MouseAdapterButton(createVehicleButton));
-
     }
 
 
@@ -362,10 +359,6 @@ public class CreateClientAndVehiclePage extends JLabel {
         }catch(IllegalArgumentException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Serial number is allready in the database");
-        } catch(NullPointerException e){
-            e.printStackTrace();
-
-
         }
         return false;
     }

@@ -22,7 +22,7 @@ public class LeftButtonPage extends JLabel {
     private TransparentButton button;
     private boolean flag = true;
 
-    private String [] buttonName = {"Create Order", "Create client & vehicle", "Parts", "Statistics", "Account" };
+    private String [] buttonName = {"Create Order", "Create client & vehicle", "Parts", "Account" };
     private List<TransparentButton> buttons = new ArrayList<>();
     private static SoundPlay soundPlay = new SoundPlay();
 
@@ -52,7 +52,7 @@ public class LeftButtonPage extends JLabel {
     }
 
     private void initButtons(){
-        for( int i = 0; i < 5; i++){
+        for( int i = 0; i < 4; i++){
             button = new TransparentButton(0, 100 + (i*50), 200,50);
             button.setText(buttonName[i]);
             button.setBackground(new Color(0,0,0,0));

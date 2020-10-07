@@ -352,7 +352,8 @@ public class PartPage extends JLabel {
                 //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
                 if (!PartController.getInstance().createPart(partDto)) {
                     JOptionPane.showMessageDialog(null, "Part added to order");
-                    refreshPartTable(id);
+
+                    SwingUtilities.invokeLater(() ->  refreshPartTable(id));
                     resetFields();
                 }
 
@@ -404,9 +405,12 @@ public class PartPage extends JLabel {
     }
 
     public void refreashOrdersTable(){
-        newOrderIds.clear();
-        newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
-        initTableDataOrderId();
+
+        SwingUtilities.invokeLater(() ->{
+            newOrderIds.clear();
+            newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
+            initTableDataOrderId();
+        });
     }
 
     //method 1
@@ -416,8 +420,10 @@ public class PartPage extends JLabel {
         ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
         setGenericLabels(serviceOrderDto);
 
-        serviceOrderDto.getParts().forEach(s ->partsDtos.add(s));
-        tableDataParts();
+        SwingUtilities.invokeLater(() -> {
+            serviceOrderDto.getParts().forEach(s ->partsDtos.add(s));
+            tableDataParts();
+        });
 
              total =  partsDtos.stream()
                              .map(this::totalSum)

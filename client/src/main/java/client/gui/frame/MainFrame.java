@@ -165,6 +165,7 @@ public class MainFrame extends JFrame {
         minimizeButton.addMouseListener(new MouseAdapterMiniButton(minimizeButton));
         minimizeButton.addActionListener( ev -> setExtendedState(JFrame.ICONIFIED));
 
+
     }
 
     private void initUpperLabelAndPanel(){
@@ -212,10 +213,10 @@ public class MainFrame extends JFrame {
                     .addActionListener(ev -> movePagesLeftAndRaight(partPage)); //parts button
 
             leftButtonPage.getButtons().get(3)
-                    .addActionListener( ev -> movePagesLeftAndRaight(statisticPage)); // statistic page
+                    .addActionListener( ev -> movePagesLeftAndRaight(statisticPage)); // my account page
 
-            leftButtonPage.getButtons().get(4)
-                    .addActionListener( ev -> movePagesLeftAndRaight(accountPage)); //my account page
+//            leftButtonPage.getButtons().get(4)
+//                    .addActionListener( ev -> movePagesLeftAndRaight(accountPage)); //my account page
 
     }
 

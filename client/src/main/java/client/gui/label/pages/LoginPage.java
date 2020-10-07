@@ -148,8 +148,6 @@ public class LoginPage extends JLabel {
 
     }
 
-
-
     public TransparentPanel getTransparentPanel() {
         return transparentPanel;
     }

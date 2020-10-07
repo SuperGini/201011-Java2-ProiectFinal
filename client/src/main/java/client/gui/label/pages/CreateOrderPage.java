@@ -391,20 +391,30 @@ public class CreateOrderPage extends JLabel {
 
         UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
 
-        serviceOrderDto = new ServiceOrderDto();
-        serviceOrderDto.setClientDto(clientDto);
-        serviceOrderDto.setVehicleDtos(vehicleDto);
-        serviceOrderDto.setStatus(Status.OPEN);
+        String text = carProblemArea.getText();
+        String [] textLines = text.split("\n");
+        List<String> lines = Arrays.asList(textLines);
 
+        serviceOrderDto = new ServiceOrderDto.Builder()
+                            .setCarProblems(lines)
+                            .setVehicle(vehicleDto)
+                            .setStatus(Status.OPEN)
+                            .setClient(clientDto)
+                            .setUser(userDto)
+                            .build();
 
-        serviceOrderDto.setUserDto(userDto);
+//        serviceOrderDto = new ServiceOrderDto();
+//        serviceOrderDto.setClientDto(clientDto);
+//        serviceOrderDto.setVehicleDtos(vehicleDto);
+//        serviceOrderDto.setStatus(Status.OPEN);
+//
+//
+//        serviceOrderDto.setUserDto(userDto);
       //  userDto.setServiceOrderDtos(List.of(serviceOrderDto));
 
-                String text = carProblemArea.getText();
-                String [] textLines = text.split("\n");
-                List<String> lines = Arrays.asList(textLines);
 
-        serviceOrderDto.setCarProblems(lines);
+
+ //       serviceOrderDto.setCarProblems(lines);
 
 
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
@@ -427,11 +437,12 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void refreshOrderTable(){
-        newOrderIds.clear();
 
-            newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
-            initTableDataOrderId();
-
+          SwingUtilities.invokeLater(() ->{
+              newOrderIds.clear();
+              newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
+              initTableDataOrderId();
+          });
 
     }
 
@@ -447,7 +458,7 @@ public class CreateOrderPage extends JLabel {
 
                 if(id != 0 && e.getClickCount() == 1){
 
-                    refreshPartTable(id);
+                    SwingUtilities.invokeLater(() ->  refreshPartTable(id));
 
                 }
             }

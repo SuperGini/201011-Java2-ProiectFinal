@@ -22,8 +22,6 @@ public class LoadingFrame extends JFrame {
         initFrame();
         initMoveFrameWithMouse();
         this.setVisible(true);
-
-
         mainFrame = MainFrame.getInstance();
 
     }
