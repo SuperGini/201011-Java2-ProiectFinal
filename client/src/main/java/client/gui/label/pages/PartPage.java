@@ -232,6 +232,7 @@ public class PartPage extends JLabel {
         scrollPaneOrder.setBounds(525,50,115,350);
         transparentPanel.add(scrollPaneOrder);
         orderId.setRowHeight(20);
+        orderId.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
         orderId.setFont(new Font("Segoe UI", Font.BOLD, 12));
         orderId.getTableHeader().setOpaque(false);
