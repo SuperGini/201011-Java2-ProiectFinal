@@ -70,21 +70,6 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
                     .convert(serviceOrderDao.findById(id));
     }
 
-//    @Override
-//    public Collection<ServiceOrderDto> findAll() throws RemoteException{
-//        return serviceOrderDao.findAll()
-//                .stream()
-//                .map(ServiceOrderConvertor::convert)
-//                .collect(Collectors.toList());
-//
-//    }
-
-    @Override
-    public List<Integer> findAllServiceOrderIds() throws RemoteException{
-        return serviceOrderDao.findAllServiceOrderIds();
-
-    }
-
     @Override
     public boolean updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException{
 
@@ -101,12 +86,6 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
               return  serviceOrderDao.updateServiceOrder(serviceOrder);
 
     }
-
-//    @Override
-//    public int updateParsAndPartsCount(int orderId) throws RemoteException{
-//      return   serviceOrderDao.updateParsAndPartsCount(orderId);
-//
-//    }
 
     @Override
     public int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException{

@@ -16,13 +16,7 @@ public interface ServiceOrderService extends Remote {
 
     ServiceOrderDto findById(int id) throws RemoteException;
 
- //   Collection<ServiceOrderDto> findAll() throws RemoteException;
-
-    List<Integer> findAllServiceOrderIds() throws RemoteException;
-
     boolean updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException;
-
- //   int updateParsAndPartsCount(int orderId) throws RemoteException;
 
     int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException;
 
@@ -31,4 +25,5 @@ public interface ServiceOrderService extends Remote {
     int updateServiceOrderStatus(int orderId, Status status) throws RemoteException;
 
     List<Object[]> findAllServiceOrderIdAndStatus() throws RemoteException;
+
 }

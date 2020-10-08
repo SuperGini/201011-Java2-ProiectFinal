@@ -48,26 +48,6 @@ public class ServiceOrderController implements ServiceOrderService {
         }
     }
 
-//    @Override
-//    public Collection<ServiceOrderDto> findAll(){
-//        try {
-//            return serviceOrderService.findAll();
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-    @Override
-    public List<Integer> findAllServiceOrderIds(){
-        try {
-            return serviceOrderService.findAllServiceOrderIds();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public boolean updateServiceOrder(ServiceOrderDto serviceOrderDto){
         try {
@@ -77,16 +57,6 @@ public class ServiceOrderController implements ServiceOrderService {
             throw new RuntimeException(e);
         }
     }
-
-//    @Override
-//    public int updateParsAndPartsCount(int orderId) {
-//        try {
-//           return serviceOrderService.updateParsAndPartsCount(orderId);
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     @Override
     public int setTotalPriceToOrder(int orderId, double totalPrice){

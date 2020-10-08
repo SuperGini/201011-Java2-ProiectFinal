@@ -318,7 +318,6 @@ public class PartPage extends JLabel {
                 status = (Status) orderId.getModel().getValueAt(row, 1);
 
                 if(id != 0 && e.getClickCount() == 1){
-                    System.out.println(status);
                     refreshPartTable(id);
                 }
             }
@@ -364,7 +363,7 @@ public class PartPage extends JLabel {
                 if (!PartController.getInstance().createPart(partDto)) {
                     JOptionPane.showMessageDialog(null, "Part added to order");
 
-                    SwingUtilities.invokeLater(() ->  refreshPartTable(id));
+                      refreshPartTable(id);
                     resetFields();
                 }
 
@@ -437,6 +436,7 @@ public class PartPage extends JLabel {
     private void refreshPartTable(int id){
 
         SwingUtilities.invokeLater(() -> {
+
             partsDtos.clear();
             ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
             setGenericLabels(serviceOrderDto);

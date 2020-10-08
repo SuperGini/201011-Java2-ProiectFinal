@@ -7,9 +7,7 @@ import server.model.autovehicle.ServiceOrder;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
@@ -37,21 +35,6 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
     }
 
     @Override
-    public Collection<ServiceOrder> findAll(){
-
-        TypedQuery<ServiceOrder> query = entityManager.createNamedQuery("ServiceOrder.findAll", ServiceOrder.class);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Integer> findAllServiceOrderIds(){
-
-        TypedQuery<Integer> query = entityManager.createNamedQuery("ServiceOrder.findAllIds",Integer.class);
-
-        return query.getResultList();
-    }
-
-    @Override
     public boolean updateServiceOrder(ServiceOrder serviceOrder){
 
         entityManager.getTransaction().begin();
@@ -61,42 +44,6 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         entityManager.getTransaction().commit();
 
         return entityManager.getTransaction().getRollbackOnly();
-    }
-
-    @Override
-    public Optional<ServiceOrder> findOrdersByIds(int id){
-
-
-        TypedQuery<ServiceOrder> query = entityManager.createNamedQuery("ServiceOrder.findOrderById", ServiceOrder.class);
-        query.setParameter("id", id);
-
-
-        return query.getResultList().stream().findFirst();
-    }
-
-    //de sters
-    @Override
-    public int updateParsAndPartsCount(int orderId){
-        String jpql = "UPDATE ServiceOrder o SET o.partCountInOrders = o.partCountInOrders, o.parts = o.parts WHERE o.id = : id";
-
-         entityManager.getTransaction().begin();
-         Query query = entityManager.createQuery(jpql);
-         query.setParameter("id", orderId);
-         int rows = query.executeUpdate();
-        entityManager.getTransaction().commit();
-
-        return rows;
-
-    }
-
-    //de sters
-    @Override
-    public Object initInfoOnPartPageAndCreateOrderPage(int orderId){
-        String jpql = "SELECT o.parts FROM ServiceOrder AS o WHERE o.id = :id";
-        TypedQuery<Object> query = entityManager.createQuery(jpql, Object.class);
-        query.setParameter("id", orderId);
-
-        return query.getSingleResult();
     }
 
     @Override
