@@ -21,6 +21,7 @@ public class AccountPage extends JLabel {
     private JButton phone1Button;
     private JButton phone2Button;
     private JButton changePasswordButton;
+    private JButton resetFields;
 
     private JLabel userLabel;
     private JLabel emailLabel;
@@ -51,6 +52,7 @@ public class AccountPage extends JLabel {
         initNewPassword();
         initGenericalLabels();
         initUserLabels();
+        initResetFieldsButton();
     }
 
 
@@ -69,6 +71,19 @@ public class AccountPage extends JLabel {
 
             if(userDto.getPhoneNumber().size() < 2){
 
+                if(!changeField.isVisible()){
+
+                    changeField.setBounds(250,150, 200, 30);
+                    changeField.setVisible(true);
+                    return;
+                }
+
+                if(changeField.isVisible() && changeField.getY() != 150){
+                    changeField.setBounds(250,150, 200, 30);
+                    return;
+                }
+                
+
                 if(changeField.getText().equals("")){
                     JOptionPane.showMessageDialog(null,"Enter phoneNumber");
                     return;
@@ -85,6 +100,7 @@ public class AccountPage extends JLabel {
                        userDto.getPhoneNumber().add(changeField.getText());
                        phone2Label.setText(changeField.getText());
                        changeField.setText("");
+                       changeField.setVisible(false);
                    }
 
                 }else{
@@ -219,6 +235,19 @@ public class AccountPage extends JLabel {
         });
     }
 
+    private void initResetFieldsButton(){
+        resetFields = new ZeeButton(30,350, 200, 30, "reset fields");
+        transparentPanel.add(resetFields);
+        resetFields.addActionListener(ev ->{
+            resetPasswordFields();
+            changeField.setText("");
+            changeField.setVisible(false);
+            newPasswordField.setVisible(false);
+            verifyPasswodField.setVisible(false);
+        });
+
+    }
+
     private void resetPasswordFields(){
         newPasswordField.setText("");
         verifyPasswodField.setText("");
@@ -287,13 +316,13 @@ public class AccountPage extends JLabel {
 
     }
 
-    private void addUserFields(){
-        userfields.add(userDto.getUserId().getUserName());
-        userfields.add(userDto.getUserId().getEmailAdress());
-        userfields.addAll(new ArrayList<>(userDto.getPhoneNumber()));
-        userfields.add(userDto.getCategory().toString());
-
-    }
+//    private void addUserFields(){
+//        userfields.add(userDto.getUserId().getUserName());
+//        userfields.add(userDto.getUserId().getEmailAdress());
+//        userfields.addAll(new ArrayList<>(userDto.getPhoneNumber()));
+//        userfields.add(userDto.getCategory().toString());
+//
+//    }
 
 
 

@@ -96,7 +96,7 @@ public class LeftButtonPage extends JLabel {
                     b.setForeground(Color.WHITE);
                     b.setBackground(new Color(0, 0, 0, 0));
                     b.setTransparent(transparent);
-                    soundPlay.getClips().get(3).setMicrosecondPosition(0); //daca se blocheaza cand selectezi butoanele comenteaza linia asta si cea de jos
+                    soundPlay.getClips().get(0).setMicrosecondPosition(0); //daca se blocheaza cand selectezi butoanele comenteaza linia asta si cea de jos
                 }
             }
 
@@ -104,7 +104,7 @@ public class LeftButtonPage extends JLabel {
                 but.setForeground(Color.BLACK);
                 but.setBackground(new Color(200, 200, 200, 220));
                 but.setTransparent(orange);
-                soundPlay.getClips().get(3).start(); //daca se blocheaza interfata grafica comenteaza linia asta
+                soundPlay.getClips().get(0).start(); //daca se blocheaza interfata grafica comenteaza linia asta
             }
         }
     }

@@ -1,7 +1,6 @@
 package client.gui.frame;
 
 import client.gui.panel.LoadingPanel;
-import client.util.sound.SoundPlay;
 import client.util.windowMovement.MoveFrameWithMouse;
 import org.jogamp.glg2d.GLG2DCanvas;
 
@@ -13,7 +12,6 @@ public class LoadingFrame extends JFrame {
     private MainFrame mainFrame;
     private LoadingPanel panel;
     private int posX =0, posY = 0;
-    private static  SoundPlay soundPlay = new SoundPlay();
     private GLG2DCanvas graphic;
 
 
@@ -44,7 +42,7 @@ public class LoadingFrame extends JFrame {
         //  this.setContentPane(graphic);
 
         animatie.start();
-        soundPlay.getClips().get(1).start();
+
 
     }
 
@@ -56,7 +54,6 @@ public class LoadingFrame extends JFrame {
             try{
 
                 mainFrame.setVisible(true);
-                soundPlay.getClips().get(0).start();
                 dispose();
 
             }finally{
