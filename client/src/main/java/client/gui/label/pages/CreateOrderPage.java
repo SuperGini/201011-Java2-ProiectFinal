@@ -278,7 +278,7 @@ public class CreateOrderPage extends JLabel {
 
         String billNumber = String.valueOf(id);
         String path = "./client/src/main/resources/bill/" + billNumber + ".txt";
-        billDto.setBrand(clientLabel.getText());
+        billDto.setBrand(brandLabel.getText());
         billDto.setOrderId(orderLabel.getText());
         billDto.setClientName(clientLabel.getText());
         billDto.setSerialNumber(serialLabel.getText());
@@ -291,6 +291,7 @@ public class CreateOrderPage extends JLabel {
             if(updateStatus > 0){
                 ServiceOrderController.getInstance().makeBill(partsDtos, path, billDto, totalPriceDto);
                 JOptionPane.showMessageDialog(null, "Bill created");
+                refreshOrderTable();
             }
 
             if(updateStatus == 0){
@@ -433,7 +434,7 @@ public class CreateOrderPage extends JLabel {
                 }
     }
 
-    private void refreshOrderTable(){
+    public void refreshOrderTable(){
 
           SwingUtilities.invokeLater(() ->{
               newOrderIds.clear();
