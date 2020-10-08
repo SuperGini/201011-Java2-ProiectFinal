@@ -264,7 +264,7 @@ public class MainFrame extends JFrame {
                 .addActionListener(ev -> createOrderPage.addCarProblems());
 
         createOrderPage.getRefreshOrdersButton()
-                .addActionListener(ev -> createOrderPage.refreshOrderTable());
+                .addActionListener(ev -> createOrderPage.refreshOrderTable2());
     }
 
 

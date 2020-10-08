@@ -52,7 +52,7 @@ public class NotificationTask {
             notify.forEach(this::setNofificationStatus);
 
             getNotificationTimer().start();
-            SwingUtilities.invokeLater(() -> MainFrame.getInstance().getCreateOrderPage().refreshOrderTable());     //face refresh la order table cand vine notificarea
+            MainFrame.getInstance().getCreateOrderPage().refreshOrderTable2();     //face refresh la order table cand vine notificarea
 
         }
     }

@@ -127,6 +127,77 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(orderPartsLable);
     }
 
+    private void initGenerilLabels(){
+        String [] label = {"Order:", "User:", "Client:", "Brand:", "Serial:"};
+
+        for( int i = 0; i < 5; i++){
+            genericLabel = new JLabel(label[i]);
+            genericLabel.setBounds(420,50 + (i*30), 50,20);
+            genericLabels.add(genericLabel);
+            transparentPanel.add(genericLabel);
+        }
+    }
+
+    private void initMiniLabels(){
+        orderLabel = new JLabel("");
+        orderLabel.setBounds(460,50, 50,20);
+        transparentPanel.add(orderLabel);
+
+        userLabel = new JLabel("");
+        userLabel.setBounds(460,80, 50,20);
+        transparentPanel.add(userLabel);
+
+        clientLabel = new JLabel("");
+        clientLabel.setBounds(460,110, 50,20);
+        transparentPanel.add(clientLabel);
+
+        brandLabel = new JLabel("");
+        brandLabel.setBounds(460,140, 50,20);
+        transparentPanel.add(brandLabel);
+
+        serialLabel = new JLabel("");
+        serialLabel.setBounds(460,170, 50,20);
+        transparentPanel.add(serialLabel);
+    }
+
+    private void initFindField(){
+        findField = new JTextField();
+        findField.setBounds(430,300,200,30);
+        findField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
+        transparentPanel.add(findField);
+
+    }
+
+    private void initFindCarButton(){
+        findCarButton = new ZeeButton(430,350,200,30,"find car serial number");
+        transparentPanel.add(findCarButton);
+    }
+
+    private void initCreateOrderButton(){
+        createOrderButton = new ZeeButton(430,500,200,30,"create order");
+        transparentPanel.add(createOrderButton);
+    }
+
+    private void initRefreshListButton(){
+        refreshOrdersButton = new ZeeButton(5,470,115,50,"refresh");
+        refreshOrdersButton.setFont(new Font("Dialog",Font.BOLD, 15));
+        transparentPanel.add(refreshOrdersButton);
+
+    }
+
+    private void initAddProblemField(){
+        addProblemField = new JTextField();
+        addProblemField.setBounds(125,460,300,30);
+        addProblemField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
+        transparentPanel.add(addProblemField);
+
+    }
+
+    private void initAddProblemButton(){
+        addProblemButton = new ZeeButton(125,500,300,30,"add problem");
+        transparentPanel.add(addProblemButton);
+    }
+
     private void initTableServiceOrder(){
 
         orderId = new JTable(orderModel){
@@ -212,20 +283,6 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(scrollPane);
     }
 
-    private void initAddProblemField(){
-        addProblemField = new JTextField();
-        addProblemField.setBounds(125,460,300,30);
-        addProblemField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        transparentPanel.add(addProblemField);
-
-    }
-
-    private void initAddProblemButton(){
-        addProblemButton = new ZeeButton(125,500,300,30,"add problem");
-        transparentPanel.add(addProblemButton);
-    }
-
-
     private void initPartsArea(){
         partsTable = new JTable(tableModel);
         partsTable.setBounds(645,50,300,350);
@@ -255,11 +312,11 @@ public class CreateOrderPage extends JLabel {
 
         Object [] row = new Object [4];
 
-        for(int i = 0; i < partsDtos.size(); i++){
-            row [0] = partsDtos.get(i).getId();
-            row [1] = partsDtos.get(i).getPartName();
-            row [2] = partsDtos.get(i).getCount();
-            row [3] = partsDtos.get(i).getPrice();
+        for (PartDto partsDto : partsDtos) {
+            row[0] = partsDto.getId();
+            row[1] = partsDto.getPartName();
+            row[2] = partsDto.getCount();
+            row[3] = partsDto.getPrice();
             tableModel.addRow(row);
         }
 
@@ -273,8 +330,6 @@ public class CreateOrderPage extends JLabel {
         billButton = new ZeeButton(645,500,300,30,"Bill");
         transparentPanel.add(billButton);
     }
-
-
 
      public void makeBill(){
 
@@ -294,7 +349,7 @@ public class CreateOrderPage extends JLabel {
                 ServiceOrderController.getInstance().makeBill(partsDtos, path, billDto, totalPriceDto);
                 JOptionPane.showMessageDialog(null, "Bill created");
 
-                SwingUtilities.invokeLater(this::refreshOrderTable);
+                refreshOrderTable2();
             }
 
             if(updateStatus == 0){
@@ -306,66 +361,6 @@ public class CreateOrderPage extends JLabel {
         }
     }
 
-
-    private void initGenerilLabels(){
-        String [] label = {"Order:", "User:", "Client:", "Brand:", "Serial:"};
-
-        for( int i = 0; i < 5; i++){
-            genericLabel = new JLabel(label[i]);
-            genericLabel.setBounds(420,50 + (i*30), 50,20);
-            genericLabels.add(genericLabel);
-            transparentPanel.add(genericLabel);
-        }
-    }
-
-    private void initMiniLabels(){
-        orderLabel = new JLabel("");
-        orderLabel.setBounds(460,50, 50,20);
-        transparentPanel.add(orderLabel);
-
-        userLabel = new JLabel("");
-        userLabel.setBounds(460,80, 50,20);
-        transparentPanel.add(userLabel);
-
-        clientLabel = new JLabel("");
-        clientLabel.setBounds(460,110, 50,20);
-        transparentPanel.add(clientLabel);
-
-        brandLabel = new JLabel("");
-        brandLabel.setBounds(460,140, 50,20);
-        transparentPanel.add(brandLabel);
-
-        serialLabel = new JLabel("");
-        serialLabel.setBounds(460,170, 50,20);
-        transparentPanel.add(serialLabel);
-    }
-
-
-    private void initFindField(){
-        findField = new JTextField();
-        findField.setBounds(430,300,200,30);
-        findField.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        transparentPanel.add(findField);
-
-    }
-
-
-    private void initFindCarButton(){
-        findCarButton = new ZeeButton(430,350,200,30,"find car serial number");
-        transparentPanel.add(findCarButton);
-    }
-
-    private void initCreateOrderButton(){
-        createOrderButton = new ZeeButton(430,500,200,30,"create order");
-        transparentPanel.add(createOrderButton);
-    }
-
-    private void initRefreshListButton(){
-        refreshOrdersButton = new ZeeButton(5,470,115,50,"refresh");
-        refreshOrdersButton.setFont(new Font("Dialog",Font.BOLD, 15));
-        transparentPanel.add(refreshOrdersButton);
-
-    }
 
     public void createOrder(){
 
@@ -409,8 +404,6 @@ public class CreateOrderPage extends JLabel {
 
     private void createNewOrder(){
 
-
-
         UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
 
         String text = carProblemArea.getText();
@@ -436,7 +429,7 @@ public class CreateOrderPage extends JLabel {
                         int x = (Integer) obj[0];
 
                         Notification notification = new Notification(String.valueOf(x), Status.OPEN);
-                        System.out.println("creted order : " + x);
+
                         //setez notificarea
                         NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
 
@@ -448,11 +441,17 @@ public class CreateOrderPage extends JLabel {
                 }
     }
 
-    public void refreshOrderTable(){
+    private void refreshOrderTable(){
               newOrderIds.clear();
               newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
               initTableDataOrderId();
     }
+
+    public void refreshOrderTable2(){
+        SwingUtilities.invokeLater(this::refreshOrderTable);
+    }
+
+
 
     private void selectOrdersWithMouse(){
 
