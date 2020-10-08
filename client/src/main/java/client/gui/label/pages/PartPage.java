@@ -409,6 +409,8 @@ public class PartPage extends JLabel {
 
                     //trimite notiifcare catre user body si mechanical
                     NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
+                    refreashOrdersTable();
+
                     JOptionPane.showMessageDialog(null, "Part order closed" + "\n " + "Total: " + total);
                 } else {
                     JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");

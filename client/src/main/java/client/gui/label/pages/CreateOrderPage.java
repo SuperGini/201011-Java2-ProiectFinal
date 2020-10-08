@@ -42,6 +42,7 @@ public class CreateOrderPage extends JLabel {
     private JButton findCarButton;
     private JButton createOrderButton;
     private JButton billButton;
+    private JButton refreshOrdersButton;
     private JLabel genericLabel;
     private JLabel carProblemLabel;
     private JLabel orderPartsLable;
@@ -102,6 +103,7 @@ public class CreateOrderPage extends JLabel {
         initCreateOrderButton();
         initMiniLabels();
         initBillButton();
+        initRefreshListButton();
         selectOrdersWithMouse();
 
     }
@@ -291,7 +293,8 @@ public class CreateOrderPage extends JLabel {
             if(updateStatus > 0){
                 ServiceOrderController.getInstance().makeBill(partsDtos, path, billDto, totalPriceDto);
                 JOptionPane.showMessageDialog(null, "Bill created");
-                refreshOrderTable();
+
+                SwingUtilities.invokeLater(this::refreshOrderTable);
             }
 
             if(updateStatus == 0){
@@ -357,6 +360,13 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(createOrderButton);
     }
 
+    private void initRefreshListButton(){
+        refreshOrdersButton = new ZeeButton(5,470,115,50,"refresh");
+        refreshOrdersButton.setFont(new Font("Dialog",Font.BOLD, 15));
+        transparentPanel.add(refreshOrdersButton);
+
+    }
+
     public void createOrder(){
 
         UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
@@ -417,17 +427,21 @@ public class CreateOrderPage extends JLabel {
 
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
-                    refreshOrderTable();
 
-                    Object [] obj = newOrderIds.get(newOrderIds.size()-1);
-                    int x = (Integer) obj[0];
+                    SwingUtilities.invokeLater(() ->{
 
-                    Notification notification = new Notification(String.valueOf(x), Status.OPEN);
-                    System.out.println("creted order : " + x);
-                    //setez notificarea
-                    NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
+                        refreshOrderTable();
 
-                    System.out.println(serviceOrderDto.getId());
+                        Object [] obj = newOrderIds.get(newOrderIds.size()-1);
+                        int x = (Integer) obj[0];
+
+                        Notification notification = new Notification(String.valueOf(x), Status.OPEN);
+                        System.out.println("creted order : " + x);
+                        //setez notificarea
+                        NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
+
+                    });
+
                 }else{
                     JOptionPane.showMessageDialog(null,"Order was not created");
 
@@ -435,12 +449,9 @@ public class CreateOrderPage extends JLabel {
     }
 
     public void refreshOrderTable(){
-
-          SwingUtilities.invokeLater(() ->{
               newOrderIds.clear();
               newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
               initTableDataOrderId();
-          });
     }
 
     private void selectOrdersWithMouse(){
@@ -608,5 +619,9 @@ public class CreateOrderPage extends JLabel {
 
     public void setCreateOrderButton(JButton createOrderButton) {
         this.createOrderButton = createOrderButton;
+    }
+
+    public JButton getRefreshOrdersButton() {
+        return refreshOrdersButton;
     }
 }

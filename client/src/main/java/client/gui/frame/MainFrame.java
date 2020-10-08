@@ -261,7 +261,10 @@ public class MainFrame extends JFrame {
                 .addActionListener(ev -> createOrderPage.makeBill());
 
         createOrderPage.getAddProblemButton()
-                .addActionListener(ev -> createOrderPage.addCarProblems() );
+                .addActionListener(ev -> createOrderPage.addCarProblems());
+
+        createOrderPage.getRefreshOrdersButton()
+                .addActionListener(ev -> createOrderPage.refreshOrderTable());
     }
 
 
@@ -369,6 +372,14 @@ public class MainFrame extends JFrame {
 
     private static final class SingletonHolder{
         public static final MainFrame INSTANCE = new MainFrame();
+    }
+
+    public NotificationTask getNotificationTask() {
+        return notificationTask;
+    }
+
+    public void setNotificationTask(NotificationTask notificationTask) {
+        this.notificationTask = notificationTask;
     }
 
     public static MainFrame getInstance(){

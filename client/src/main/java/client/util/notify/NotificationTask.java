@@ -52,7 +52,8 @@ public class NotificationTask {
             notify.forEach(this::setNofificationStatus);
 
             getNotificationTimer().start();
-            MainFrame.getInstance().getCreateOrderPage().refreshOrderTable(); //face refresh la order table cand vine notificarea
+            SwingUtilities.invokeLater(() -> MainFrame.getInstance().getCreateOrderPage().refreshOrderTable());     //face refresh la order table cand vine notificarea
+
         }
     }
 
@@ -62,7 +63,7 @@ public class NotificationTask {
     }
 
     //metod 5
-    private Timer getNotificationTimer(){
+    public Timer getNotificationTimer(){
         notificationTimer = new Timer(10, event -> notificationTask());
         return notificationTimer;
     }
@@ -86,5 +87,9 @@ public class NotificationTask {
 
     public ScheduledExecutorService getNotifyExecutor() {
         return notifyExecutor;
+    }
+
+    public void setNotificationTimer(Timer notificationTimer) {
+        this.notificationTimer = notificationTimer;
     }
 }

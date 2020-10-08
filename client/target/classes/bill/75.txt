@@ -1,0 +1,12 @@
+Order: .... 75
+Client:.....gigi
+Brand:......ggggg
+Serial:.....111
+
+
+
+Part name:                                   count                                   price
+
+
+
+Total:                                                                              0.0
