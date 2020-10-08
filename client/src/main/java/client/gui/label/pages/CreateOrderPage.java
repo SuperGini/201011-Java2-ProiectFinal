@@ -357,6 +357,15 @@ public class CreateOrderPage extends JLabel {
     }
 
     public void createOrder(){
+
+        UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
+
+        if(userDto.getCategory().equals(Category.WAREHOUSE)){
+            JOptionPane.showMessageDialog(null, "You dont have permision to create orders \n" +
+                    " must have " + Category.BODY + " or " + Category.MECHANICAL + " privileges");
+            return;
+        }
+
         if(orderLabel.getText().equals("") && clientLabel.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Find a serial number before creating an order");
         }
@@ -388,6 +397,8 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void createNewOrder(){
+
+
 
         UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
 

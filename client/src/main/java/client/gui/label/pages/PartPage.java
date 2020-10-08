@@ -4,12 +4,15 @@ import client.controller.autovehicle.PartController;
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.notification.NotificationController;
 import client.gui.button.ZeeButton;
+import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
 import lib.dto.notification.Notification;
+import lib.dto.user.Category;
+import lib.dto.user.UserDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -326,6 +329,14 @@ public class PartPage extends JLabel {
     public void createPart(){
 
             try{
+                if(!MainFrame.getInstance().getAccountPage()
+                        .getUserDto().getCategory().equals(Category.WAREHOUSE)){
+
+                    JOptionPane.showMessageDialog(null, "You dont have permision to add parts \n" +
+                            " must have " + Category.WAREHOUSE + " privileges");
+                    return;
+                }
+
                 if(!status.equals(Status.CLOSE)){
 
                 PartDto partDto = new PartDto();
@@ -379,6 +390,15 @@ public class PartPage extends JLabel {
 
         try {
 
+            UserDto userDto = MainFrame.getInstance().getAccountPage().getUserDto();
+
+            if(!userDto.getCategory().equals(Category.WAREHOUSE)){
+                JOptionPane.showMessageDialog(null, "You dont have permision to close part orders \n" +
+                        " must have " + Category.WAREHOUSE + " privileges");
+                return;
+            }
+
+
             if (!status.equals(Status.CLOSE)) {
 
                 int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id, total);
@@ -390,13 +410,13 @@ public class PartPage extends JLabel {
 
                     //trimite notiifcare catre user body si mechanical
                     NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
-                    JOptionPane.showMessageDialog(null, "Part order close" + "\n " + "Total: " + total);
+                    JOptionPane.showMessageDialog(null, "Part order closed" + "\n " + "Total: " + total);
                 } else {
                     JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "Order is " + Status.CLOSE);
+                JOptionPane.showMessageDialog(null, "Order is allready" + Status.CLOSE);
             }
         }catch(NullPointerException e){
             e.printStackTrace();
