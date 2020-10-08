@@ -87,7 +87,6 @@ public class PartPage extends JLabel {
         initPartsArea();
         tableDataParts();
         selectOrdersWithMouse();
-
     }
 
     private void initTransparentPanel(){
@@ -410,7 +409,7 @@ public class PartPage extends JLabel {
 
                     //trimite notiifcare catre user body si mechanical
                     NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
-                    refreashOrdersTable();
+                    refreshOrdersTable();
 
                     JOptionPane.showMessageDialog(null, "Part order closed" + "\n " + "Total: " + total);
                 } else {
@@ -426,7 +425,7 @@ public class PartPage extends JLabel {
         }
     }
 
-    public void refreashOrdersTable(){
+    public void refreshOrdersTable(){
 
         SwingUtilities.invokeLater(() ->{
             newOrderIds.clear();

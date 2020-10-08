@@ -23,7 +23,6 @@ public class MainFrame extends JFrame {
 
     private final int width = 1200;
     private final int height = 800;
-    private int posX = 0, posY =0;
     private JPanel mainPanel;
     private JLabel backgroundLabel;
     private LoginPage loginPage;
@@ -235,7 +234,7 @@ public class MainFrame extends JFrame {
                 .addActionListener(ev ->partPage.createPart());
 
         partPage.getRefreshOrdersButton()
-                .addActionListener(ev -> partPage.refreashOrdersTable());
+                .addActionListener(ev -> partPage.refreshOrdersTable());
 
         partPage.getClosePartOrder()
                 .addActionListener(ev -> partPage.closePartOrder());

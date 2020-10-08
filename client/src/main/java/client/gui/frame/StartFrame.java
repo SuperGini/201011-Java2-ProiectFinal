@@ -17,8 +17,6 @@ public class StartFrame extends JFrame {
     private MinimizeButton minimizeButton;
     private MinimizeButton closeButton;
 
-    private int posX =0, posY =0;
-
     public StartFrame(){
 
         initStartFrame();

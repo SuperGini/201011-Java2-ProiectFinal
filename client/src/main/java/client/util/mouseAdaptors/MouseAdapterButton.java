@@ -46,6 +46,8 @@ public class MouseAdapterButton extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         buttonX.setForeground(Color.BLACK);
+        buttonX.setBackground(Color.WHITE);
+
 
     }
 

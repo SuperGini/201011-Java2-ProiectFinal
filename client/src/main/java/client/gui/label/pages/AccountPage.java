@@ -29,6 +29,15 @@ public class AccountPage extends JLabel {
     private JLabel phone2Label;
     private JLabel categoryLabel;
 
+    private JLabel orderLabel;
+
+    private JLabel partsLabel;
+
+
+
+
+
+
     private UserDto userDto = null;
 
     private Color color = new Color(173, 53, 22, 255);
@@ -53,6 +62,7 @@ public class AccountPage extends JLabel {
         initGenericalLabels();
         initUserLabels();
         initResetFieldsButton();
+
     }
 
 

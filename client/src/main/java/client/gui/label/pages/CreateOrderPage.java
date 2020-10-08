@@ -50,7 +50,7 @@ public class CreateOrderPage extends JLabel {
 
     private JTextField findField;
     private int id;
-    private int i = 0;
+    private int lineProblemCount = 0;
     private double total;
 
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
@@ -198,6 +198,18 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(addProblemButton);
     }
 
+    private void intiCarProblemArea(){
+
+        carProblemArea = new JTextArea();
+        carProblemArea.setBounds(125,50,290,350);
+        carProblemArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(carProblemArea);
+        scrollPane.setBounds(125,50,290,350);
+        scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
+        transparentPanel.add(scrollPane);
+    }
+
     private void initTableServiceOrder(){
 
         orderId = new JTable(orderModel){
@@ -212,21 +224,21 @@ public class CreateOrderPage extends JLabel {
         orderId.setDefaultRenderer(String.class, new DefaultTableCellRenderer(){
             @Override
             public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
-                Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+                Component cell = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
 
                 if( value.equals(Status.OPEN)){
-                    c.setForeground(Color.GREEN);
+                    cell.setForeground(Color.GREEN);
                 }
 
                 if(value.equals(Status.CLOSE)){
-                    c.setForeground(Color.BLUE);
+                    cell.setForeground(Color.BLUE);
                 }
 
                 if(value.equals(Status.READY)){
-                    c.setForeground(Color.YELLOW);
+                    cell.setForeground(Color.YELLOW);
                 }
 
-                return c;
+                return cell;
             }
         });
 
@@ -272,17 +284,7 @@ public class CreateOrderPage extends JLabel {
             }
     }
 
-    private void intiCarProblemArea(){
 
-        carProblemArea = new JTextArea();
-        carProblemArea.setBounds(125,50,290,350);
-        carProblemArea.setEnabled(false);
-
-        JScrollPane scrollPane = new JScrollPane(carProblemArea);
-        scrollPane.setBounds(125,50,290,350);
-        scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        transparentPanel.add(scrollPane);
-    }
 
     private void initPartsArea(){
         partsTable = new JTable(tableModel);
@@ -421,7 +423,7 @@ public class CreateOrderPage extends JLabel {
 
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
-
+                    lineProblemCount = 0;
                     SwingUtilities.invokeLater(() ->{
 
                         refreshOrderTable();
@@ -503,9 +505,18 @@ public class CreateOrderPage extends JLabel {
     }
 
     public void addCarProblems(){
-        i++;
-        carProblemArea.append("\n" + i + "." + addProblemField.getText());
-        addProblemField.setText("");
+
+        if(orderLabel.getText().equals("")){
+            lineProblemCount++;
+            carProblemArea.append("\n" + lineProblemCount + "." + addProblemField.getText());
+            addProblemField.setText("");
+        }else{
+            JOptionPane.showMessageDialog(null, "You can add car problems, only when \n" +
+                                                "you create a new order");
+
+        }
+
+
     }
 
     public void findCar(){
@@ -526,8 +537,6 @@ public class CreateOrderPage extends JLabel {
             clientDto.setId(clientId);
         }
     }
-
-
 
     private void resetFields(){
         orderLabel.setText("");
