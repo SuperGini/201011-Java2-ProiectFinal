@@ -80,7 +80,7 @@ public class CreateOrderPage extends JLabel {
     }
 
     private void initTables(){
-        tables = new Tables(5,50,115,350, transparentPanel);
+        tables = new Tables(5,50,115,350, transparentPanel, false);
     }
 
     private void initCarProblemLabel(){

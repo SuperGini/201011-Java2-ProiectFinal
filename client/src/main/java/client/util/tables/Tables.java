@@ -23,6 +23,7 @@ public class Tables {
     private int orderTableY;
     private int orderTableWidth;
     private int orderTableHeight;
+    private boolean flag;
     private int id;
     private double total;
     private Status status;
@@ -42,12 +43,13 @@ public class Tables {
     private java.util.List<PartDto> partsDtos = new ArrayList<>();
     private List<Object[]> newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
 
-    public Tables(int orderTableX, int orderTableY, int tableOrderWidth, int orderTableHeight, JPanel transparentPanel) {
+    public Tables(int orderTableX, int orderTableY, int tableOrderWidth, int orderTableHeight, JPanel transparentPanel, boolean flag) {
         this.orderTableX = orderTableX;
         this.orderTableY = orderTableY;
         this.orderTableWidth = tableOrderWidth;
         this.orderTableHeight = orderTableHeight;
         this.transparentPanel = transparentPanel;
+        this.flag = flag;
 
         tableModel = new DefaultTableModel(){
             public boolean isCellEditable(int row, int column){
@@ -214,28 +216,36 @@ public class Tables {
         partsDtos.clear();
          serviceOrderDto = ServiceOrderController.getInstance().findById(id);
 
+        if(!flag){
+            SwingUtilities.invokeLater( () -> {
+                MainFrame.getInstance().getCreateOrderPage().setGenericLabels(serviceOrderDto); //seteaza labels la createOrder
+                serviceOrderDto.getCarProblems()
+                        .forEach(s-> MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().append(s + "\n"));
+                addPartsToTableAndMakeSum();
+            });
+        }
 
-     //de facut cu un flag aici caintra si pe part page
-        MainFrame.getInstance().getCreateOrderPage().setGenericLabels(serviceOrderDto); //seteaza labels la createOrder
-        MainFrame.getInstance().getPartPage().setGenericLabels(serviceOrderDto); //seteaza labels la partPage
-        serviceOrderDto.getCarProblems().stream()
-                .forEach(s-> MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().append(s + "\n"));
+        if(flag){
+            MainFrame.getInstance().getPartPage().setGenericLabels(serviceOrderDto); //seteaza labels la partPage
+            SwingUtilities.invokeLater(() ->{
+                addPartsToTableAndMakeSum();
 
-        SwingUtilities.invokeLater(() ->{
-            serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
-            tableDataParts();
-            total =  partsDtos.stream()
-                    .map(this::totalSum)
-                    .reduce(0.0, Double::sum);
+                String c = String.format("%.2f",total);
 
-            String c = String.format("%.2f",total);
-
-            MainFrame.getInstance().getPartPage()
-                    .getTotalArea().setText("Total:..................................................." + c);
-
-        });
-
+                MainFrame.getInstance().getPartPage()
+                        .getTotalArea().setText("Total:..................................................." + c);
+            });
+        }
     }
+
+    private void addPartsToTableAndMakeSum(){
+        partsDtos.addAll(serviceOrderDto.getParts());
+        tableDataParts();
+        total =  partsDtos.stream()
+                .map(this::totalSum)
+                .reduce(0.0, Double::sum);
+    }
+
 
     private double totalSum(PartDto partDto){
         return partDto.getCount() * partDto.getPrice();

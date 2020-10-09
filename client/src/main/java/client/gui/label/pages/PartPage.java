@@ -64,7 +64,7 @@ public class PartPage extends JLabel {
     }
 
     private void initTables(){
-        tables1 = new Tables(525,50,115,350, transparentPanel);
+        tables1 = new Tables(525,50,115,350, transparentPanel, true);
     }
 
     private void initPartField(){
