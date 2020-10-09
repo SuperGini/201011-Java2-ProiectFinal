@@ -75,8 +75,6 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
 
         ServiceOrder serviceOrder = serviceOrderDao.findById(serviceOrderDto.getId());
 
-
-
         var parts =serviceOrderDto.getPartsIds().stream()
                 .map(s ->partDao.findPartById(s))
                 .collect(Collectors.toList());
@@ -85,11 +83,6 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
 
               return  serviceOrderDao.updateServiceOrder(serviceOrder);
 
-    }
-
-    @Override
-    public int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException{
-        return serviceOrderDao.setTotalPriceToOrder(orderId, totalPrice);
     }
 
     @Override
@@ -118,5 +111,10 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     public List<Object[]> findAllServiceOrderIdAndStatus() throws RemoteException{
         return serviceOrderDao.findAllServiceOrderIdAndStatus();
 
+    }
+
+    @Override
+    public int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status) throws RemoteException {
+       return serviceOrderDao.updateTotalPriceAndStatus(orderId, totalPrice, status);
     }
 }

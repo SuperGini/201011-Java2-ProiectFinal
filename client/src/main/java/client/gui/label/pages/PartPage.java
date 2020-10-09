@@ -236,10 +236,10 @@ public class PartPage extends JLabel {
 
             if(!tables1.getStatus().equals(Status.CLOSE)){
 
-                int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(tables1.getId(), tables1.getTotal());
-                int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(tables1.getId(), Status.READY);
+                int updatePriceAndStatus = ServiceOrderController.getInstance()
+                        .updateTotalPriceAndStatus(tables1.getId(),tables1.getTotal(), Status.READY);
 
-                if (updatePrice > 0 && updateStatus > 0) {
+                if(updatePriceAndStatus > 0){
 
                     Notification notification = new Notification(orderLabel.getText(), Status.READY);
 

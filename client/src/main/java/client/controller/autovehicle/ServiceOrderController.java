@@ -59,16 +59,6 @@ public class ServiceOrderController implements ServiceOrderService {
     }
 
     @Override
-    public int setTotalPriceToOrder(int orderId, double totalPrice){
-        try {
-            return serviceOrderService.setTotalPriceToOrder(orderId, totalPrice);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto){
         try {
             serviceOrderService.makeBill(partsDtos, path, billDto, totalPriceDto);
@@ -92,6 +82,16 @@ public class ServiceOrderController implements ServiceOrderService {
     public List<Object[]> findAllServiceOrderIdAndStatus(){
         try {
            return serviceOrderService.findAllServiceOrderIdAndStatus();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status){
+        try {
+           return serviceOrderService.updateTotalPriceAndStatus(orderId, totalPrice, status);
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

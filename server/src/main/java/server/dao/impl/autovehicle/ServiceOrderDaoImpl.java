@@ -47,20 +47,6 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
     }
 
     @Override
-    public int setTotalPriceToOrder(int orderId, double totalPrice){
-        String jpql ="UPDATE ServiceOrder s SET s.total = :increment WHERE s.id = :id";
-        entityManager.getTransaction().begin();
-
-        Query query = entityManager.createQuery(jpql);
-        query.setParameter("increment", totalPrice);
-        query.setParameter("id", orderId);
-        int rows = query.executeUpdate();
-
-        entityManager.getTransaction().commit();
-        return rows;
-    }
-
-    @Override
     public int updateServiceOrderStatus(int orderId, Status status){
         String jpql = "UPDATE ServiceOrder s SET s.status = :status WHERE s.id = :id";
 
@@ -82,6 +68,21 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
         return query.getResultList();
 
+    }
+
+    @Override
+    public int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status){
+        String jpql = "UPDATE ServiceOrder s SET s.status = :status, s.total = :totalPrice  WHERE s.id = :id";
+
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("status", status);
+        query.setParameter("totalPrice", totalPrice);
+        query.setParameter("id", orderId);
+        int row = query.executeUpdate();
+        entityManager.getTransaction().commit();
+
+        return row;
     }
 
 }

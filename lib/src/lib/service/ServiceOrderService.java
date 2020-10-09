@@ -18,12 +18,11 @@ public interface ServiceOrderService extends Remote {
 
     boolean updateServiceOrder(ServiceOrderDto serviceOrderDto) throws RemoteException;
 
-    int setTotalPriceToOrder(int orderId, double totalPrice) throws RemoteException;
-
     void makeBill(List<PartDto> partsDtos, String path, BillDto billDto, TotalPriceDto totalPriceDto) throws RemoteException;
 
     int updateServiceOrderStatus(int orderId, Status status) throws RemoteException;
 
     List<Object[]> findAllServiceOrderIdAndStatus() throws RemoteException;
 
+    int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status) throws RemoteException;
 }
