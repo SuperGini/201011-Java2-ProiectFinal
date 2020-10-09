@@ -66,4 +66,15 @@ public class MouseAdapterMiniButton extends MouseAdapter {
             miniButton.setLine(exitMiniLine);
         }
     }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if(miniButton.getX() < 600){
+            miniButton.setColorOrange(new Color(0,0,0,150));
+        }
+
+        if(miniButton.getX() > 600){
+            miniButton.setColorOrange(new Color(255,255,255,100));
+        }
+    }
 }

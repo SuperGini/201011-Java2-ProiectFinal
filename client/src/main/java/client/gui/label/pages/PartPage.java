@@ -7,6 +7,7 @@ import client.gui.button.ZeeButton;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import client.util.mouseAdaptors.MouseAdapterButton;
+import client.util.tables.Tables;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
@@ -15,14 +16,9 @@ import lib.dto.user.Category;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PartPage extends JLabel {
 
@@ -35,40 +31,17 @@ public class PartPage extends JLabel {
     private JTextField priceField;
     private JTextField countField;
     private JTextArea totalArea;
-    private JTable orderId;
-    private JTable partsTable;
-
     private JLabel finalPrice;
     private JLabel genericLabel;
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
-
-    private int id;
-    private double total;
-    private Status status;
-    private DefaultTableModel tableModel;
-    private DefaultTableModel orderModel;
-    private JScrollPane scrollPane;
-    private JScrollPane scrollPaneOrder;
-
     private List<JLabel> genericLabels = new ArrayList<>();
-    private List<Object[]>  newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
-    private List<PartDto> partsDtos = new CopyOnWriteArrayList<>();
+    private List<Object[]>  newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
     private List<JLabel> partLabels = new ArrayList<>();
 
+    private Tables tables1;
+
     public PartPage(int x, int y, int width, int height) {
-
-        tableModel = new DefaultTableModel(){
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        orderModel = new DefaultTableModel(){
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initPartField();
@@ -76,22 +49,22 @@ public class PartPage extends JLabel {
         initCountField();
         initPartLabels();
         createPartButton();
+        initClosePartOrder();
         totalArea();
         initRefreshListButton();
         initGenerilLabels();
         initMiniLabels();
         initFinalPriceLabel();
-        initClosePartOrder();
-        initTableServiceOrder();
-        initTableDataOrderId();
-        initPartsArea();
-        tableDataParts();
-        selectOrdersWithMouse();
+        initTables();
     }
 
     private void initTransparentPanel(){
         transparentPanel = new TransparentPanel(250,125,950,550);
         this.add(transparentPanel);
+    }
+
+    private void initTables(){
+        tables1 = new Tables(525,50,115,350, transparentPanel);
     }
 
     private void initPartField(){
@@ -129,7 +102,6 @@ public class PartPage extends JLabel {
     private void createPartButton(){
         createPartButton = new ZeeButton(30,200,190,30,"Add Part");
         transparentPanel.add(createPartButton);
-
     }
 
     private void initFinalPriceLabel(){
@@ -137,14 +109,12 @@ public class PartPage extends JLabel {
         finalPrice.setFont(new Font("Dialog",Font.BOLD, 16));
         finalPrice.setBounds(850,400,200,30);
         transparentPanel.add(finalPrice);
-
     }
 
     private void initRefreshListButton(){
         refreshOrdersButton = new ZeeButton(525,410,115,50,"refresh");
         refreshOrdersButton.setFont(new Font("Dialog",Font.BOLD, 15));
         transparentPanel.add(refreshOrdersButton);
-
     }
 
     private void totalArea(){
@@ -194,137 +164,6 @@ public class PartPage extends JLabel {
         transparentPanel.add(serialLabel);
     }
 
-    private void initTableServiceOrder(){
-
-        orderId = new JTable(orderModel){
-            @Override
-            public Class<?> getColumnClass(int column) {
-                if(convertColumnIndexToModel(column)==1) return String.class;
-                return super.getColumnClass(column);
-            }
-        };
-
-        orderId.setDefaultRenderer(String.class, new DefaultTableCellRenderer(){
-            @Override
-            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
-                Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
-
-                if( value.equals(Status.OPEN)){
-                    c.setForeground(Color.GREEN);
-                }
-
-                if(value.equals(Status.CLOSE)){
-                    c.setForeground(Color.BLUE);
-                }
-
-                if(value.equals(Status.READY)){
-                    c.setForeground(Color.YELLOW);
-                }
-
-                return c;
-            }
-        });
-
-        orderId.setBounds(525,50,115,350);
-        scrollPaneOrder = new JScrollPane(orderId);
-        scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        scrollPaneOrder.setBounds(525,50,115,350);
-        transparentPanel.add(scrollPaneOrder);
-        orderId.setRowHeight(20);
-        orderId.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        orderId.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        orderId.getTableHeader().setOpaque(false);
-        orderId.getTableHeader().setBackground(new Color(32,136,203));
-        orderId.getTableHeader().setForeground(new Color(255,255,255));
-        orderId.setShowVerticalLines(false);
-        orderId.setBackground(Color.LIGHT_GRAY);
-        orderId.setSelectionBackground(new Color (232,57,95));
-
-    }
-
-    private void initTableDataOrderId(){
-        orderModel.setRowCount(0);
-
-        String [] column = {"Order", "Status"};
-
-        orderModel.setColumnIdentifiers(column);
-
-        Object [] row = new Object [2];
-
-        for(Object [] obj : newOrderIds){
-            row[0] = obj[0];
-            row[1] = obj[1];
-            orderModel.addRow(row);
-
-        }
-
-        for(int i = 0; i < 2; i++){
-            orderId.getColumnModel().getColumn(i).setMaxWidth(47);
-            orderId.getColumnModel().getColumn(i).setMinWidth(47);
-        }
-    }
-
-    private void initPartsArea(){
-        partsTable = new JTable(tableModel);
-        partsTable.setBounds(645,50,300,350);
-        scrollPane = new JScrollPane(partsTable);
-        scrollPane.setBounds(645,50,300,350);
-        scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        transparentPanel.add(scrollPane);
-        partsTable.setRowHeight(20);
-        partsTable.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        partsTable.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        partsTable.getTableHeader().setOpaque(false);
-        partsTable.getTableHeader().setBackground(new Color(32,136,203));
-        partsTable.getTableHeader().setForeground(new Color(255,255,255));
-        partsTable.setShowVerticalLines(false);
-        partsTable.setSelectionBackground(new Color (232,57,95));
-    }
-
-    private void tableDataParts(){
-
-        tableModel.setRowCount(0);
-
-        String [] columns = {"id", "part name", "count", "price"};
-
-
-        tableModel.setColumnIdentifiers(columns);
-
-        Object [] row = new Object [4];
-
-        for(PartDto partDto : partsDtos){
-            row[0] = partDto.getId();
-            row[1] = partDto.getPartName();
-            row[2] = partDto.getCount();
-            row[3] = partDto.getPrice();
-            tableModel.addRow(row);
-        }
-
-        for(int i = 0; i< 4; i++){
-            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
-            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
-        }
-    }
-
-    private void selectOrdersWithMouse(){
-
-        orderId.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = orderId.rowAtPoint(e.getPoint());
-                //  int col = orderId.columnAtPoint(e.getPoint());
-                id = (int) orderId.getModel().getValueAt(row, 0);
-                status = (Status) orderId.getModel().getValueAt(row, 1);
-
-                if(id != 0 && e.getClickCount() == 1){
-                    refreshPartTable(id);
-                }
-            }
-        });
-    }
-
-
     public void createPart(){
 
             try{
@@ -336,18 +175,16 @@ public class PartPage extends JLabel {
                     return;
                 }
 
-                if(!status.equals(Status.CLOSE)){
+                if(!tables1.getStatus().equals(Status.CLOSE)){
 
-                PartDto partDto = new PartDto();
-                partDto.setPartName(partField.getText());
-                ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+                    ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(tables1.getId());
+                                    serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
 
-
-                partDto.setPrice(Double.parseDouble(priceField.getText()));
-                partDto.setCount(Integer.parseInt(countField.getText()));
-
-                serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
-                partDto.setServiceOrderDto(serviceOrderDto);
+                    PartDto partDto = new PartDto();
+                            partDto.setPartName(partField.getText());
+                            partDto.setPrice(Double.parseDouble(priceField.getText()));
+                            partDto.setCount(Integer.parseInt(countField.getText()));
+                            partDto.setServiceOrderDto(serviceOrderDto);
 
                 if(Double.parseDouble(priceField.getText()) < 0){
                     JOptionPane.showMessageDialog(null, "Price must be grater than 0");
@@ -363,7 +200,7 @@ public class PartPage extends JLabel {
                 if (!PartController.getInstance().createPart(partDto)) {
                     JOptionPane.showMessageDialog(null, "Part added to order");
 
-                      refreshPartTable(id);
+                    tables1.refreshPartTable(tables1.getId());
                     resetFields();
                 }
 
@@ -397,11 +234,10 @@ public class PartPage extends JLabel {
                 return;
             }
 
+            if(!tables1.getStatus().equals(Status.CLOSE)){
 
-            if (!status.equals(Status.CLOSE)) {
-
-                int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(id, total);
-                int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.READY);
+                int updatePrice = ServiceOrderController.getInstance().setTotalPriceToOrder(tables1.getId(), tables1.getTotal());
+                int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(tables1.getId(), Status.READY);
 
                 if (updatePrice > 0 && updateStatus > 0) {
 
@@ -411,7 +247,7 @@ public class PartPage extends JLabel {
                     NotificationController.getInstance().sendNotificationToUser(userLabel.getText(), notification);
                     refreshOrdersTable();
 
-                    JOptionPane.showMessageDialog(null, "Part order closed" + "\n " + "Total: " + total);
+                    JOptionPane.showMessageDialog(null, "Part order closed" + "\n " + "Total: " + tables1.getTotal());
                 } else {
                     JOptionPane.showMessageDialog(null, "Part was not added to the order or status was not updated");
                 }
@@ -428,37 +264,14 @@ public class PartPage extends JLabel {
     public void refreshOrdersTable(){
 
         SwingUtilities.invokeLater(() ->{
-            newOrderIds.clear();
-            newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
-            initTableDataOrderId();
+
+            newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
+            tables1.refreshOrderIdTable(newOrderIds);
+            MainFrame.getInstance().getCreateOrderPage().getTables().refreshOrderIdTable(newOrderIds);
         });
     }
 
-    //method 1
-    private void refreshPartTable(int id){
-
-        SwingUtilities.invokeLater(() -> {
-
-            partsDtos.clear();
-            ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
-            setGenericLabels(serviceOrderDto);
-            serviceOrderDto.getParts().forEach(s ->partsDtos.add(s));
-            tableDataParts();
-            total =  partsDtos.stream()
-                    .map(this::totalSum)
-                    .reduce(0.0, Double::sum);
-            String c = String.format("%.2f",total);
-
-            totalArea.setText("Total:..................................................." + c);
-        });
-    }
-
-    //method 2
-    private double totalSum(PartDto partDto){
-        return partDto.getCount() * partDto.getPrice();
-    }
-
-    private void setGenericLabels( ServiceOrderDto serviceOrderDto){
+    public void setGenericLabels( ServiceOrderDto serviceOrderDto){
         orderLabel.setText(String.valueOf(serviceOrderDto.getId()));
         clientLabel.setText(serviceOrderDto.getClientDto().getName());
         brandLabel.setText(serviceOrderDto.getVehicleDtos().getVehicleName());
@@ -484,4 +297,61 @@ public class PartPage extends JLabel {
     public JButton getClosePartOrder() {
         return closePartOrder;
     }
+
+    public Tables getTables1() {
+        return tables1;
+    }
+
+    public void setTables1(Tables tables1) {
+        this.tables1 = tables1;
+    }
+
+    public JTextArea getTotalArea() {
+        return totalArea;
+    }
+
+    public void setTotalArea(JTextArea totalArea) {
+        this.totalArea = totalArea;
+    }
+
+    public JLabel getOrderLabel() {
+        return orderLabel;
+    }
+
+    public void setOrderLabel(JLabel orderLabel) {
+        this.orderLabel = orderLabel;
+    }
+
+    public JLabel getClientLabel() {
+        return clientLabel;
+    }
+
+    public void setClientLabel(JLabel clientLabel) {
+        this.clientLabel = clientLabel;
+    }
+
+    public JLabel getBrandLabel() {
+        return brandLabel;
+    }
+
+    public void setBrandLabel(JLabel brandLabel) {
+        this.brandLabel = brandLabel;
+    }
+
+    public JLabel getUserLabel() {
+        return userLabel;
+    }
+
+    public void setUserLabel(JLabel userLabel) {
+        this.userLabel = userLabel;
+    }
+
+    public JLabel getSerialLabel() {
+        return serialLabel;
+    }
+
+    public void setSerialLabel(JLabel serialLabel) {
+        this.serialLabel = serialLabel;
+    }
 }
+

@@ -52,7 +52,8 @@ public class NotificationTask {
             notify.forEach(this::setNofificationStatus);
 
             getNotificationTimer().start();
-            MainFrame.getInstance().getCreateOrderPage().refreshOrderTable2();//face refresh la order table cand vine notificarea
+
+          //  MainFrame.getInstance().getCreateOrderPage().refreshOrderTable2();//face refresh la order table cand vine notificarea
             MainFrame.getInstance().getPartPage().refreshOrdersTable();
 
         }

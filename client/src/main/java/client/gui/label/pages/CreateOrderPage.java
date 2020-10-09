@@ -7,7 +7,7 @@ import client.gui.button.ZeeButton;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
 import client.util.mouseAdaptors.MouseAdapterButton;
-import lib.dto.autovehicle.PartDto;
+import client.util.tables.Tables;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
 import lib.dto.autovehicle.VehicleDto;
@@ -19,23 +19,18 @@ import lib.dto.user.Category;
 import lib.dto.user.UserDto;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CreateOrderPage extends JLabel {
 
     private JPanel transparentPanel;
-    private JTable orderId;
     private JTextArea carProblemArea;
+    private JTable orderId;
     private JTable partsTable;
     private JTextField addProblemField;
     private JButton addProblemButton;
@@ -47,55 +42,27 @@ public class CreateOrderPage extends JLabel {
     private JLabel carProblemLabel;
     private JLabel orderPartsLable;
     private JButton getSelectedORderButton;
-
     private JTextField findField;
-    private int id;
     private int lineProblemCount = 0;
-    private double total;
-
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
-    private JScrollPane scrollPane;
-    private JScrollPane scrollPaneOrder;
-
     private List<JLabel> genericLabels = new ArrayList<>();
-    private DefaultTableModel tableModel;
-    private DefaultTableModel orderModel;
-
-    private List<PartDto> partsDtos = new ArrayList<>();
-    private List<Object[]>  newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
+    private List<Object[]>  newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
 
     private ClientDto clientDto = new ClientDto();
     private VehicleDto vehicleDto = new VehicleDto();
     private ServiceOrderDto serviceOrderDto;
     private BillDto billDto = new BillDto();
+    private Tables tables;
 
 
     public CreateOrderPage(int x, int y, int width, int height) {
-        tableModel = new DefaultTableModel(){
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-
-        orderModel = new DefaultTableModel(){
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-
         this.setBounds(x, y, width, height);
         initTransparentPanel();
         initCarProblemLabel();
-        initPartsArea();
-        tableDataParts();
-        initTableServiceOrder();
-        initTableDataOrderId();
-
         intiCarProblemArea();
         initAddProblemField();
         initAddProblemButton();
-        initPartsArea();
         initGenerilLabels();
         initOrderPartsLabel();
         initFindCarButton();
@@ -104,21 +71,22 @@ public class CreateOrderPage extends JLabel {
         initMiniLabels();
         initBillButton();
         initRefreshListButton();
-        selectOrdersWithMouse();
-
+        initTables();
     }
-
 
     private void initTransparentPanel(){
         transparentPanel = new TransparentPanel(250,125,950,550);
         this.add(transparentPanel);
     }
 
+    private void initTables(){
+        tables = new Tables(5,50,115,350, transparentPanel);
+    }
+
     private void initCarProblemLabel(){
         carProblemLabel = new JLabel("Problems of the car:");
         carProblemLabel.setBounds(195,10,150,30);
         transparentPanel.add(carProblemLabel);
-
     }
 
     private void initOrderPartsLabel(){
@@ -210,125 +178,6 @@ public class CreateOrderPage extends JLabel {
         transparentPanel.add(scrollPane);
     }
 
-    private void initTableServiceOrder(){
-
-        orderId = new JTable(orderModel){
-            @Override
-            public Class<?> getColumnClass(int column) {
-                if(convertColumnIndexToModel(column)==1) return String.class;
-                return super.getColumnClass(column);
-            }
-        };
-
-
-        orderId.setDefaultRenderer(String.class, new DefaultTableCellRenderer(){
-            @Override
-            public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected,boolean hasFocus,int row,int column) {
-                Component cell = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
-
-                if( value.equals(Status.OPEN)){
-                    cell.setForeground(Color.GREEN);
-                }
-
-                if(value.equals(Status.CLOSE)){
-                    cell.setForeground(Color.BLUE);
-                }
-
-                if(value.equals(Status.READY)){
-                    cell.setForeground(Color.YELLOW);
-                }
-
-                return cell;
-            }
-        });
-
-
-        orderId.setBounds(5,50,115,350);
-        scrollPaneOrder = new JScrollPane(orderId);
-        scrollPaneOrder.setBounds(5,50,115,350);
-        scrollPaneOrder.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        transparentPanel.add(scrollPaneOrder);
-        orderId.setRowHeight(20);
-        orderId.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        orderId.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        orderId.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        orderId.getTableHeader().setOpaque(false);
-        orderId.getTableHeader().setBackground(new Color(32,136,203));
-        orderId.getTableHeader().setForeground(new Color(255,255,255));
-        orderId.setShowVerticalLines(false);
-        orderId.setBackground(Color.LIGHT_GRAY);
-        orderId.setSelectionBackground(new Color (232,57,95));
-
-    }
-
-    private void initTableDataOrderId(){
-        orderModel.setRowCount(0);
-
-        String [] column = {"Order", "Status"};
-
-        orderModel.setColumnIdentifiers(column);
-
-
-        Object [] row = new Object [2];
-
-        for(Object [] obj : newOrderIds){
-            row[0] = obj[0];
-            row[1] = obj[1];
-            orderModel.addRow(row);
-
-        }
-
-            for(int i = 0; i < 2; i++){
-                orderId.getColumnModel().getColumn(i).setMaxWidth(47);
-                orderId.getColumnModel().getColumn(i).setMinWidth(47);
-            }
-    }
-
-
-
-    private void initPartsArea(){
-        partsTable = new JTable(tableModel);
-        partsTable.setBounds(645,50,300,350);
-        scrollPane = new JScrollPane(partsTable);
-        scrollPane.setBounds(645,50,300,350);
-        scrollPane.setBorder(BorderFactory.createLineBorder(MouseAdapterButton.getColorOrange()));
-        transparentPanel.add(scrollPane);
-        partsTable.setRowHeight(20);
-        partsTable.getTableHeader().setFont(new Font("Segoe UI",Font.BOLD,15 ));
-        partsTable.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        partsTable.getTableHeader().setOpaque(false);
-        partsTable.getTableHeader().setBackground(new Color(32,136,203));
-        partsTable.getTableHeader().setForeground(new Color(255,255,255));
-        partsTable.setShowVerticalLines(false);
-        partsTable.setSelectionBackground(new Color (232,57,95));
-    }
-
-
-    private void tableDataParts(){
-
-        tableModel.setRowCount(0);
-
-        String [] columns = {"id", "part name", "count", "price"};
-
-
-        tableModel.setColumnIdentifiers(columns);
-
-        Object [] row = new Object [4];
-
-        for (PartDto partsDto : partsDtos) {
-            row[0] = partsDto.getId();
-            row[1] = partsDto.getPartName();
-            row[2] = partsDto.getCount();
-            row[3] = partsDto.getPrice();
-            tableModel.addRow(row);
-        }
-
-        for(int i = 0; i< 4; i++){
-            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
-            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
-        }
-    }
-
     public void initBillButton(){
         billButton = new ZeeButton(645,500,300,30,"Bill");
         transparentPanel.add(billButton);
@@ -336,20 +185,22 @@ public class CreateOrderPage extends JLabel {
 
      public void makeBill(){
 
-        String billNumber = String.valueOf(id);
+        String billNumber = String.valueOf(tables.getId());
         String path = "./client/src/main/resources/bill/" + billNumber + ".txt";
+
         billDto.setBrand(brandLabel.getText());
         billDto.setOrderId(orderLabel.getText());
         billDto.setClientName(clientLabel.getText());
         billDto.setSerialNumber(serialLabel.getText());
-        TotalPriceDto totalPriceDto = new TotalPriceDto(String.valueOf(total));
 
-        int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(id, Status.CLOSE);
+        TotalPriceDto totalPriceDto = new TotalPriceDto(String.valueOf(tables.getTotal()));
+
+        int updateStatus = ServiceOrderController.getInstance().updateServiceOrderStatus(tables.getId(), Status.CLOSE);
 
         if(!Files.exists(Paths.get(path))){
 
             if(updateStatus > 0){
-                ServiceOrderController.getInstance().makeBill(partsDtos, path, billDto, totalPriceDto);
+                ServiceOrderController.getInstance().makeBill(tables.getPartsDtos(), path, billDto, totalPriceDto);
                 JOptionPane.showMessageDialog(null, "Bill created");
 
                 refreshOrderTable2();
@@ -424,6 +275,7 @@ public class CreateOrderPage extends JLabel {
                 if(!ServiceOrderController.getInstance().createServiceOrder(serviceOrderDto)){
                     JOptionPane.showMessageDialog(null, "Order created");
                     lineProblemCount = 0;
+
                     SwingUtilities.invokeLater(() ->{
 
                         refreshOrderTable();
@@ -444,59 +296,20 @@ public class CreateOrderPage extends JLabel {
                 }
     }
 
+    //method 1
     private void refreshOrderTable(){
-              newOrderIds.clear();
-              newOrderIds.addAll(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
-              initTableDataOrderId();
+
+        newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
+        tables.refreshOrderIdTable(newOrderIds);
+        MainFrame.getInstance().getPartPage().getTables1().refreshOrderIdTable(newOrderIds);
     }
 
+    //method 2
     public void refreshOrderTable2(){
         SwingUtilities.invokeLater(this::refreshOrderTable);
     }
 
-
-
-    private void selectOrdersWithMouse(){
-
-        orderId.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = orderId.rowAtPoint(e.getPoint());
-             //   Status col = orderId.columnAtPoint(e.getPoint()); // stergerea liniei previne un bug cand selectam coloana de string in loc de int
-                id = (int) orderId.getModel().getValueAt(row, 0);
-
-                if(id != 0 && e.getClickCount() == 1){
-
-                    SwingUtilities.invokeLater(() ->  refreshPartTable(id));
-
-                }
-            }
-        });
-    }
-
-    private void refreshPartTable(int id){
-        carProblemArea.setText("");
-        partsDtos.clear();
-        ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(id);
-        setGenericLabels(serviceOrderDto);
-        serviceOrderDto.getCarProblems().stream()
-                .forEach(s->carProblemArea.append(s + "\n"));
-
-        SwingUtilities.invokeLater(() ->{
-            serviceOrderDto.getParts().stream().forEach(s ->partsDtos.add(s));
-            tableDataParts();
-            total =  partsDtos.stream()
-                    .map(this::totalSum)
-                    .reduce(0.0, Double::sum);
-        });
-
-    }
-
-    private double totalSum(PartDto partDto){
-        return partDto.getCount() * partDto.getPrice();
-    }
-
-    private void setGenericLabels( ServiceOrderDto serviceOrderDto){
+    public void setGenericLabels( ServiceOrderDto serviceOrderDto){
         orderLabel.setText(String.valueOf(serviceOrderDto.getId()));
         clientLabel.setText(serviceOrderDto.getClientDto().getName());
         brandLabel.setText(serviceOrderDto.getVehicleDtos().getVehicleName());
@@ -513,10 +326,7 @@ public class CreateOrderPage extends JLabel {
         }else{
             JOptionPane.showMessageDialog(null, "You can add car problems, only when \n" +
                                                 "you create a new order");
-
         }
-
-
     }
 
     public void findCar(){
@@ -544,8 +354,8 @@ public class CreateOrderPage extends JLabel {
         brandLabel.setText("");
         serialLabel.setText("");
         findField.setText("");
-        partsDtos.clear();
-        tableDataParts();
+        tables.getPartsDtos().clear();
+        tables.tableDataParts();
         addProblemField.setText("");
         carProblemArea.setText("");
     }
@@ -632,5 +442,21 @@ public class CreateOrderPage extends JLabel {
 
     public JButton getRefreshOrdersButton() {
         return refreshOrdersButton;
+    }
+
+    public JTextArea getCarProblemArea() {
+        return carProblemArea;
+    }
+
+    public void setCarProblemArea(JTextArea carProblemArea) {
+        this.carProblemArea = carProblemArea;
+    }
+
+    public Tables getTables() {
+        return tables;
+    }
+
+    public void setTables(Tables tables) {
+        this.tables = tables;
     }
 }
