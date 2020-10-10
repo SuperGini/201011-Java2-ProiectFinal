@@ -12,11 +12,10 @@ public interface ServiceOrderDao {
 
     boolean updateServiceOrder(ServiceOrder serviceOrder);
 
- //   int setTotalPriceToOrder(int orderId, double totalPrice);
-
     int updateServiceOrderStatus(int orderId, Status status);
 
     List<Object[]> findAllServiceOrderIdAndStatus();
 
     int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status);
+
 }

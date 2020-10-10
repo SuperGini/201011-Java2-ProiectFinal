@@ -75,7 +75,7 @@ public class NotificationTask {
         timer++;
         if(timer == 1){
             slideEfect.jLabelXLeft(1200,950,1,2,notificationPage);
-            soundPlay.getClips().get(1).start();
+            soundPlay.getClips().get("notification.wav").start();
         }
 
         if(timer == 300){
@@ -83,7 +83,8 @@ public class NotificationTask {
             timer = 0;
             notificationTimer.stop(); //daca bag getNotificationTimer().stop se duce naibii tot => spam fest
             soundPlay.getClips().get(1).stop();
-            soundPlay.getClips().get(1).setMicrosecondPosition(0);
+           // soundPlay.getClips().get(1).setMicrosecondPosition(0);
+            soundPlay.getClips().get("notification.wav").setMicrosecondPosition(0);
         }
     }
 

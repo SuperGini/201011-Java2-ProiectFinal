@@ -98,7 +98,6 @@ public class ServiceOrderController implements ServiceOrderService {
         }
     }
 
-
     private static final class SingeltonHolder{
         public static final ServiceOrderController INSTANCE = new ServiceOrderController();
     }

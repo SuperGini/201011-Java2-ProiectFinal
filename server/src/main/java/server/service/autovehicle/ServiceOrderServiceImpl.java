@@ -117,4 +117,6 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
     public int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status) throws RemoteException {
        return serviceOrderDao.updateTotalPriceAndStatus(orderId, totalPrice, status);
     }
+
+
 }

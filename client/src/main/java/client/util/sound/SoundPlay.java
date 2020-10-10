@@ -6,20 +6,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SoundPlay {
 
-   private List<Clip> clips = new ArrayList<>();
+   private Map<String, Clip> clips = new HashMap<>();
    private final Path path = Paths.get("./client/src/main/resources/sounds/");
 
+
     public SoundPlay() {
-        setClips();
+        loadClips();
     }
 
     //transform fisierul wav in clip ca sa pot lucra cu sunetul
-    public Clip getSound(String soundPath){
+    public Clip getSound(Path path){
+        String soundPath = path.toString();
+
         Clip clip =null;
 
             try(
@@ -36,14 +39,12 @@ public class SoundPlay {
         return clip;
     }
 
-    private void setClips(){
+    private void loadClips(){
 
         try {
-            Files.list(path)
-                    .map(Path::toString)
-                    .map(this::getSound)
-                    .forEach(clips::add);
 
+            Files.list(path)
+                    .forEach( sound-> clips.put(sound.getFileName().toString(),getSound(sound)));
 
 
         } catch (IOException e) {
@@ -51,7 +52,11 @@ public class SoundPlay {
         }
     }
 
-    public List<Clip> getClips() {
+    public Map<String, Clip> getClips() {
         return clips;
+    }
+
+    public void setClips(Map<String, Clip> clips) {
+        this.clips = clips;
     }
 }

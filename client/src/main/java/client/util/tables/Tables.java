@@ -212,6 +212,7 @@ public class Tables {
     }
 
     public void refreshPartTable(int id){
+
         MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().setText("");
         partsDtos.clear();
          serviceOrderDto = ServiceOrderController.getInstance().findById(id);
