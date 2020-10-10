@@ -104,7 +104,6 @@ public class Tables {
             }
         });
 
-
         orderId.setBounds(orderTableX,orderTableY,orderTableWidth,orderTableHeight);
         scrollPaneOrder = new JScrollPane(orderId);
         scrollPaneOrder.setBounds(orderTableX,orderTableY,orderTableWidth,orderTableHeight);
@@ -120,7 +119,6 @@ public class Tables {
         orderId.setShowVerticalLines(false);
         orderId.setBackground(Color.LIGHT_GRAY);
         orderId.setSelectionBackground(new Color (232,57,95));
-
     }
 
     public void initTableDataOrderId(){
@@ -143,10 +141,7 @@ public class Tables {
             orderId.getColumnModel().getColumn(i).setMaxWidth(47);
             orderId.getColumnModel().getColumn(i).setMinWidth(47);
         }
-
     }
-
-
 
     private void initPartsTable(){
         partsTable = new JTable(tableModel);
@@ -163,10 +158,6 @@ public class Tables {
         partsTable.getTableHeader().setForeground(new Color(255,255,255));
         partsTable.setShowVerticalLines(false);
         partsTable.setSelectionBackground(new Color (232,57,95));
-
-
-
-
     }
 
     private void initPartsTableColumns(){
@@ -177,9 +168,7 @@ public class Tables {
             partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
             partsTable.getColumnModel().getColumn(i).setMinWidth(75);
         }
-
     }
-
 
     public void tableDataParts(){
 
@@ -220,7 +209,8 @@ public class Tables {
 
         MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().setText("");
         partsDtos.clear();
-         serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+
+         serviceOrderDto = ServiceOrderController.getInstance().getPartsAndCarProblems(id);
 
         if(!flag){
             SwingUtilities.invokeLater( () -> {

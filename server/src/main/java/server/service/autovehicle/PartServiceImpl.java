@@ -33,18 +33,8 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
     @Override
     public boolean createPart(PartDto partDto) throws RemoteException{
         Part part = PartConvertor.convert(partDto);
-
-    //    ServiceOrder serviceOrder = serviceOrderDao.findById(partDto.getServiceOrderDto().getId());
-
-//        Optional<Part> findPart = partDao.findPartByName(part.getPartName());
-//            part.setOrders(serviceOrder);
-
-//        if(findPart.isEmpty()){
-
         return partDao.createPart(part);
 
-    //    }
-     //   throw new IllegalArgumentException();
     }
 
     @Override
@@ -59,16 +49,6 @@ public class PartServiceImpl extends UnicastRemoteObject implements PartService 
        return partDao.findPartByName(name)
                .map(PartConvertor::convert)
                .orElseThrow(NoSuchElementException::new);
-    }
-
-    @Override
-    public int increasePartCount(int count, String partName) throws RemoteException {
-        return partDao.increasePartCount(count, partName);
-    }
-
-    @Override
-    public int decreasePartCount(int count, String partName) throws RemoteException{
-        return partDao.decreasePartCount(count,partName);
     }
 
     @Override

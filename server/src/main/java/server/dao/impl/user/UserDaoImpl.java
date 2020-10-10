@@ -41,14 +41,6 @@ public class UserDaoImpl implements UserDao {
         return namedQuery.getResultStream().findFirst();
     }
 
-//    @Override
-//    public List<User> findByName2(String userName){
-//
-//        TypedQuery<User> namedQuery = entityManager.createNamedQuery("User.findByName", User.class);
-//        namedQuery.setParameter("userName", userName);
-//        return namedQuery.getResultList();
-//    }
-
     @Override
     public int updatePassword(String newPassword, User user){
         String jpql ="UPDATE User u SET u.password = :password WHERE u.userId.userName = :userName";

@@ -38,8 +38,6 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
     public boolean updateServiceOrder(ServiceOrder serviceOrder){
 
         entityManager.getTransaction().begin();
-
-
         entityManager.merge(serviceOrder);
         entityManager.getTransaction().commit();
 
@@ -85,5 +83,21 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return row;
     }
 
+    @Override
+    public ServiceOrder getPartsAndCarProblems(int id){
+        String jpql = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.parts WHERE s.id = :id";
+        String jpql2 = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.carProblems p WHERE s IN :serviceOrder ";
+
+        //https://vladmihalcea.com/hibernate-multiplebagfetchexception/
+        var serviceOrder = entityManager.createQuery(jpql, ServiceOrder.class)
+                                    .setParameter("id", id)
+                                    .getSingleResult();
+
+                    serviceOrder = entityManager.createQuery(jpql2, ServiceOrder.class)
+                                    .setParameter("serviceOrder",serviceOrder )
+                                    .getSingleResult();
+
+        return serviceOrder;
+    }
 }
 

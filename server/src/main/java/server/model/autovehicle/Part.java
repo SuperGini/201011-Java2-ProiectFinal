@@ -87,14 +87,4 @@ public class Part {
     public int hashCode() {
         return Objects.hash(partName);
     }
-
-    @Override
-    public String toString() {
-        return "Part{" +
-                "id=" + id +
-                ", partName='" + partName + '\'' +
-                ", price=" + price +
-                ", count=" + count +
-                '}';
-    }
 }

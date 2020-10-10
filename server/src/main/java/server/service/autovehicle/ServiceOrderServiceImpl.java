@@ -118,5 +118,12 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
        return serviceOrderDao.updateTotalPriceAndStatus(orderId, totalPrice, status);
     }
 
+    @Override
+    public ServiceOrderDto getPartsAndCarProblems(int id) throws RemoteException{
+
+        ServiceOrder serviceOrder = serviceOrderDao.getPartsAndCarProblems(id);
+        return ServiceOrderConvertor.convert(serviceOrder);
+
+    }
 
 }

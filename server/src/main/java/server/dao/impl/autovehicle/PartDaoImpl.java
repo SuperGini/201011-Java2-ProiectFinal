@@ -39,8 +39,6 @@ public class PartDaoImpl implements PartDao {
         entityManager.refresh(part);
     }
 
-
-
     @Override
     public Optional<Part> findPartByName(String partName){
 
@@ -50,55 +48,14 @@ public class PartDaoImpl implements PartDao {
        Optional<Part> part = query.getResultStream().findFirst();
        entityManager.getTransaction().commit();
 
-
         return part;
     }
 
     @Override
-    public int increasePartCount(int count, String partName){
-        entityManager.getTransaction().begin();
-
-        Query query = entityManager.createQuery("UPDATE Part p SET p.count = p.count + :increment WHERE p.partName = : partName");
-        query.setParameter("increment", count);
-        query.setParameter("partName",partName);
-        int rows = query.executeUpdate();
-
-
-
-        entityManager.getTransaction().commit();
-
-        return rows;
-    }
-
-    @Override
-    public int decreasePartCount(int count, String partName){
-        entityManager.getTransaction().begin();
-
-        Query query = entityManager.createQuery("UPDATE Part p SET p.count = p.count - :increment WHERE p.partName = : partName");
-        query.setParameter("increment",count);
-        query.setParameter("partName", partName);
-        int rows = query.executeUpdate();
-
-
-        entityManager.getTransaction().commit();
-
-        //fac detach la instanta din cache ca atuinci cand caut iar piesa sa imi ia valoarea exacta din baza de date si nu din cache
-        findPartByName(partName).ifPresent(part -> entityManager.detach(part));
-
-
-
-        return rows;
-    }
-
-
-
-
-    @Override
     public Collection<Part> findAllParts(){
-       TypedQuery<Part> query = entityManager.createNamedQuery("Part.findAll", Part.class);
+        TypedQuery<Part> query = entityManager.createNamedQuery("Part.findAll", Part.class);
 
         return query.getResultList();
 
     }
-
 }

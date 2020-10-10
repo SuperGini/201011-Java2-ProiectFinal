@@ -11,9 +11,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "service_order")
-@NamedQueries({
-        @NamedQuery(name ="ServiceOrder.findAll", query = "SELECT s FROM ServiceOrder s"),
-        @NamedQuery(name = "ServiceOrder.findAllIds" , query ="SELECT o.id FROM ServiceOrder o" ),
+@NamedQueries({  //nu le mai folosesc -> au fost folosite mai mult pt verificare sintaxa jpql
+       @NamedQuery(name ="ServiceOrder.findPartsAndcarProblems", query = "SELECT s FROM ServiceOrder s JOIN FETCH s.carProblems p WHERE s IN :serviceOrder "),
         @NamedQuery(name = "ServiceOrder.findOrderById", query = "SELECT o FROM ServiceOrder o WHERE o.id = :id" )
 
 })
@@ -108,12 +107,6 @@ public class ServiceOrder {
         }
 
     }
-
-
-
-
-
-
 
 
     public Vehicle getVehicle() {

@@ -57,28 +57,6 @@ public class PartController implements PartService {
     }
 
     @Override
-    public int increasePartCount(int count, String partName) {
-        try {
-           return partService.increasePartCount(count, partName);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public int decreasePartCount(int count, String partName){
-        try {
-          return  partService.decreasePartCount(count, partName);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-    }
-
-
-    @Override
     public Collection<PartDto> findAllParts(){
         try {
             return partService.findAllParts();

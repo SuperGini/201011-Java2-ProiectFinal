@@ -23,7 +23,7 @@ public class SoundDaoImpl implements SoundDao {
         try {
 
 
-            sound.setSoundWave(Files.readAllBytes(path));
+            sound.setSoundWave(Files.readAllBytes(path)); // atentie aici sa nu fie fisiere mari
             sound.setSoundName(path.getFileName().toString());
 
             entityManager.getTransaction().begin();

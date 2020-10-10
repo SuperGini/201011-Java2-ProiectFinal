@@ -39,11 +39,4 @@ public class UserIdDto implements Serializable {
         return Objects.hash(userName, emailAdress);
     }
 
-    @Override
-    public String toString() {
-        return "UserIdDto{" +
-                "userName='" + userName + '\'' +
-                ", emailAdress='" + emailAdress + '\'' +
-                '}';
-    }
 }

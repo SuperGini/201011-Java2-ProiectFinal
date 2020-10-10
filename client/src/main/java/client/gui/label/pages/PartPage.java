@@ -198,7 +198,7 @@ public class PartPage extends JLabel {
 
                 //daca da eroare la format de numar se duce pe catch si nu ne lasa sa creem piesa
                 if (!PartController.getInstance().createPart(partDto)) {
-                    JOptionPane.showMessageDialog(null, "Part added to order");
+                    JOptionPane.showMessageDialog(null, "Part added to order " + tables1.getId());
 
                     tables1.refreshPartTable(tables1.getId());
                     resetFields();

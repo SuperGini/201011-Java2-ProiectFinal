@@ -14,9 +14,9 @@ public interface PartDao {
 
     Optional<Part> findPartByName(String partName);
 
-    int increasePartCount(int count, String partName);
+//    int increasePartCount(int count, String partName);
 
-    int decreasePartCount(int count, String partName);
+ //   int decreasePartCount(int count, String partName);
 
     Collection<Part> findAllParts();
 }
