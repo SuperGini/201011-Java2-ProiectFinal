@@ -64,8 +64,10 @@ public class Tables {
         };
 
         initTableServiceOrder();
+        initTableOrdersColumns();
         initTableDataOrderId();
         initPartsTable();
+        initPartsTableColumns();
         tableDataParts();
         selectOrdersWithMouse();
     }
@@ -122,14 +124,7 @@ public class Tables {
     }
 
     public void initTableDataOrderId(){
-
-
         orderModel.setRowCount(0);
-
-        String [] column = {"Order", "Status"};
-
-        orderModel.setColumnIdentifiers(column);
-
 
         Object [] row = new Object [2];
 
@@ -137,13 +132,18 @@ public class Tables {
             row[0] = obj[0];
             row[1] = obj[1];
             orderModel.addRow(row);
-
         }
+    }
+
+    private void initTableOrdersColumns(){
+        String [] column = {"Order", "Status"};
+        orderModel.setColumnIdentifiers(column);
 
         for(int i = 0; i < 2; i++){
             orderId.getColumnModel().getColumn(i).setMaxWidth(47);
             orderId.getColumnModel().getColumn(i).setMinWidth(47);
         }
+
     }
 
 
@@ -163,17 +163,27 @@ public class Tables {
         partsTable.getTableHeader().setForeground(new Color(255,255,255));
         partsTable.setShowVerticalLines(false);
         partsTable.setSelectionBackground(new Color (232,57,95));
+
+
+
+
+    }
+
+    private void initPartsTableColumns(){
+        String [] columns = {"id", "part name", "count", "price"};
+        tableModel.setColumnIdentifiers(columns);
+
+        for(int i = 0; i< 4; i++){
+            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
+            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
+        }
+
     }
 
 
     public void tableDataParts(){
 
         tableModel.setRowCount(0);
-
-        String [] columns = {"id", "part name", "count", "price"};
-
-
-        tableModel.setColumnIdentifiers(columns);
 
         Object [] row = new Object [4];
 
@@ -183,11 +193,6 @@ public class Tables {
             row[2] = partsDto.getCount();
             row[3] = partsDto.getPrice();
             tableModel.addRow(row);
-        }
-
-        for(int i = 0; i< 4; i++){
-            partsTable.getColumnModel().getColumn(i).setMaxWidth(75);
-            partsTable.getColumnModel().getColumn(i).setMinWidth(75);
         }
     }
 
