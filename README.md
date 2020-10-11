@@ -35,7 +35,7 @@ Atentie!!! pentru ca programul sa functioneze trebuie sa aveti o biblioteca exte
 Programul are o eroare doar cand este pornit pentru prima data si initilizata baza de date. Din cate am vazut nu afecteaza cu nimic rularea programului. Posibil sa fie de la faptul ca generez baza de date automat
 sau datorita strategiei de generarea a id-ului.
 
-p.s: operatiile pe baza de date nu sunt otimizate. Partea buna e ca macar cand fac un select nu iau toata baza de data dupa mine:D.
+p.s: operatiile pe baza de date nu sunt optimizate. Partea buna e ca macar cand fac un select nu iau toata baza de data dupa mine:D.
 
 Warning!! the sounds and pictures from this program dont belog to me. The pictures you cand find them here https://unsplash.com/
 All pictures and sounds are used only for documentation or learnig purpose they are not for comercial use. If you dont like to use your piscture or sounds write me here: faraonu_ginitoru@yahoo.com and i will take them down.
