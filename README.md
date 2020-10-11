@@ -7,6 +7,7 @@ Atentie!!! pentru ca programul sa functioneze trebuie sa aveti o biblioteca exte
 - pe langa dependintele de hybernate si mysql connector j partea de client mai contine o dependinta care se numeste GLG2D si se afla in pom-ul clientului si care se poate gasi la adresa:
    https://brandonborkholder.github.io/glg2d/  -> nu este functionala in proiect -> este folosita doar pentru frame-ul de loading ca sa arunce codul pe placa video. Este posibil ca intimpul
    folosirii dependintei GLG2D placa video sa dea eroare.
+   
 
 - Ideea din spatele programului este urmatoare:
 
@@ -32,11 +33,11 @@ Atentie!!! pentru ca programul sa functioneze trebuie sa aveti o biblioteca exte
    status comenzii s-a schimbat, din OPEN in READY.
 
 6) La final userul care a creeat comanda o poate inchide -> Status -> CLOSE prin apasarea butonul de "Bill" si efectuarea unei facturi. O data inchisa comanda nu se mai pot adauga piese in ea.
-Programul are o eroare doar cand este pornit pentru prima data si initilizata baza de date. Din cate am vazut nu afecteaza cu nimic rularea programului. Posibil sa fie de la faptul ca generez baza de date automat
+Programul are o eroare doar cand este pornit pentru prima data si initilizata baza de date. Din cate am vazut nu afecteaza cu nimic rularea programului. Daca se schimba strategia de generare a id-ului entitatilor ce sunt persiatate din TABLE in IDENTITY vad ca eroarea dispare.
 sau datorita strategiei de generarea a id-ului.
 
 p.s: operatiile pe baza de date nu sunt optimizate. Partea buna e ca macar cand fac un select nu iau toata baza de data dupa mine:D.
 
-Warning!! the sounds and pictures from this program dont belog to me. The pictures you cand find them here https://unsplash.com/
+Warning!! the sounds and pictures from this program dont belog to me. The pictures you can find them here https://unsplash.com/
 All pictures and sounds are used only for documentation or learnig purpose they are not for comercial use. If you dont like to use your piscture or sounds write me here: faraonu_ginitoru@yahoo.com and i will take them down.
 
