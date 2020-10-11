@@ -32,10 +32,10 @@ Atentie!!! pentru ca programul sa functioneze trebuie sa aveti o biblioteca exte
     WAREHOUSE poate adauga piese in comanda. Iar la sfarsit cand s-au adaugat toate piesele se apasa butonul  "close part order" iar cel care a creeat comanda respectiva primeste notificare ca 
    status comenzii s-a schimbat, din OPEN in READY.
 
-6) La final userul care a creeat comanda o poate inchide -> Status -> CLOSE prin apasarea butonul de "Bill" si efectuarea unei facturi. O data inchisa comanda nu se mai pot adauga piese in ea.
+6) La final user-ul care a creeat comanda o poate inchide -> Status -> CLOSE prin apasarea butonul de "Bill" si efectuarea unei facturi. O data inchisa comanda nu se mai pot adauga piese in ea.
 Programul are o eroare doar cand este pornit pentru prima data si initilizata baza de date. Din cate am vazut nu afecteaza cu nimic rularea programului. Daca se schimba strategia de generare a id-ului entitatilor ce sunt persiatate din TABLE in IDENTITY vad ca eroarea dispare.
 
-p.s: operatiile pe baza de date nu sunt optimizate. Partea buna e ca macar cand fac un select nu iau toata baza de data dupa mine:D.
+p.s: operatiile pe baza de date nu sunt optimizate. Partea buna e ca macar cand fac un select nu iau toata baza de date dupa mine:D.
 
 Warning!! the sounds and pictures from this program dont belog to me. The pictures you can find them here https://unsplash.com/
 All pictures and sounds are used only for documentation or learnig purpose they are not for comercial use. If you dont like to use your piscture or sounds write me here: faraonu_ginitoru@yahoo.com and i will take them down.
