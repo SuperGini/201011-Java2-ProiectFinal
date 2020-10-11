@@ -1,11 +1,14 @@
 package client.util.tables;
 
 import client.controller.autovehicle.ServiceOrderController;
+import client.controller.notification.NotificationController;
 import client.gui.frame.MainFrame;
 import client.util.mouseAdaptors.MouseAdapterButton;
 import lib.dto.autovehicle.PartDto;
 import lib.dto.autovehicle.ServiceOrderDto;
 import lib.dto.autovehicle.Status;
+import lib.dto.notification.Notification;
+import lib.dto.user.Category;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -42,7 +45,6 @@ public class Tables {
     private JTable partsTable;
     private java.util.List<PartDto> partsDtos = new ArrayList<>();
     private List<Object[]> newOrderIds = new CopyOnWriteArrayList<>(ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus());
-
     public Tables(int orderTableX, int orderTableY, int tableOrderWidth, int orderTableHeight, JPanel transparentPanel, boolean flag) {
         this.orderTableX = orderTableX;
         this.orderTableY = orderTableY;
@@ -198,7 +200,7 @@ public class Tables {
 
                 if(id != 0 && e.getClickCount() == 1){
 
-                    SwingUtilities.invokeLater(() ->  refreshPartTable(id));
+                     refreshPartTable(id);
 
                 }
             }
@@ -210,7 +212,7 @@ public class Tables {
         MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().setText("");
         partsDtos.clear();
 
-         serviceOrderDto = ServiceOrderController.getInstance().getPartsAndCarProblems(id);
+         serviceOrderDto = ServiceOrderController.getInstance().findById(id);
 
         if(!flag){
             SwingUtilities.invokeLater( () -> {
@@ -253,6 +255,17 @@ public class Tables {
         initTableDataOrderId();
     }
 
+    public void sendNotification(){
+        Object [] obj = newOrderIds.get(newOrderIds.size()-1);
+        int x = (Integer) obj[0];
+
+        Notification notification = new Notification(String.valueOf(x), Status.OPEN);
+
+      //  setez notificarea
+        NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
+
+    }
+
 
     public Status getStatus() {
         return status;
@@ -292,5 +305,13 @@ public class Tables {
 
     public void setPartsDtos(List<PartDto> partsDtos) {
         this.partsDtos = partsDtos;
+    }
+
+    public List<Object[]> getNewOrderIds() {
+        return newOrderIds;
+    }
+
+    public void setNewOrderIds(List<Object[]> newOrderIds) {
+        this.newOrderIds = newOrderIds;
     }
 }

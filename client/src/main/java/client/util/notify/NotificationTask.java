@@ -53,8 +53,8 @@ public class NotificationTask {
 
             getNotificationTimer().start();
 
-          //  MainFrame.getInstance().getCreateOrderPage().refreshOrderTable2();//face refresh la order table cand vine notificarea
-            MainFrame.getInstance().getPartPage().refreshOrdersTable();
+
+            MainFrame.getInstance().getPartPage().refreshOrdersTable();//face refresh la order table cand vine notificarea
 
         }
     }
@@ -81,9 +81,7 @@ public class NotificationTask {
         if(timer == 300){
             slideEfect.jLabelXRight(950,1200,1,2,notificationPage);
             timer = 0;
-            notificationTimer.stop(); //daca bag getNotificationTimer().stop se duce naibii tot => spam fest
-            soundPlay.getClips().get(1).stop();
-           // soundPlay.getClips().get(1).setMicrosecondPosition(0);
+            notificationTimer.stop(); //daca bag getNotificationTimer().stop se duce naibii tot => spam fest :D
             soundPlay.getClips().get("notification.wav").setMicrosecondPosition(0);
         }
     }

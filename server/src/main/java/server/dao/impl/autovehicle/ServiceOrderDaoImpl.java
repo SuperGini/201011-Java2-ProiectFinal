@@ -22,7 +22,6 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         entityManager.getTransaction().begin();
         entityManager.persist(serviceOrder);
         entityManager.getTransaction().commit();
-
         return entityManager.getTransaction().getRollbackOnly();
 
     }
@@ -83,20 +82,24 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return row;
     }
 
+    //nu functioneaa corect -> nu imi aduce piesa din baza de data dupa ce a afost creeata decat daca
+    //fac refresh la serviceOrder
     @Override
     public ServiceOrder getPartsAndCarProblems(int id){
         String jpql = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.parts WHERE s.id = :id";
         String jpql2 = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.carProblems p WHERE s IN :serviceOrder ";
 
+
         //https://vladmihalcea.com/hibernate-multiplebagfetchexception/
         var serviceOrder = entityManager.createQuery(jpql, ServiceOrder.class)
-                                    .setParameter("id", id)
-                                    .getSingleResult();
+                                     .setParameter("id", id)
+                                     .getSingleResult();
 
-                    serviceOrder = entityManager.createQuery(jpql2, ServiceOrder.class)
-                                    .setParameter("serviceOrder",serviceOrder )
-                                    .getSingleResult();
+                         serviceOrder = entityManager.createQuery(jpql2, ServiceOrder.class)
+                                      .setParameter("serviceOrder",serviceOrder )
+                                      .getSingleResult();
 
+        System.out.println(serviceOrder.getParts().toString());
         return serviceOrder;
     }
 }

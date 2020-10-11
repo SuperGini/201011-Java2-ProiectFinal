@@ -36,7 +36,6 @@ public class PartPage extends JLabel {
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
     private List<JLabel> genericLabels = new ArrayList<>();
-    private List<Object[]>  newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
     private List<JLabel> partLabels = new ArrayList<>();
 
     private Tables tables1;
@@ -180,6 +179,8 @@ public class PartPage extends JLabel {
                     ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(tables1.getId());
                                     serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
 
+
+
                     PartDto partDto = new PartDto();
                             partDto.setPartName(partField.getText());
                             partDto.setPrice(Double.parseDouble(priceField.getText()));
@@ -265,7 +266,7 @@ public class PartPage extends JLabel {
 
         SwingUtilities.invokeLater(() ->{
 
-            newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
+           var newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
             tables1.refreshOrderIdTable(newOrderIds);
             MainFrame.getInstance().getCreateOrderPage().getTables().refreshOrderIdTable(newOrderIds);
         });

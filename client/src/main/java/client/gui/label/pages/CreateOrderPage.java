@@ -2,7 +2,6 @@ package client.gui.label.pages;
 
 import client.controller.autovehicle.ServiceOrderController;
 import client.controller.autovehicle.VehicleController;
-import client.controller.notification.NotificationController;
 import client.gui.button.ZeeButton;
 import client.gui.frame.MainFrame;
 import client.gui.panel.TransparentPanel;
@@ -14,7 +13,6 @@ import lib.dto.autovehicle.VehicleDto;
 import lib.dto.bill.BillDto;
 import lib.dto.bill.TotalPriceDto;
 import lib.dto.client.ClientDto;
-import lib.dto.notification.Notification;
 import lib.dto.user.Category;
 import lib.dto.user.UserDto;
 
@@ -47,7 +45,6 @@ public class CreateOrderPage extends JLabel {
     private JLabel orderLabel, userLabel, clientLabel, brandLabel, serialLabel;
 
     private List<JLabel> genericLabels = new ArrayList<>();
-    private List<Object[]>  newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
 
     private ClientDto clientDto = new ClientDto();
     private VehicleDto vehicleDto = new VehicleDto();
@@ -279,14 +276,7 @@ public class CreateOrderPage extends JLabel {
                     SwingUtilities.invokeLater(() ->{
 
                         refreshOrderTable();
-
-                        Object [] obj = newOrderIds.get(newOrderIds.size()-1);
-                        int x = (Integer) obj[0];
-
-                        Notification notification = new Notification(String.valueOf(x), Status.OPEN);
-
-                        //setez notificarea
-                        NotificationController.getInstance().sendNotificationToWarehouse(Category.WAREHOUSE, notification);
+                        tables.sendNotification();
 
                     });
 
@@ -299,7 +289,7 @@ public class CreateOrderPage extends JLabel {
     //method 1
     private void refreshOrderTable(){
 
-        newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
+       var newOrderIds = ServiceOrderController.getInstance().findAllServiceOrderIdAndStatus();
         tables.refreshOrderIdTable(newOrderIds);
         MainFrame.getInstance().getPartPage().getTables1().refreshOrderIdTable(newOrderIds);
     }
