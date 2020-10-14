@@ -33,15 +33,16 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
         var entityManager = entityManagerFactory.createEntityManager();
 
         this.pictureDao = new PictureDaoImpl(entityManager);
-        sendPicturesToDatabase();
         addPictureToList();
+        sendPicturesToDatabase();
+
     }
 
     //method 1
     public void sendPicturesToDatabase(){
 
         try {
-            if(findAllBackgroundPictures().isEmpty()){
+            if(pictures.isEmpty()){
 
                 Files.list(pathOriginal)
                         .map(Path::toString)
