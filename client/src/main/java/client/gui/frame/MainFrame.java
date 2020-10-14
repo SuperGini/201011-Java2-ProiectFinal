@@ -75,6 +75,7 @@ public class MainFrame extends JFrame {
         initImageTask();
         changeFocus();
         initFrameMove();
+        this.setVisible(true);
     }
 
     private void changeFocus(){

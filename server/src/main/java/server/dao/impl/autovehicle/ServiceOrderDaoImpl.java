@@ -82,6 +82,14 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         return row;
     }
 
+    @Override
+    public void detachServiceOrder(int id){
+        entityManager.getTransaction().begin();
+        var order = entityManager.find(ServiceOrder.class, id);
+        entityManager.detach(order);
+        entityManager.getTransaction().commit();
+    }
+
     //nu functioneaa corect -> nu imi aduce piesa din baza de data dupa ce a afost creeata decat daca
     //fac refresh la serviceOrder
     @Override
@@ -89,8 +97,8 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         String jpql = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.parts WHERE s.id = :id";
         String jpql2 = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.carProblems p WHERE s IN :serviceOrder ";
 
-
         //https://vladmihalcea.com/hibernate-multiplebagfetchexception/
+
         var serviceOrder = entityManager.createQuery(jpql, ServiceOrder.class)
                                      .setParameter("id", id)
                                      .getSingleResult();

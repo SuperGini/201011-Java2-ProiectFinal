@@ -18,5 +18,7 @@ public interface ServiceOrderDao {
 
     int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status);
 
+    void detachServiceOrder(int id);
+
     ServiceOrder getPartsAndCarProblems(int id);
 }

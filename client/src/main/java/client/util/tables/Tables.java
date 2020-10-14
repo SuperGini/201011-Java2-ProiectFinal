@@ -70,6 +70,9 @@ public class Tables {
         initTableDataOrderId();
         initPartsTable();
         initPartsTableColumns();
+
+
+
         tableDataParts();
         selectOrdersWithMouse();
     }
@@ -212,7 +215,7 @@ public class Tables {
         MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().setText("");
         partsDtos.clear();
 
-         serviceOrderDto = ServiceOrderController.getInstance().findById(id);
+         serviceOrderDto = ServiceOrderController.getInstance().getPartsAndCarProblems(id);
 
         if(!flag){
             SwingUtilities.invokeLater( () -> {
@@ -227,7 +230,6 @@ public class Tables {
             MainFrame.getInstance().getPartPage().setGenericLabels(serviceOrderDto); //seteaza labels la partPage
             SwingUtilities.invokeLater(() ->{
                 addPartsToTableAndMakeSum();
-
                 String c = String.format("%.2f",total);
 
                 MainFrame.getInstance().getPartPage()
@@ -237,6 +239,7 @@ public class Tables {
     }
 
     private void addPartsToTableAndMakeSum(){
+        partsDtos.clear();
         partsDtos.addAll(serviceOrderDto.getParts());
         tableDataParts();
         total =  partsDtos.stream()
@@ -298,6 +301,7 @@ public class Tables {
     public void setTotal(double total) {
         this.total = total;
     }
+
 
     public List<PartDto> getPartsDtos() {
         return partsDtos;
