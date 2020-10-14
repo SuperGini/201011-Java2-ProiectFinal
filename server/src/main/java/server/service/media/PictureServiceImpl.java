@@ -75,11 +75,7 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
         pictureDao.sendPicturesToDatabase(image, path);
     }
 
-
-    private List<Picture> findAllBackgroundPictures(){
-      return  pictureDao.findAllBackgroundPictures();
-    }
-
+    
     private void addPictureToList(){
        pictureDao.findAllBackgroundPictures().stream()
 
