@@ -24,7 +24,7 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
     private final PictureDao pictureDao;
     private Path pathBlurr = Paths.get("./server/src/main/resources/blurredImages");
     private Path pathOriginal = Paths.get("./server/src/main/resources/images");
-    private  List<PictureDto> pictures = new CopyOnWriteArrayList<>();
+    private static List<PictureDto> pictures = new CopyOnWriteArrayList<>();
 
 
     public PictureServiceImpl() throws RemoteException {
@@ -75,7 +75,7 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
         pictureDao.sendPicturesToDatabase(image, path);
     }
 
-    
+
     private void addPictureToList(){
        pictureDao.findAllBackgroundPictures().stream()
 
