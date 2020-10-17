@@ -21,4 +21,6 @@ public interface ServiceOrderDao {
     void detachServiceOrder(int id);
 
     ServiceOrder getPartsAndCarProblems(int id);
+
+    ServiceOrder getParts(int id);
 }

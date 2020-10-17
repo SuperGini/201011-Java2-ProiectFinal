@@ -126,7 +126,7 @@ public class MainFrame extends JFrame {
                 .addActionListener(ev -> login());
 
         loginPage.getRegisterButton()
-                .addActionListener(ev -> moveLabesLeftAndRaight(registerPage));
+                .addActionListener(ev -> moveLabesLeftAndRight(registerPage));
     }
 
     private void initRegisterPage(){
@@ -140,7 +140,7 @@ public class MainFrame extends JFrame {
                 .addMouseListener(new MouseAdapterLogAndRegister());
 
         registerPage.getLoginButton()
-                .addActionListener(ev -> moveLabesLeftAndRaight(loginPage));
+                .addActionListener(ev -> moveLabesLeftAndRight(loginPage));
 
         registerPage.getRegisterButton()
                 .addActionListener(ev -> register());
@@ -195,16 +195,16 @@ public class MainFrame extends JFrame {
         backgroundLabel.add(leftButtonPage);
 
             leftButtonPage.getButtons().get(0)
-                    .addActionListener( ev -> movePagesLeftAndRaight(createOrderPage)); //create order button
+                    .addActionListener( ev -> movePagesLeftAndRight(createOrderPage)); //create order button
 
             leftButtonPage.getButtons().get(1)
-                    .addActionListener( ev -> movePagesLeftAndRaight(clientAndVehiclePage)); //client and vehicle button
+                    .addActionListener( ev -> movePagesLeftAndRight(clientAndVehiclePage)); //client and vehicle button
 
             leftButtonPage.getButtons().get(2)
-                    .addActionListener(ev -> movePagesLeftAndRaight(partPage)); //parts button
+                    .addActionListener(ev -> movePagesLeftAndRight(partPage)); //parts button
 
             leftButtonPage.getButtons().get(3)
-                    .addActionListener( ev -> movePagesLeftAndRaight(accountPage)); // my account page
+                    .addActionListener( ev -> movePagesLeftAndRight(accountPage)); // my account page
     }
 
 
@@ -270,7 +270,7 @@ public class MainFrame extends JFrame {
 
     private void login(){
         if(loginPage.validCredentials()){
-            moveLoginPageRaightAndLeftButtonPageRaight();
+            moveLoginPageRaightAndLeftButtonPageRight();
         }
     }
 
@@ -289,7 +289,7 @@ public class MainFrame extends JFrame {
         return pages;
     }
 
-    private void moveLabesLeftAndRaight(JLabel labelPage){
+    private void moveLabesLeftAndRight(JLabel labelPage){
         for(JLabel page: pages){
             if((page.getX() == 400)  && (page != labelPage)){
                 slideEfect.jLabelXRight(400,1200,1,4,page);
@@ -298,7 +298,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    private void movePagesLeftAndRaight(JLabel labelPage){
+    private void movePagesLeftAndRight(JLabel labelPage){
 
         for(JLabel page : pages){
             if(page.getX() == 0 && (page != labelPage)){
@@ -308,7 +308,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    private void moveLoginPageRaightAndLeftButtonPageRaight(){
+    private void moveLoginPageRaightAndLeftButtonPageRight(){
         slideEfect.jLabelXRight(-200,0,2, 4,leftButtonPage);
         slideEfect.jLabelXRight(400,1200,2,4, loginPage);
         slideEfect.jLabelXLeft(poitX,0,1,6,createOrderPage);

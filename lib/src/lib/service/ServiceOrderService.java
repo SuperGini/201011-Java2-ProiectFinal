@@ -27,4 +27,6 @@ public interface ServiceOrderService extends Remote {
     int updateTotalPriceAndStatus(int orderId, double totalPrice, Status status) throws RemoteException;
 
     ServiceOrderDto getPartsAndCarProblems(int id) throws RemoteException;
+
+    ServiceOrderDto getParts(int id) throws RemoteException;
 }

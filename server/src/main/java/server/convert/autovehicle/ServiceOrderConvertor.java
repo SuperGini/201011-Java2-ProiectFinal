@@ -32,7 +32,7 @@ public class ServiceOrderConvertor {
                                     .collect(Collectors.toList());
 
         ServiceOrderDto serviceOrderDto = new ServiceOrderDto.Builder()
-                                          .setCarProblems(new ArrayList<>(serviceOrder.getCarProblems()))
+                                       //   .setCarProblems(new ArrayList<>(serviceOrder.getCarProblems()))
                                           .setParts(new ArrayList<>(partsDto))
                                           .setStatus(serviceOrder.getStatus())
                                           .setTotal(serviceOrder.getTotal())

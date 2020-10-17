@@ -176,7 +176,7 @@ public class PartPage extends JLabel {
 
                 if(!tables1.getStatus().equals(Status.CLOSE)){
 
-                    ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().findById(tables1.getId());
+                    ServiceOrderDto serviceOrderDto = ServiceOrderController.getInstance().getParts(tables1.getId());
                                     serviceOrderDto.setTotal(Double.parseDouble(finalPrice.getText()));
 
 

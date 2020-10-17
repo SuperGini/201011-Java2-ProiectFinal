@@ -212,13 +212,13 @@ public class Tables {
 
     public void refreshPartTable(int id){
 
-        MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().setText("");
-        partsDtos.clear();
-
-         serviceOrderDto = ServiceOrderController.getInstance().getPartsAndCarProblems(id);
 
         if(!flag){
+
             SwingUtilities.invokeLater( () -> {
+                MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().setText("");
+                serviceOrderDto = ServiceOrderController.getInstance().getPartsAndCarProblems(id);
+
                 MainFrame.getInstance().getCreateOrderPage().setGenericLabels(serviceOrderDto); //seteaza labels la createOrder
                 serviceOrderDto.getCarProblems()
                         .forEach(s-> MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().append(s + "\n"));
@@ -227,8 +227,12 @@ public class Tables {
         }
 
         if(flag){
-            MainFrame.getInstance().getPartPage().setGenericLabels(serviceOrderDto); //seteaza labels la partPage
+
             SwingUtilities.invokeLater(() ->{
+
+                serviceOrderDto = ServiceOrderController.getInstance().getParts(id);
+               // System.out.println(serviceOrderDto.getCarProblems().toString());
+                MainFrame.getInstance().getPartPage().setGenericLabels(serviceOrderDto); //seteaza labels la partPage
                 addPartsToTableAndMakeSum();
                 String c = String.format("%.2f",total);
 

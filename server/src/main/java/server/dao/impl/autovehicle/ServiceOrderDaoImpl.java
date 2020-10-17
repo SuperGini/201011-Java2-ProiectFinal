@@ -90,15 +90,13 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         entityManager.getTransaction().commit();
     }
 
-    //nu functioneaa corect -> nu imi aduce piesa din baza de data dupa ce a afost creeata decat daca
-    //fac refresh la serviceOrder
+    //functioneaza acum:D
     @Override
     public ServiceOrder getPartsAndCarProblems(int id){
         String jpql = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.parts WHERE s.id = :id";
         String jpql2 = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.carProblems p WHERE s IN :serviceOrder ";
 
         //https://vladmihalcea.com/hibernate-multiplebagfetchexception/
-
         var serviceOrder = entityManager.createQuery(jpql, ServiceOrder.class)
                                      .setParameter("id", id)
                                      .getSingleResult();
@@ -110,5 +108,17 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
         System.out.println(serviceOrder.getParts().toString());
         return serviceOrder;
     }
+
+    //problema e ca imi aduce si carProblems list
+    @Override
+    public ServiceOrder getParts(int id){
+        String jpql = "SELECT s FROM ServiceOrder s LEFT JOIN FETCH s.parts p WHERE s.id = :id";
+
+        TypedQuery<ServiceOrder> query = entityManager.createQuery(jpql, ServiceOrder.class);
+                                 query.setParameter("id", id);
+
+        return query.getSingleResult();
+    }
+
 }
 
