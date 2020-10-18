@@ -36,10 +36,10 @@ public class ServiceOrder {
     public ServiceOrder() {
     }
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private Client client;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Enumerated(EnumType.STRING)
@@ -55,7 +55,7 @@ public class ServiceOrder {
     private List<Part> parts = new ArrayList<>();
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
 

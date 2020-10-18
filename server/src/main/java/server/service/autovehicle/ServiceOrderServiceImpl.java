@@ -132,7 +132,13 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
         serviceOrderDao.detachServiceOrder(id);
         ServiceOrder serviceOrder = serviceOrderDao.getParts(id);
 
-        return ServiceOrderConvertor.convert(serviceOrder);
+        return ServiceOrderConvertor.convertNoCarProblemsCollection(serviceOrder);
     }
 
+    @Override
+    public ServiceOrderDto findById2(int id) throws RemoteException{
+
+       return ServiceOrderConvertor.convertIds(serviceOrderDao.findById2(id));
+
+    }
 }

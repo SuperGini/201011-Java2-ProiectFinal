@@ -35,11 +35,6 @@ public class PartDaoImpl implements PartDao {
     }
 
     @Override
-    public void refreshPart(Part part){
-        entityManager.refresh(part);
-    }
-
-    @Override
     public Optional<Part> findPartByName(String partName){
 
        entityManager.getTransaction().begin();

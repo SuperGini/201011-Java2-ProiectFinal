@@ -223,6 +223,7 @@ public class Tables {
                 serviceOrderDto.getCarProblems()
                         .forEach(s-> MainFrame.getInstance().getCreateOrderPage().getCarProblemArea().append(s + "\n"));
                 addPartsToTableAndMakeSum();
+
             });
         }
 
@@ -231,7 +232,7 @@ public class Tables {
             SwingUtilities.invokeLater(() ->{
 
                 serviceOrderDto = ServiceOrderController.getInstance().getParts(id);
-               // System.out.println(serviceOrderDto.getCarProblems().toString());
+
                 MainFrame.getInstance().getPartPage().setGenericLabels(serviceOrderDto); //seteaza labels la partPage
                 addPartsToTableAndMakeSum();
                 String c = String.format("%.2f",total);

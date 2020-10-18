@@ -23,4 +23,6 @@ public interface ServiceOrderDao {
     ServiceOrder getPartsAndCarProblems(int id);
 
     ServiceOrder getParts(int id);
+
+    ServiceOrder findById2(int id);
 }

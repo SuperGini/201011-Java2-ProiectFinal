@@ -119,6 +119,16 @@ public class ServiceOrderController implements ServiceOrderService {
 
     }
 
+    @Override
+    public ServiceOrderDto findById2(int id){
+        try {
+            return serviceOrderService.findById2(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     private static final class SingeltonHolder{
         public static final ServiceOrderController INSTANCE = new ServiceOrderController();
     }

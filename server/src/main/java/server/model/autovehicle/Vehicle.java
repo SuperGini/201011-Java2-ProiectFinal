@@ -27,7 +27,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Client client;
 
     @OneToMany(mappedBy = "vehicle")

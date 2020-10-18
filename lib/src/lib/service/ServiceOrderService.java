@@ -29,4 +29,6 @@ public interface ServiceOrderService extends Remote {
     ServiceOrderDto getPartsAndCarProblems(int id) throws RemoteException;
 
     ServiceOrderDto getParts(int id) throws RemoteException;
+
+    ServiceOrderDto findById2(int id) throws RemoteException;
 }
