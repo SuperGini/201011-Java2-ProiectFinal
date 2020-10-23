@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 public class ClientServiceImpl extends UnicastRemoteObject implements ClientService {
 
-    private ClientDao clientDao;
+    private final ClientDao clientDao;
 
     public ClientServiceImpl() throws RemoteException {
         var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");

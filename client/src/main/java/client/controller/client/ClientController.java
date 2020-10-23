@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
 
 public class ClientController implements ClientService {
 
-    private ClientService clientService;
+    private final ClientService clientService;
 
     public ClientController() {
         try {

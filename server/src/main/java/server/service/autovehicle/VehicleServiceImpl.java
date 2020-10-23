@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 
 public class VehicleServiceImpl extends UnicastRemoteObject implements lib.service.VehicleService {
 
-    private VehicleDao vehicleDao;
-    private CompanyDao companyDao;
-    private PersonDao personDao;
+    private final VehicleDao vehicleDao;
+    private final CompanyDao companyDao;
+    private final PersonDao personDao;
 
 
 

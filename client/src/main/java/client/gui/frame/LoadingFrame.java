@@ -69,11 +69,4 @@ public class LoadingFrame extends JFrame {
     private void initMoveFrameWithMouse(){
         frameMove = new MoveFrameWithMouse(this);
     }
-    private static final class SingletonHolder{
-        public static final LoadingFrame INSTANCE = new LoadingFrame();
-    }
-
-    public static LoadingFrame getInstance(){
-        return SingletonHolder.INSTANCE;
-    }
 }

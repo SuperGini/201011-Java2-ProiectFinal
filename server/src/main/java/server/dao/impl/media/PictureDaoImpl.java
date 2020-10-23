@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PictureDaoImpl implements PictureDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public PictureDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

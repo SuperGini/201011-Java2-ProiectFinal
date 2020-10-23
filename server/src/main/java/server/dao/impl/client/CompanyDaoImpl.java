@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class CompanyDaoImpl implements CompanyDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public CompanyDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

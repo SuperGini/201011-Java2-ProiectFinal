@@ -22,8 +22,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class PictureServiceImpl extends UnicastRemoteObject implements PictureService {
 
     private final PictureDao pictureDao;
-    private Path pathBlurr = Paths.get("./server/src/main/resources/blurredImages");
-    private Path pathOriginal = Paths.get("./server/src/main/resources/images");
+    private final Path pathBlurr = Paths.get("./server/src/main/resources/blurredImages");
+    private final Path pathOriginal = Paths.get("./server/src/main/resources/images");
     private static List<PictureDto> pictures = new CopyOnWriteArrayList<>();
 
 
@@ -36,12 +36,18 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
         addPictureToList();
         sendPicturesToDatabase();
 
+
     }
 
     //method 1
     public void sendPicturesToDatabase(){
 
         try {
+
+            if(!Files.exists(pathBlurr)){
+                Files.createDirectory(pathBlurr);
+            }
+
             if(pictures.isEmpty()){
 
                 Files.list(pathOriginal)
@@ -54,14 +60,9 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
 
 
                 Files.list(pathBlurr)
-                        .forEach( blurredPicture-> {
-                            try {
+                        .forEach(this::deleteBlurredPicture);
 
-                               Files.deleteIfExists(blurredPicture);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
+                addPictureToList();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,6 +74,16 @@ public class PictureServiceImpl extends UnicastRemoteObject implements PictureSe
     private void sendPicture(Path path){
         Picture image = new Picture();
         pictureDao.sendPicturesToDatabase(image, path);
+    }
+
+    //method 3
+    private void deleteBlurredPicture(Path bulurredPicturePath){
+        try {
+
+            Files.deleteIfExists(bulurredPicturePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

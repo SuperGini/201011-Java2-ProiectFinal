@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class PersonDaoImpl implements PersonDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public PersonDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

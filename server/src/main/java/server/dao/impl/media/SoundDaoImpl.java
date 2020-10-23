@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SoundDaoImpl implements SoundDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public SoundDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

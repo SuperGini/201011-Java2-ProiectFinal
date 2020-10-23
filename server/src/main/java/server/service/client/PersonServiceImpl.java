@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class PersonServiceImpl extends UnicastRemoteObject implements lib.service.PersonService {
 
-    private PersonDao personDao;
+    private final PersonDao personDao;
 
 
     public PersonServiceImpl() throws RemoteException {

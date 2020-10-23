@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public ServiceOrderDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

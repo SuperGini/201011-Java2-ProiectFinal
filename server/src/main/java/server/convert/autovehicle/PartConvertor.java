@@ -33,7 +33,7 @@ public class PartConvertor {
 
        ServiceOrder serviceOrder = ServiceOrderConvertor.convert(partDto.getServiceOrderDto());
 
-        part.setOrders(serviceOrder);
+       part.setOrders(serviceOrder);
 
         return part;
     }

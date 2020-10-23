@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public UserDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

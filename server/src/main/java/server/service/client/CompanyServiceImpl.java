@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class CompanyServiceImpl extends UnicastRemoteObject implements lib.service.CompanyService {
 
-    private CompanyDao companyDao;
+    private final CompanyDao companyDao;
 
     public CompanyServiceImpl() throws RemoteException {
         var entityManagerFactory = Persistence.createEntityManagerFactory("serviceAuto");

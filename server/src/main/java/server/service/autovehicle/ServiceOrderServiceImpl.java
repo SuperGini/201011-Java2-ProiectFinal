@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
 
 public class ServiceOrderServiceImpl extends UnicastRemoteObject implements ServiceOrderService {
 
-    private ServiceOrderDao serviceOrderDao;
-    private VehicleDao vehicleDao;
-    private UserDao userDao;
-    private ClientDao clientDao;
-    private PartDao partDao;
+    private final ServiceOrderDao serviceOrderDao;
+    private final VehicleDao vehicleDao;
+    private final UserDao userDao;
+    private final ClientDao clientDao;
+    private final PartDao partDao;
 
 
     public ServiceOrderServiceImpl() throws RemoteException {
@@ -76,7 +76,7 @@ public class ServiceOrderServiceImpl extends UnicastRemoteObject implements Serv
         ServiceOrder serviceOrder = serviceOrderDao.findById(serviceOrderDto.getId());
 
         var parts =serviceOrderDto.getPartsIds().stream()
-                .map(s ->partDao.findPartById(s))
+                .map(partDao::findPartById)
                 .collect(Collectors.toList());
 
                 serviceOrder.setParts(parts);

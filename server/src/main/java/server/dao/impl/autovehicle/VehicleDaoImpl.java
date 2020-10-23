@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class VehicleDaoImpl implements VehicleDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public VehicleDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

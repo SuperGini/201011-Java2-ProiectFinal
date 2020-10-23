@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class PartDaoImpl implements PartDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public PartDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

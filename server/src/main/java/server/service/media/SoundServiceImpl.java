@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class SoundServiceImpl extends UnicastRemoteObject implements lib.service.SoundService {
 
     private final SoundDao soundDao;
-    private Path soundPath = Paths.get("./server/src/main/resources/sounds");
+    private final Path soundPath = Paths.get("./server/src/main/resources/sounds");
 
 
 
