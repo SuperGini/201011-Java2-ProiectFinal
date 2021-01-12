@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
         int row = query.executeUpdate();
         User x =  entityManager.find(User.class, user.getUserId()); //-> fac find dupa id sa bag instanta in context
         entityManager.refresh(x); // -> fac refresh la instanta ca sa iau datele din baza ca altfel raman naibii logat
-                                // afara cand dau restart la client (adica merge dar cu parola veche)
+                                // afara daca nu dau restart la client (adica merge dar cu parola veche)
 
         entityManager.getTransaction().commit();
         return row;
