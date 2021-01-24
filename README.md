@@ -5,11 +5,11 @@ Program pe 3 nivele: 1. baza de date, 2. server, 3.client. Foloste concepte si f
 Atentie!!! pentru ca programul sa functioneze trebuie sa aveti o biblioteca externa care se gaseste la adresa: https://spaces.hightail.com/receive/b2BMj
 
 - pe langa dependintele de hybernate si mysql connector j partea de client mai contine o dependinta care se numeste GLG2D si se afla in pom-ul clientului si care se poate gasi la adresa:
-   https://brandonborkholder.github.io/glg2d/  -> nu este functionala in proiect -> este folosita doar pentru frame-ul de loading ca sa arunce codul pe placa video. Este posibil ca intimpul
+   https://brandonborkholder.github.io/glg2d/  -> nu este functionala in proiect -> este folosita doar pentru frame-ul de loading ca sa arunce codul pe placa video. Este posibil ca in timpul
    folosirii dependintei GLG2D placa video sa dea eroare.
    
 
-- Ideea din spatele programului este urmatoare:
+- Ideea din spatele programului este urmatoarea:
 
 - este un program destinat service-ului auto si contine:
 
