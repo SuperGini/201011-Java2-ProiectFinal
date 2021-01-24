@@ -38,5 +38,5 @@ Programul are o eroare doar cand este pornit pentru prima data si initilizata ba
 p.s: operatiile pe baza de date nu sunt optimizate. Partea buna e ca macar cand fac un select nu iau toata baza de date dupa mine:D.
 
 Warning!! the sounds and pictures from this program dont belog to me. The pictures you can find them here https://unsplash.com/
-All pictures and sounds are used only for documentation or learnig purpose they are not for comercial use. If you dont like to use your piscture or sounds write me here: faraonu_ginitoru@yahoo.com and i will take them down.
+All pictures and sounds are used only for documentation or learnig purpose they are not for comercial use. If you dont like to use your picture or sounds write me here: faraonu_ginitoru@yahoo.com and i will take them down.
 
