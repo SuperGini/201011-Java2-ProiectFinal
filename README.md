@@ -1,42 +1,68 @@
 # 201011-Java2-ProiectFinal
 
-Program pe 3 nivele: 1. baza de date, 2. server, 3.client. Foloste concepte si framework-uri precum: JPA -> Hybernate, ORM, RMI.
 
-Atentie!!! pentru ca programul sa functioneze trebuie sa aveti o biblioteca externa care se gaseste la adresa: https://spaces.hightail.com/receive/b2BMj
 
-- pe langa dependintele de hybernate si mysql connector j partea de client mai contine o dependinta care se numeste GLG2D si se afla in pom-ul clientului si care se poate gasi la adresa:
-   https://brandonborkholder.github.io/glg2d/  -> nu este functionala in proiect -> este folosita doar pentru frame-ul de loading ca sa arunce codul pe placa video. Este posibil ca in timpul
-   folosirii dependintei GLG2D placa video sa dea eroare.
-   
+The app is created on 3 layers: 1 -> data base; 2 -> server; 3 -> client.         
 
-- Ideea din spatele programului este urmatoarea:
+To create the app I’m using JPA with Hybernate, ORM, RMI and swing for the client side.
 
-- este un program destinat service-ului auto si contine:
+Waring! for the app to work it needs an external library that you can download from here:
+https://spaces.hightail.com/receive/b2BMj
 
-1. Register page -> sunt creati userii care au aces la program. Atentie ca programul sa functioneze normal este nevoie de 2 useri:
-    a) User WAREHOUSE -> are dreptul de a adauga piese (parts) in comenzi dar nu are voie sa deschisa comenzi.
-    b) User BODY sau MECHANICAL - > acesti useri deschid comenzi pentru clienti dar nu au dreptul de a adauga piese in comnezi. Au drept de emitere factura la final.
+In the POM file you can find the GLG2D dependency that is used to throw the loading frame code on the video card. The GLG2D is not a stable code and can make your video card crash. The dependecy is not active.
 
-2. Login Page -> dupa efectuarea inregistrarii user-ul urmeaza sa se logheze fie cu username fie cu email.
+The app is designed for the automobile industry and in special for the auto services.
+The java code is divided in 3 parts.
+1.	server:  contains the business logic, the entities that are mapped to the the tables on the databse.
+2.	lib: that containes the dto’s and the interfaces that connect the server and the client throuh RMI.
+3.	client: contains all the view pages and components made with swing and alsow the controllers.
 
-3) CreateClientAndVehiclePage -> pagina unde sunt introdusi clientii service-ului. Se pot introduce in acelasi timp, client impreuna cu autovehicul sau se poate introduce mai intai clientul
-    fara sa aiba repartizat un autovehicul iar in cazul in care clientul are mai multe masini, daca acel client se afla in baza de date se face o cautare dupa nume dupa care se trec
-    modelul masinii si seria de caroserie in campurile specifice si se adauga masina la clientul respectiv -> Create Vehicle;
+Client side views:
+1.	RegisterPage: you can create new users here
+2.	LoginPage: you enter your credentials here (username and password) to login into the app.
+3.	CreateClientAndVehicle: here you can add new clients and vehicle to the database so you can use them in the process of creating a service order.
+4.	PartPage: here you can add parts to the service order. Before adding parts to an order you have to select firts and order that is is OPEN or READY from the order table in the CreateOrderPage.
+5.	CreateOrderPage: here you can create service orders, by adding clients and vehicle. You can add vehicle to the order by searching the vehicles by the VIN number.
 
-4) CreateOrderPage -> pagina unde se creeeaza comenzile de service. Pentru creerea unei comenzi se cauta mai intai seria de caroserie a masinii pentru care dorim sa deschidem comanda.
-    Dupa ce seria este gasita in baza de date se apasa butonul de create order si se creeaza comanda. Cu butonul de "add car problem" putem sa adaugam la comanda problemele pe care
-    le are masina acestea fiind comunicate de client. Dupa creerea comenzii aceasta va aparea in tabelul din stg iar in cazul in care o selectam vor aparea pe textArea -> problemele masinii si
-    in tabelul din dr piesele care sunt in comanda, daca avem.
+The program is used to create service order to estimate and bill the car repaire costs. For the app to work it needs 2 types of users. WAREHOUSE: can only add parts to the service orders, and BODY or MECHANICAL users that can create the service orders.
+To create this app i used a MySql database but it can work with any relationsip database, do to the usage of abstraction offerd by JPA and JPQL. The database and tables are created automatically. The app has 2 main methods: one for the server and one for the client. IDE used: IntelliJ IDEA.
 
-5) PartPage -> aici se adauga piese in comenzile de service. Se selecteaza mai intai o comanda din tabelul de comenzi (OPEN sau READY) si se adauga piese in ele. Atentie -> doar user de tip 
-    WAREHOUSE poate adauga piese in comanda. Iar la sfarsit cand s-au adaugat toate piesele se apasa butonul  "close part order" iar cel care a creeat comanda respectiva primeste notificare ca 
-   status comenzii s-a schimbat, din OPEN in READY.
+Warning!! the sounds and pictures from this program don't belog to me. The pictures you can find them here https://unsplash.com/ All pictures and sounds are used only for documentation or learnig purpose they are not for comercial use. If you dont like to use your picture or sounds write me here: mihai.iordache82@gmail.com and i will take them down.
 
-6) La final user-ul care a creeat comanda o poate inchide -> Status -> CLOSE prin apasarea butonul de "Bill" si efectuarea unei facturi. O data inchisa comanda nu se mai pot adauga piese in ea.
-Programul are o eroare doar cand este pornit pentru prima data si initilizata baza de date. Din cate am vazut nu afecteaza cu nimic rularea programului. Daca se schimba strategia de generare a id-ului entitatilor ce sunt persiatate din TABLE in IDENTITY vad ca eroarea dispare.
+p.s: DOWNLOAD THE CODE RUN THE CODE AND HAVE FUN -> the client side is awesome:DD
 
-p.s: operatiile pe baza de date nu sunt optimizate. Partea buna e ca macar cand fac un select nu iau toata baza de date dupa mine:D.
 
-Warning!! the sounds and pictures from this program dont belog to me. The pictures you can find them here https://unsplash.com/
-All pictures and sounds are used only for documentation or learnig purpose they are not for comercial use. If you dont like to use your picture or sounds write me here: faraonu_ginitoru@yahoo.com and i will take them down.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
