@@ -4,7 +4,7 @@
 
 The app is created on 3 layers: 1 -> data base; 2 -> server; 3 -> client.         
 
-To create the app I’m using JPA with Hibernate, ORM, RMI and swing for the client side.
+To create the app I’m using JPA with Hibernate, ORM, RMI and Swing for the client side.
 
 Waring! for the app to work it needs an external library that you can download from here:
 https://spaces.hightail.com/receive/b2BMj
